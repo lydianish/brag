@@ -7,45 +7,56 @@
       v-model="drawer"
       fixed
       clipped
-      class="grey lighten-4"
+      class="light"
       app
     >
-      <v-list dense class="grey lighten-4">
+      <v-list dense class="light">
         <v-flex xs6>
           <v-subheader>Sort By</v-subheader>
         </v-flex>
         <v-list-tile v-for="(option, i) in sortByOptions" :key="i">
           <v-radio-group v-model="sortBy">
-            <v-radio :label="option" :value="option" color=grey ></v-radio>
+            <v-radio :label="option" :value="option" color=light ></v-radio>
           </v-radio-group>
         </v-list-tile>
         <v-divider dark class="my-3"></v-divider>
         <v-flex xs6>
           <v-subheader>File Format</v-subheader>
         </v-flex>
-        <v-list-tile v-for="(format, i) in fileFormats" :key="i">
+        <v-list-tile v-for="(format, j) in fileFormats" :key="j">
           <v-radio-group v-model="fileFormat">
-            <v-radio :label="format" :value="format" color=grey ></v-radio>
+            <v-radio :label="format" :value="format" color=light ></v-radio>
           </v-radio-group>
         </v-list-tile>
       </v-list>
+      <v-divider dark class="my-3"></v-divider>
+      <v-tooltip bottom>
+        <v-btn 
+        fab
+        color="warning"
+        slot="activator">
+        <v-icon>cloud_download</v-icon>
+      </v-btn>
+      <span>Download the author's list of publications</span>
+      </v-tooltip>
+      
 
     </v-navigation-drawer>
 
           <!--TOOLBAR (TOP)-->
 
-    <v-toolbar color="amber" app absolute clipped-left>
+    <v-toolbar color="warning" app absolute clipped-left>
       <v-toolbar-side-icon @click.native="drawer = !drawer"></v-toolbar-side-icon>
       <span class="title ml-3 mr-5">BRAG&nbsp;<span class="font-weight-light">biomedical ranking</span></span>
       <v-text-field
-        inverted
+        solo
         flat
         hide-details
-        clearable
-        label="search author..."
-        prepend-inner-icon="search"
-        v-on:keyup.enter="search"
-        v-model="author"
+        placeholder="search author..."
+        append-outer-icon="search"
+        v-model="searchBar"
+        ref="searchBar"
+        @click:append-outer="searchAuthor"
       ></v-text-field>
       <v-spacer></v-spacer>
     </v-toolbar>
@@ -56,7 +67,8 @@
       <v-container fluid fill-height class="white">
         <v-layout justify-center align-center>
           <v-flex>
-            <span>{{ searchAuthor }}</span>
+            <span>{{ author }}</span>
+            
           </v-flex>
         </v-layout>
       </v-container>
@@ -68,17 +80,21 @@
   export default {
     data: () => ({
       drawer: null,
+      searchBar: '',
       author: '',
       sortByOptions: ['alphabetical', 'chronological', 'reverse chronological'],
       sortBy: '',
       fileFormats: ['txt', 'PDF'],
       fileFormat: '',
-      searchAuthor: false
+      publicationSet: []
     }),
     methods: {
-      search: function () {
-        searchAuthor = true;
-        alert('Hello ')
+      searchAuthor: function () {
+        if (this.searchBar) {
+          this.author = this.searchBar
+          this.$refs.searchBar.reset()
+          //search author ...
+        }
       }
     },
     props: {
