@@ -1,0 +1,6 @@
+{ results: [],
+  count: 0,
+  nextUrl: '',
+  prevUrl: '',
+  next: [Function: next],
+  previous: [Function: previous] }
