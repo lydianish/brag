@@ -7,12 +7,12 @@
       v-model="drawer"
       fixed
       clipped
-      class="light"
+      class="grey lighten-3"
       app
     >
-      <v-list dense class="light">
+      <v-list dense>
         <v-flex xs6>
-          <v-subheader>Sort By</v-subheader>
+          <v-subheader>SORT BY</v-subheader>
         </v-flex>
         <v-list-tile v-for="option in sortByOptions" :key="option">
           <v-radio-group v-model="sortBy">
@@ -21,7 +21,7 @@
         </v-list-tile>
         <v-divider dark class="my-3"></v-divider>
         <v-flex xs6>
-          <v-subheader>File Format</v-subheader>
+          <v-subheader>FILE FORMAT</v-subheader>
         </v-flex>
         <v-list-tile v-for="format in fileFormats" :key="format">
           <v-radio-group v-model="fileFormat">
@@ -67,8 +67,7 @@
       <v-container fluid fill-height class="white">
         <v-layout justify-center align-center>
           <v-flex>
-            <span>{{ author }}</span>
-            
+            <span> author : {{ $store.state.author }}</span>
           </v-flex>
         </v-layout>
       </v-container>
@@ -81,17 +80,15 @@
     data: () => ({
       drawer: null,
       searchBar: '',
-      author: '',
       sortByOptions: ['alphabetical', 'chronological', 'reverse chronological'],
       sortBy: '',
       fileFormats: ['txt', 'PDF'],
-      fileFormat: '',
-      publicationSet: []
+      fileFormat: ''
     }),
     methods: {
       searchAuthor: function () {
         if (this.searchBar) {
-          this.author = this.searchBar
+          this.$store.commit('setAuthor', this.searchBar)
           this.$refs.searchBar.reset()
           //search author ...
         }
