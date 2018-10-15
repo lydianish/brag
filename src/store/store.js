@@ -31,6 +31,7 @@ const mutations = {
 }
 
 const actions = {
+    //
     /*async loadPeople ({ commit }) {
         try {
             var people = await api.getEntities()
