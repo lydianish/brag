@@ -14,7 +14,7 @@
         <v-flex xs6>
           <v-subheader>Sort By</v-subheader>
         </v-flex>
-        <v-list-tile v-for="(option, i) in sortByOptions" :key="i">
+        <v-list-tile v-for="option in sortByOptions" :key="option">
           <v-radio-group v-model="sortBy">
             <v-radio :label="option" :value="option" color=light ></v-radio>
           </v-radio-group>
@@ -23,7 +23,7 @@
         <v-flex xs6>
           <v-subheader>File Format</v-subheader>
         </v-flex>
-        <v-list-tile v-for="(format, j) in fileFormats" :key="j">
+        <v-list-tile v-for="format in fileFormats" :key="format">
           <v-radio-group v-model="fileFormat">
             <v-radio :label="format" :value="format" color=light ></v-radio>
           </v-radio-group>
