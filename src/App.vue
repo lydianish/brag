@@ -10,7 +10,7 @@
       class="grey lighten-3"
       app
     >
-      <navbar></navbar>
+      <navbar></navbar> <!--custom component-->
     </v-navigation-drawer>
 
           <!--TOOLBAR (TOP)-->
@@ -18,7 +18,7 @@
     <v-toolbar color="warning" app absolute clipped-left>
       <v-toolbar-side-icon @click.native="drawer = !drawer"></v-toolbar-side-icon>
       <span class="title ml-3 mr-5">BRAG&nbsp;<span class="font-weight-light">biomedical ranking</span></span>
-      <seacrbar></seacrbar>
+      <searchbar></searchbar> <!--custom component-->
       <v-spacer></v-spacer>
     </v-toolbar>
 
@@ -49,10 +49,10 @@
     methods: {
       
     },
-    
+
     components: {
       navbar: NavBar,
-      seacrbar: SearchBar
+      searchbar: SearchBar
     }
   }
 </script>
