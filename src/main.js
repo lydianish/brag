@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import Vuetify from 'vuetify'
-import store from './store/store'
+import store from './store'
 import 'vuetify/dist/vuetify.min.css' // css-loader
 import 'babel-polyfill'
 

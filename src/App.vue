@@ -28,11 +28,22 @@
       <v-container fluid fill-height class="white">
         <v-layout justify-center align-center>
           <v-flex>
-            <span> author : {{ $store.state.author }}</span>
+            <span> author : {{ $store.state.lastName }}</span>
           </v-flex>
         </v-layout>
       </v-container>
     </v-content>
+
+          <!--ALERTS-->
+          
+    <v-snackbar
+        v-model="$store.state.alert.show"
+        :color="$store.state.alert.type"
+        :timeout="timeout"
+        bottom
+        >
+          {{ $store.state.alert.message }}
+        </v-snackbar>
   </v-app>
 </template>
 
@@ -43,7 +54,8 @@
   export default {
     name: 'App',
     data: () => ({
-      drawer: null
+      drawer: null,
+      timeout: 3000
     }),
 
     methods: {

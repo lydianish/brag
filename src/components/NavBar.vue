@@ -25,35 +25,11 @@
             fab
             color="warning"
             slot="activator"
-            @click="download">
+            @click="downloading">
             <v-icon>cloud_download</v-icon>
         </v-btn>
         <span>Download the author's list of publications</span>
         </v-tooltip>
-        <v-snackbar
-        v-model="downloading"
-        color="info"
-        :timeout="timeout"
-        bottom
-        >
-        Downloading publication list in {{ sortBy }} order as {{ fileFormat }}.
-        </v-snackbar>
-        <v-snackbar
-        v-model="downloaded"
-        color="success"
-        :timeout="timeout"
-        bottom
-        >
-        Publication list downloaded successfully.
-        </v-snackbar>
-        <v-snackbar
-        v-model="downloadFailed"
-        color="error"
-        :timeout="timeout"
-        bottom
-        >
-        Download Failed.
-        </v-snackbar>
     </v-container>
 </template>
 
@@ -65,17 +41,20 @@ export default {
       sortByOptions: ['alphabetical', 'chronological', 'reverse chronological'],
       sortBy: 'alphabetical',
       fileFormats: ['txt', 'PDF'],
-      fileFormat: 'txt',
-      downloading: false,
-      downloaded: false,
-      downloadFailed: false,
-      timeout: 3000 
-      
+      fileFormat: 'txt'
     }),
     
     methods: {
-      download: function () {
-        this.downloading = true
+      downloading: function () {
+        this.$store.dispatch('showInfo', 'Downloading publication list in ' + this.sortBy + ' order as ' + this.fileFormat + '...');
+      },
+
+      downloaded: function () {
+        this.$store.dispatch('showSuccess', 'Publication list downloaded successfully!');
+      },
+
+      downloadFailed: function () {
+        this.$store.dispatch('showError', 'Download Failed.');
       }
     }
 }

@@ -5,7 +5,7 @@
         hide-details
         placeholder="search author..."
         append-outer-icon="search"
-        v-model="searchBar"
+        v-model="searchTerm"
         ref="searchBar"
         @click:append-outer="searchAuthor"
       ></v-text-field>
@@ -15,15 +15,14 @@
 export default {
     name: 'SearchBar',
     data: () => ({
-        searchBar: ''
+        searchTerm: ''
     }),
 
     methods: {
         searchAuthor: function () {
-        if (this.searchBar) {
-          this.$store.commit('setAuthor', this.searchBar)
+        if (this.searchTerm) {
+          this.$store.dispatch('searchAuthor', this.searchTerm);
           this.$refs.searchBar.reset()
-          //search author ...
         }
       }
     }
