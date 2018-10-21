@@ -1,5 +1,5 @@
 <template>
-  <v-app id="brag">
+  <v-app id="brag" class="white">
 
           <!--NAVIGATION BAR (LEFT)-->
 
@@ -7,7 +7,7 @@
       v-model="drawer"
       fixed
       clipped
-      class="grey lighten-3"
+      class="secondary"
       app
     >
       <navbar></navbar> <!--custom component-->
@@ -15,20 +15,50 @@
 
           <!--TOOLBAR (TOP)-->
 
-    <v-toolbar color="warning" app absolute clipped-left>
-      <v-toolbar-side-icon @click.native="drawer = !drawer"></v-toolbar-side-icon>
-      <span class="title ml-3 mr-5">BRAG&nbsp;<span class="font-weight-light">biomedical ranking</span></span>
-      <searchbar></searchbar> <!--custom component-->
-      <v-spacer></v-spacer>
+    <v-toolbar color="primary" app absolute clipped-left>
+      <v-layout row>
+        <v-flex sm4>
+          <v-toolbar-side-icon @click.native="drawer = !drawer"></v-toolbar-side-icon>
+          <span class="title ml-3 mr-5 hidden-xs-and-down">BRAG&nbsp;<span class="font-weight-light hidden-sm-and-down">biomedical ranking</span></span>
+        </v-flex>
+        <v-flex sm6>
+          <searchbar></searchbar> <!--custom component-->
+        </v-flex>
+        
+      </v-layout>
     </v-toolbar>
-
+  
           <!--MAIN APP CONTENT-->
 
     <v-content>
-      <v-container fluid fill-height class="white">
-        <v-layout justify-center align-center>
+      <v-container fluid grid-list-md>
+        <v-layout column>
           <v-flex>
-            <span> author : {{ $store.state.lastName }}</span>
+            <searchresult></searchresult>
+          </v-flex>
+          <v-flex md12>
+            <v-layout row wrap>
+              <v-flex md8>
+                <v-layout column>
+                  <v-flex>
+                    <authorinfo></authorinfo>
+                  </v-flex>
+                  <v-flex>
+                    <articles></articles>
+                  </v-flex>
+                </v-layout>
+              </v-flex>
+              <v-flex>
+                <v-layout column>
+                  <v-flex>
+                    <publicationgraph></publicationgraph>
+                  </v-flex>
+                  <v-flex>
+                    <citationgraph></citationgraph>
+                  </v-flex>
+                </v-layout>
+              </v-flex>
+            </v-layout>
           </v-flex>
         </v-layout>
       </v-container>
@@ -50,6 +80,11 @@
 <script>
   import NavBar from './components/NavBar.vue'
   import SearchBar from './components/SearchBar.vue'
+  import SearchResult from './components/SearchResult.vue'
+  import AuthorInfo from './components/AuthorInfo.vue'
+  import Articles from './components/Articles.vue'
+  import PublicationGraph from './components/PublicationGraph.vue'
+  import CitationGraph from './components/CitationGraph.vue'
 
   export default {
     name: 'App',
@@ -64,7 +99,12 @@
 
     components: {
       navbar: NavBar,
-      searchbar: SearchBar
+      searchbar: SearchBar,
+      searchresult: SearchResult,
+      authorinfo: AuthorInfo,
+      articles: Articles,
+      publicationgraph: PublicationGraph,
+      citationgraph: CitationGraph
     }
   }
 </script>

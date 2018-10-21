@@ -23,9 +23,10 @@
         <v-tooltip right>
             <v-btn 
             fab
-            color="warning"
+            color="primary"
             slot="activator"
-            @click="downloading">
+            @click="downloading"
+            v-if="$store.state.searchDone">
             <v-icon>cloud_download</v-icon>
         </v-btn>
         <span>Download the author's list of publications</span>

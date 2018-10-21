@@ -17,7 +17,7 @@
         volume: Number,
         issue: Number,
         year: Number,
-        month: Number
+        month: String
 }
 ```
 *Author* :

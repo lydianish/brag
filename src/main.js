@@ -5,7 +5,13 @@ import store from './store'
 import 'vuetify/dist/vuetify.min.css' // css-loader
 import 'babel-polyfill'
 
-Vue.use(Vuetify)
+Vue.use(Vuetify, {
+  theme: {
+    primary: '#FFC107',
+    secondary: '#EEEEEE',
+    accent: '#F57F17'
+  }
+})
 
 new Vue({
   el: '#app',

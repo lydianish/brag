@@ -6,6 +6,8 @@ Vue.use(Vuex)
 
 const defaultState = () => {
     return {
+        searchDone: false,
+        searchTerm: '',
         lastName: '',
         foreName: '',
         initials: '',
@@ -23,19 +25,28 @@ const state = defaultState();
 
 const getters = {
     hIndex: (state) => {
-        return 0; //to do
+        return 17; //to do
     },
 
     publicationCount: (state) => {
-        return state.articles.length;
+        return 31;
+        //return state.articles.length;
     },
 
     citationCount: (state) => {
-        return 0; //to do
+        return 1456; //to do
     }
 };
 
 const mutations = {
+    setSearchDone: (state, searchDone) => {
+        state.searchDone = searchDone;
+    },
+    
+    setSearchTerm: (state, searchTerm) => {
+        state.searchTerm = searchTerm;
+    },
+    
     setLastName: (state, lastName) => {
         state.lastName = lastName;
     },
@@ -67,7 +78,8 @@ const mutations = {
 
 const actions = {
     searchAuthor: ({commit, dispatch}, searchTerm) => {
-        console.log('action dispatched');
+        commit('setSearchDone', true);
+        commit('setSearchTerm', searchTerm);
         try {
             let author = api.searchAuthor(searchTerm);
             commit('setLastName', author.lastName);

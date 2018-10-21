@@ -3,6 +3,7 @@
         solo
         flat
         hide-details
+        color="black"
         placeholder="search author..."
         append-outer-icon="search"
         v-model="searchTerm"
