@@ -1,12 +1,9 @@
 <template>
-    <v-card 
-    tile
-    raised
-    v-if="$store.state.searchDone">
-        <v-card-title class="title">
-            <div>Citations</div>
-        </v-card-title>
-    </v-card>
+    <div 
+    v-if="$store.state.searchDone"
+    class="ma-3">
+        <span class="title">Citations</span>
+    </div>
 </template>
 
 <script>

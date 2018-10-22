@@ -10,21 +10,20 @@
       class="secondary"
       app
     >
-      <navbar></navbar> <!--custom component-->
+      <navbar></navbar> <!--custom-made component-->
     </v-navigation-drawer>
 
           <!--TOOLBAR (TOP)-->
 
     <v-toolbar color="primary" app absolute clipped-left>
       <v-layout row>
-        <v-flex sm4>
+        <v-flex sm4 xs2>
           <v-toolbar-side-icon @click.native="drawer = !drawer"></v-toolbar-side-icon>
-          <span class="title ml-3 mr-5 hidden-xs-and-down">BRAG&nbsp;<span class="font-weight-light hidden-sm-and-down">biomedical ranking</span></span>
+          <span class="title ml-3 mr-5 hidden-xs-only">BRAG&nbsp;<span class="font-weight-light hidden-sm-and-down">Biomedical RAnkinG</span></span>
         </v-flex>
         <v-flex sm6>
-          <searchbar></searchbar> <!--custom component-->
+          <searchbar></searchbar> <!--custom-made component-->
         </v-flex>
-        
       </v-layout>
     </v-toolbar>
   
@@ -34,27 +33,27 @@
       <v-container fluid grid-list-md>
         <v-layout column>
           <v-flex>
-            <searchresult></searchresult>
+            <searchresult></searchresult> <!--custom-made component-->
           </v-flex>
-          <v-flex md12>
+          <v-flex md12 xs12>
             <v-layout row wrap>
-              <v-flex md8>
+              <v-flex md8 xs12>
                 <v-layout column>
                   <v-flex>
-                    <authorinfo></authorinfo>
+                    <authorinfo></authorinfo> <!--custom-made component-->
                   </v-flex>
                   <v-flex>
-                    <articles></articles>
+                    <articles></articles> <!--custom-made component-->
                   </v-flex>
                 </v-layout>
               </v-flex>
               <v-flex>
                 <v-layout column>
                   <v-flex>
-                    <publicationgraph></publicationgraph>
+                    <publicationgraph></publicationgraph> <!--custom-made component-->
                   </v-flex>
                   <v-flex>
-                    <citationgraph></citationgraph>
+                    <citationgraph></citationgraph> <!--custom-made component-->
                   </v-flex>
                 </v-layout>
               </v-flex>

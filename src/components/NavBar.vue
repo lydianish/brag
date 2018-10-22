@@ -20,17 +20,19 @@
             </v-list-tile>
         </v-list>
         <v-divider dark class="my-3"></v-divider>
-        <v-tooltip right>
+        <v-layout justify-center="">
+            <v-tooltip right>
             <v-btn 
             fab
             color="primary"
             slot="activator"
             @click="downloading"
             v-if="$store.state.searchDone">
-            <v-icon>cloud_download</v-icon>
-        </v-btn>
-        <span>Download the author's list of publications</span>
-        </v-tooltip>
+                <v-icon>cloud_download</v-icon>
+            </v-btn>
+            <span>Download the author's list of publications</span>
+            </v-tooltip>
+        </v-layout>
     </v-container>
 </template>
 

@@ -4,9 +4,9 @@
     raised
     v-if="$store.state.searchDone">
         <v-layout row wrap>  
-            <v-flex sm8>
+            <v-flex sm8 xs12>
                 <v-card-title class="title">
-                    <div>{{ $store.state.foreName }} {{ $store.state.lastName }}</div>
+                    <div class="accent--text">{{ $store.state.foreName }} {{ $store.state.lastName }}</div>
                 </v-card-title>
                 <v-card-text>
                     <div class="caption" v-for="aff in $store.state.affiliation" :key="aff"> {{ aff }} </div>

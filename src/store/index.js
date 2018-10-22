@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import api from '../api'
+import utils from '../utils'
 
 Vue.use(Vuex)
 
@@ -25,16 +25,17 @@ const state = defaultState();
 
 const getters = {
     hIndex: (state) => {
-        return 17; //to do
+        return utils.getHIndex(state.articles);
     },
 
     publicationCount: (state) => {
-        return 31;
-        //return state.articles.length;
+        return state.articles.length;
     },
 
     citationCount: (state) => {
-        return 1456; //to do
+        return state.articles.reduce((accumulator, article) => {
+            return accumulator + article.citationCount; 
+        }, 0);
     }
 };
 
@@ -81,7 +82,7 @@ const actions = {
         commit('setSearchDone', true);
         commit('setSearchTerm', searchTerm);
         try {
-            let author = api.searchAuthor(searchTerm);
+            let author = utils.searchAuthor(searchTerm);
             commit('setLastName', author.lastName);
             commit('setForeName', author.foreName);
             commit('setInitials', author.initials);
