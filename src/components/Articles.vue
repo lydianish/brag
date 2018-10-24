@@ -28,9 +28,9 @@
                 <span class="font-italic"> et al.</span>
             </td>
             <td>{{ props.item.journal.title }}</td>
+            <td class="text-xs-right">{{ props.item.journal.impactFactor }}</td>
             <td class="text-xs-right">{{ props.item.journal.year }}</td>
             <td class="text-xs-right">{{ props.item.citationCount }}</td>
-            <td class="text-xs-right">{{ props.item.journal.impactFactor }}</td>
         </template>
         <v-alert slot="no-results" :value="true" color="accent" icon="warning">
             Your search for "{{ search }}" found no results.
@@ -45,12 +45,12 @@ export default {
     data: () => ({
         search: '',
         headers: [
-          { text: 'Title', value: 'title' },
+          { text: 'Title', value: 'title'},
           { text: 'Author', value: 'authors[0].lastName'},
           { text: 'Journal', value: 'journal.title' },
-          { text: 'Year', value: 'journal.year' },
-          { text: 'Cited By', value: 'citationCount' },
           { text: 'IF', value: 'journal.impactFactor' },
+          { text: 'Year', value: 'journal.year' },
+          { text: 'Cited By', value: 'citationCount' }
         ]
     }),
     methods: {
