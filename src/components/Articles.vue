@@ -20,6 +20,10 @@
         >
         <template slot="items" slot-scope="props">
             <td>{{ props.item.title }}</td>
+            <td class="text-xs-right">{{ props.item.authors[0].initials }}
+                {{ props.item.authors[0].lastName }}
+                <span class="font-italic"> et al.</span>
+            </td>
             <td class="text-xs-right">{{ props.item.journal.year }}</td>
             <td class="text-xs-right">{{ props.item.citationCount }}</td>
             <td class="text-xs-right">{{ props.item.journal.title }}</td>
@@ -39,6 +43,7 @@ export default {
         search: '',
         headers: [
           { text: 'Title', value: 'title' },
+          { text: 'Authors', value: 'authors' },
           { text: 'Year', value: 'journal.year' },
           { text: 'Cited By', value: 'citationCount' },
           { text: 'Journal', value: 'journal.title' },

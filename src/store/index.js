@@ -11,7 +11,6 @@ const defaultState = () => {
         lastName: '',
         foreName: '',
         initials: '',
-        affiliation: [],
         articles: [],
         alert: {
             show: false,
@@ -60,10 +59,6 @@ const mutations = {
         state.initials = initials;
     },
 
-    setAffiliation: (state, affiliation) => {
-        state.affiliation = affiliation;
-    },
-
     setArticles: (state, articles) => {
         state.articles = articles;
     },
@@ -86,7 +81,6 @@ const actions = {
             commit('setLastName', author.lastName);
             commit('setForeName', author.foreName);
             commit('setInitials', author.initials);
-            commit('setAffiliation', author.affiliation);
             commit('setArticles', author.articles);
         }
         catch (err) {
