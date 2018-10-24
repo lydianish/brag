@@ -19,7 +19,7 @@ const sampleAuthor = {
                 title: 'Human immunology',
                 volume: 79,
                 issue: 7,
-                year: 2018, 
+                year: 2016, 
                 month: 'Jul',
                 impactFactor: 1.994
             },

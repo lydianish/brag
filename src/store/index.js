@@ -16,6 +16,10 @@ const defaultState = () => {
             show: false,
             type: '',
             message: '' 
+        },
+        sortBy: {
+            field: '',
+            descending: false
         }
     }
 };
@@ -65,6 +69,11 @@ const mutations = {
 
     setAlert: (state, alert) => {
         Object.assign(state.alert, alert);
+    },
+
+    setSortBy: (state, params) => {
+        Object.assign(state.sortBy, 
+            {field: params.field, descending: params.descending});
     },
 
     resetState: (state) => {
@@ -118,6 +127,10 @@ const actions = {
             type: 'error',
             message: message
         });
+    },
+
+    setSortBy({commit}, params) {
+        commit('setSortBy', params);
     }
 };
 
