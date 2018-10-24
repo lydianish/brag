@@ -1,0 +1,84 @@
+Final result object structure from the pubmed request : 
+
+PubmedArticleSet
+    PubmedArticle (array of Object)
+        MedlineCitation
+            ...
+            Article
+                Journal
+                    ...
+                    JournalIssue
+                        Volume
+                            _text
+                        Issue
+                            _text
+                        PubDate
+                            Year
+                                _text
+                            Month
+                                _text
+                    Title
+                        _text
+                    ISOAbbreviation
+                        _text
+                ArticleTitle (array of Object when more than one attribute of same name like <i>)
+                    i //<i> tag, isn't always used
+                        _text
+                    _text
+                Pagination
+                    MedlinePgn
+                        _text
+                ...
+                AuthorList
+                    ...
+                    Author (array of Object)
+                        LastName
+                            _text
+                        ForeName
+                            _text
+                        Initials
+                            _text
+                        AffiliationInfo (array of Object when more than one)
+                            Affiliation
+                                _text
+            MedlineJournalInfo
+                ...
+            KeywordList
+                ...
+        PubmedData
+            History
+                PubMedPubDate (array of Object)
+                    ...
+                PublicationStatus
+                    ...
+                ArticleIdList
+                    ArticleId (array of Object)
+                        ...
+                
+                
+Proposed BRAG structure : 
+
+Article
+    title
+    journal
+        title
+        volume
+        issue ?
+        year
+        month
+    pagination
+    authors (array of Author)
+    citationCount
+
+Author
+    lastName
+    foreName
+    initials
+    affiliation (array of String)
+
+SearchedAuthor (extends Author)
+    searchTerm
+    hIndex
+    publicationCount
+    citationCount
+    articles (array or set? of Article)
