@@ -2,10 +2,10 @@
     <v-container>
         <v-list dense>
             <v-flex xs6>
-            <v-subheader>SORT BY</v-subheader>
+            <v-subheader>CITATION</v-subheader>
             </v-flex>
-            <v-list-tile v-for="option in sortByOptions" :key="option">
-            <v-radio-group v-model="sortBy">
+            <v-list-tile v-for="option in citeOptions" :key="option">
+            <v-radio-group v-model="cite">
                 <v-radio :label="option" :value="option" color=light ></v-radio>
             </v-radio-group>
             </v-list-tile>
@@ -41,15 +41,15 @@ export default {
     name: 'NavBar',
     data: () => ({
       drawer: null,
-      sortByOptions: ['alphabetical', 'chronological', 'reverse chronological'],
-      sortBy: 'alphabetical',
+      citeOptions: ['MLA', 'APA', 'Chicago', 'Harvard', 'Vancouver'],
+      cite: 'MLA',
       fileFormats: ['txt', 'PDF'],
       fileFormat: 'txt'
     }),
     
     methods: {
       downloading: function () {
-        this.$store.dispatch('showInfo', 'Downloading publication list in ' + this.sortBy + ' order as ' + this.fileFormat + '...');
+        this.$store.dispatch('showInfo', 'Downloading publications in ' + this.cite + ' citation as ' + this.fileFormat + '.');
       },
 
       downloaded: function () {
