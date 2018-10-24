@@ -11,17 +11,17 @@
             </v-flex>
             <v-flex>
                 <v-layout row wrap>
-                    <v-flex>
+                    <v-flex sm4 xs12>
                         <v-card-text class="subheading font-weight-bold"> H-Index : 
                             <span class="accent--text">{{ $store.getters.hIndex }}</span>
                         </v-card-text>
                     </v-flex>
-                    <v-flex>
+                    <v-flex sm4 xs12>
                         <v-card-text class="subheading font-weight-bold"> Publications : 
                             <span class="accent--text">{{ $store.getters.publicationCount }}</span>
                         </v-card-text>
                     </v-flex>
-                    <v-flex>
+                    <v-flex sm4 xs12>
                         <v-card-text class="subheading font-weight-bold"> Citations : 
                             <span class="accent--text">{{ $store.getters.citationCount }}</span>
                         </v-card-text>
