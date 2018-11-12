@@ -8,6 +8,7 @@
         append-outer-icon="search"
         v-model="searchTerm"
         ref="searchBar"
+        @keydown="searchAuthor"
         @click:append-outer="searchAuthor"
       ></v-text-field>
 </template>
@@ -20,10 +21,14 @@ export default {
     }),
 
     methods: {
-        searchAuthor: function () {
-        if (this.searchTerm) {
+        searchAuthor: function (event) {
+        this.searchTerm = this.searchTerm.trim();
+        if (this.searchTerm &&
+            ((event instanceof MouseEvent) ||
+                (event instanceof KeyboardEvent && event.code === 'Enter'))
+            ) {
           this.$store.dispatch('searchAuthor', this.searchTerm);
-          this.$refs.searchBar.reset()
+          this.$refs.searchBar.reset();
         }
       }
     }

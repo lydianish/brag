@@ -3,20 +3,20 @@ let google = require('node-g-search');
 let scholar = require('google-scholar-extended');
 
 var searchTerm = 'sophie limou'
- 
-google.search(searchTerm + ' google scholar user profile')
-  .then(res => {
-    return username(searchTerm, res.data)
-}).then (res => {
-    return scholar.profile(res)
-}). then(res => { console.log(res.next())})
 
+searchAuhtorGS (searchTerm)
 
-/*var google = require('google-query');
-
-google.search("sophie limou google scholar user profile",1,function(url_list){
-    console.log(url_list);
-});*/
+/* functions */
+async function searchAuhtorGS (searchTerm) {
+    try {
+        const res1 = await google.search(searchTerm + ' google scholar user profile')
+        const res2 = username(searchTerm, res1.data)
+        const res3 = await scholar.profile(res2)
+        console.log(res3)
+    } catch(error) {
+        console.log(error);
+      }
+}
 
 function profileURL (searchTerm, datalist) {
     let namelist = searchTerm.split(/\s+/)
@@ -28,11 +28,11 @@ function profileURL (searchTerm, datalist) {
     })
 }
 
-function user (href) {
+function extractUser (href) {
     return href.split(/=|&/)[1]
 }
 
 function username(searchTerm, datalist) {
     let url = profileURL (searchTerm, datalist)
-    return user(url.href)
+    return extractUser(url.href)
 }

@@ -11,12 +11,15 @@ const defaultState = () => {
         lastName: '',
         foreName: '',
         initials: '',
-        affiliation: [],
         articles: [],
         alert: {
             show: false,
             type: '',
             message: '' 
+        },
+        sortBy: {
+            field: '',
+            descending: false
         }
     }
 };
@@ -60,16 +63,17 @@ const mutations = {
         state.initials = initials;
     },
 
-    setAffiliation: (state, affiliation) => {
-        state.affiliation = affiliation;
-    },
-
     setArticles: (state, articles) => {
         state.articles = articles;
     },
 
     setAlert: (state, alert) => {
         Object.assign(state.alert, alert);
+    },
+
+    setSortBy: (state, params) => {
+        Object.assign(state.sortBy,
+            {field: params.field, descending: params.descending});
     },
 
     resetState: (state) => {
@@ -86,7 +90,6 @@ const actions = {
             commit('setLastName', author.lastName);
             commit('setForeName', author.foreName);
             commit('setInitials', author.initials);
-            commit('setAffiliation', author.affiliation);
             commit('setArticles', author.articles);
         }
         catch (err) {
@@ -124,6 +127,10 @@ const actions = {
             type: 'error',
             message: message
         });
+    },
+
+    setSortBy({commit}, params) {
+        commit('setSortBy', params);
     }
 };
 
