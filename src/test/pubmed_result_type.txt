@@ -1,5 +1,15 @@
 Final result object structure from the pubmed request : 
 
+
+            title: 'Genetic screening of male patients with primary hypogammaglobulinemia can guide diagnosis and clinical management.',
+            journal: {
+                title: 'Human immunology',
+                volume: 79,
+                issue: 7,
+                year: 2018, 
+                month: 'Jul',
+                impactFactor: 1.994
+
 PubmedArticleSet
     PubmedArticle (array of Object)
         MedlineCitation

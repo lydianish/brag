@@ -72,7 +72,7 @@ const mutations = {
     },
 
     setSortBy: (state, params) => {
-        Object.assign(state.sortBy, 
+        Object.assign(state.sortBy,
             {field: params.field, descending: params.descending});
     },
 
