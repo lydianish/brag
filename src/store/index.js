@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import utils from '../utils'
+import { searchAuthorPM } from '../utils'
 
 Vue.use(Vuex)
 
 const defaultState = () => {
     return {
         searchDone: false,
+        searchResultsFound: false,
         searchTerm: '',
         lastName: '',
         foreName: '',
@@ -32,19 +33,29 @@ const getters = {
     },
 
     publicationCount: (state) => {
-        return state.articles.length;
+        if (state.articles!==undefined) {
+            return state.articles.length;
+        }
+        return 0;
     },
 
     citationCount: (state) => {
-        return state.articles.reduce((accumulator, article) => {
-            return accumulator + article.citationCount; 
-        }, 0);
+        if (state.articles!==undefined) {
+            return state.articles.reduce((accumulator, article) => {
+                return accumulator + article.citationCount; 
+            }, 0);
+        }
+        return 0;
     }
 };
 
 const mutations = {
     setSearchDone: (state, searchDone) => {
         state.searchDone = searchDone;
+    },
+
+    setSearchResultsFound: (state, searchResultsFound) => {
+        state.searchResultsFound = searchResultsFound;
     },
     
     setSearchTerm: (state, searchTerm) => {
@@ -82,22 +93,27 @@ const mutations = {
 };
 
 const actions = {
-    searchAuthor: ({commit, dispatch}, searchTerm) => {
+    async searchAuthor ({commit, dispatch}, searchTerm) {
+        commit('setSearchResultsFound', false);
         commit('setSearchDone', true);
         commit('setSearchTerm', searchTerm);
         try {
-            let author = utils.searchAuthor(searchTerm);
-            commit('setLastName', author.lastName);
+            const articles = await searchAuthorPM(searchTerm);
+            /*commit('setLastName', author.lastName);
             commit('setForeName', author.foreName);
-            commit('setInitials', author.initials);
-            commit('setArticles', author.articles);
+            commit('setInitials', author.initials);*/
+            commit('setArticles', articles);
+            commit('setSearchResultsFound', true);
         }
         catch (err) {
-            dispatch('showError', err);
+            if (err === 'no result')
+                commit('setSearchResultsFound', false);
+            else
+                dispatch('showError', String(err));
         }
     },
 
-    showInfo({commit}, message) {
+    showInfo ({commit}, message) {
         commit('setAlert', {
             show: true,
             type: 'info',
@@ -105,7 +121,7 @@ const actions = {
         });
     },
 
-    showSuccess({commit}, message) {
+    showSuccess ({commit}, message) {
         commit('setAlert', {
             show: true,
             type: 'success',
@@ -113,7 +129,7 @@ const actions = {
         });
     },
 
-    showWarning({commit}, message) {
+    showWarning ({commit}, message) {
         commit('setAlert', {
             show: true,
             type: 'warning',
@@ -121,7 +137,7 @@ const actions = {
         });
     },
 
-    showError({commit}, message) {
+    showError ({commit}, message) {
         commit('setAlert', {
             show: true,
             type: 'error',
@@ -129,7 +145,7 @@ const actions = {
         });
     },
 
-    setSortBy({commit}, params) {
+    setSortBy ({commit}, params) {
         commit('setSortBy', params);
     }
 };

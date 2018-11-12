@@ -1,7 +1,7 @@
 <template>
     <v-card
     flat
-    v-if="$store.state.searchDone">
+    v-if="$store.state.searchResultsFound">
         <v-card-title class="title">
         Articles
         <v-spacer></v-spacer>
