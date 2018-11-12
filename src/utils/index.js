@@ -1,7 +1,4 @@
-import searchAuthor from './searchAuthor'
 import getHIndex from './getHIndex'
 
-export default {
-    searchAuthor,
-    getHIndex
-}
+export { searchAuthorPM } from './searchAuthor'
+export { getHIndex }
