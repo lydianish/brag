@@ -7,6 +7,7 @@
       v-model="drawer"
       fixed
       clipped
+      absolute
       class="secondary"
       app
     >

@@ -10,16 +10,20 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.0.0",
+    "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "google-query": "^1.0.3",
     "google-scholar-extended": "^1.0.1",
     "google-scholar-link": "^1.0.1",
     "node-g-search": "^1.0.1",
+    "npm": "^6.4.1",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "vue": "^2.5.11",
     "vuetify": "^1.2.8",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "xml-js": "^1.6.8"
   },
   "browserslist": [
     "> 1%",

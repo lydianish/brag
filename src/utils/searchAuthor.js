@@ -1,80 +1,67 @@
-export default function (searchTerm) {
-    return sampleAuthor;
-    //throw 'Search function not yet defined!';
-}
+const axios = require('axios');
+const convert = require('xml-js');
 
-const sampleAuthor = {
-    lastName: 'Limou',
-    foreName: 'Sophie',
-    initials: 'S',
-    affiliation: [
-        'Centre de Recherche en Transplantation et Immunologie UMR 1064, INSERM, Université de Nantes, Nantes, France',
-        'Institut de Transplantation Urologie Néphrologie (ITUN), CHU Nantes, Nantes, France',
-        'Ecole Centrale de Nantes, Nantes, France'
-    ],
-    articles: [
-        {
-            title: 'Genetic screening of male patients with primary hypogammaglobulinemia can guide diagnosis and clinical management.',
-            journal: {
-                title: 'Human immunology',
-                volume: 79,
-                issue: 7,
-                year: 2018, 
-                month: 'Jul',
-                impactFactor: 1.994
-            },
-            pagination: '571-577',
-            authors: [
-                {
-                    lastName: 'Vince',
-                    foreName: 'Nicolas',
-                    initials: 'N',
-                    affiliation: [
-                        'EA3963, Université Paris 7 Denis Diderot, Centre Hayem, Hôpital Saint-Louis, 1 Avenue Claude Vellefaux, 75010 Paris, France; Centre de Recherche en Transplantation et Immunologie UMR 1064, INSERM, Université de Nantes, Nantes, France; Institut de Transplantation Urologie Néphrologie (ITUN), CHU Nantes, Nantes, France. Electronic address: nicolas.vince@univ-nantes.fr.'
-                                        ],
-                },
-                {
-                    lastName: 'Limou',
-                    foreName: 'Sophie',
-                    initials: 'S',
-                    affiliation: [
-                        'Centre de Recherche en Transplantation et Immunologie UMR 1064, INSERM, Université de Nantes, Nantes, France; Institut de Transplantation Urologie Néphrologie (ITUN), CHU Nantes, Nantes, France; Ecole Centrale de Nantes, Nantes, France.'
-                    ],
-                }
-            ],
-            citationCount: 0
-        },
-        {
-            title: 'APOL1 Nephropathy Risk Variants and Incident Cardiovascular Disease Events in Community-Dwelling Black Adults.',
-            journal: {
-                title: 'Circulation. Genomic and precision medicine',
-                volume: 11,
-                issue: 6,
-                year: 2018, 
-                month: 'Jun',
-                impactFactor: 18.880
-            },
-            pagination: 'e002098',
-            authors: [
-                {
-                    lastName: 'Gutiérrez',
-                    foreName: 'Orlando M',
-                    initials: 'OM',
-                    affiliation: [
-                        'Department of Medicine, University of Alabama at Birmingham, Birmingham, AL (O.M.G.).'
-                    ],
-                },
-                {
-                    lastName: 'Limou',
-                    foreName: 'Sophie',
-                    initials: 'S',
-                    affiliation: [
-                        'Centre de Recherche en Transplantation et Immunologie UMR 1064, INSERM, Université de Nantes, Nantes, France; Institut de Transplantation Urologie Néphrologie (ITUN), CHU Nantes, Nantes, France; Ecole Centrale de Nantes, Nantes, France.'
-                    ],
-                }
-            ],
-            citationCount: 1
+export async function searchAuthorPM (searchTerm) {
+    const pubMedUrl = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/';
+    const pubMedSearchParams = 'esearch.fcgi?db=pubmed&term='+searchTerm.replace(/\s+/g,'+')+'[author]&usehistory=y&retmax=0';
+    try {
+        const response = await axios.get(pubMedUrl + pubMedSearchParams);
+        const resultat1 = convert.xml2js(response.data, {compact: true, spaces: 4});
+        const queryKey = getQueryKey(resultat1);
+        const webEnv = getwebEnv(resultat1);
+        const qw = {
+            queryKey : queryKey,
+            webEnv : webEnv }
+        const response2 = await axios.get('https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&query_key='+qw.queryKey+'&WebEnv='+qw.webEnv+'&rettype=medline&retmode=xml')
+        const resultat2 = convert.xml2js(response2.data, {compact: true, spaces: 4});
+        if (resultat2.eFetchResult && resultat2.eFetchResult.ERROR) {
+            throw 'no result';
         }
-
-    ],
+        const resultat3 = transform(resultat2);
+        return resultat3;
+    }
+    catch(error) {
+        throw String(error);
+    }
 }
+
+function getQueryKey(res){
+    return res.eSearchResult.QueryKey._text;
+};
+
+function getwebEnv(res) {
+    return res.eSearchResult.WebEnv._text;
+};
+
+function transform(listeArticle) {
+    return listeArticle.PubmedArticleSet.PubmedArticle.map(article => transformArticle(article));
+};
+
+function transformArticle(articleInit) {
+    const article = articleInit.MedlineCitation.Article;
+    const listeAuthor = article.AuthorList.Author;
+    const listeAuthorTransformed = listeAuthor.map(author => transformAuthor(author));
+    return {
+        title : article.ArticleTitle._text,
+        journal : {
+            title : article.Journal.Title!==undefined ? article.Journal.Title._text : undefined,
+            volume : article.Journal.JournalIssue.Volume!==undefined ? article.Journal.JournalIssue.Volume._text : undefined,
+            issue : article.Journal.JournalIssue.Issue!==undefined ? article.Journal.JournalIssue.Issue._text : undefined,
+            year : article.Journal.JournalIssue.PubDate.Year!==undefined ? article.Journal.JournalIssue.PubDate.Year._text : undefined,
+            month : article.Journal.JournalIssue.PubDate.Month!==undefined ? article.Journal.JournalIssue.PubDate.Month._text : undefined,
+            impactFactor : undefined
+        },
+       pagination : article.Pagination!==undefined ? article.Pagination.MedlinePgn._text : undefined,
+       authors : listeAuthorTransformed,
+       citationCount: 0
+    };
+};
+
+function transformAuthor(author) {
+    return {
+        lastName: author.LastName!==undefined ? author.LastName._text : undefined,
+        foreName: author.ForeName!==undefined ? author.ForeName._text : undefined,
+        initials: author.Initials!==undefined ? author.Initials._text : undefined,
+        affiliation: []
+    };
+};

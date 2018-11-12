@@ -2,7 +2,7 @@
     <v-card 
     tile
     raised
-    v-if="$store.state.searchDone">
+    v-if="$store.state.searchResultsFound">
         <v-layout column>  
             <v-flex>
                 <v-card-title class="title">
