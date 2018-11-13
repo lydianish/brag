@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { searchAuthorPM } from '../utils'
+import { searchAuthorPM, getHIndex } from '../utils'
 
 Vue.use(Vuex)
 
@@ -16,7 +16,7 @@ const defaultState = () => {
         alert: {
             show: false,
             type: '',
-            message: '' 
+            message: ''
         },
         sortBy: {
             field: '',
@@ -29,7 +29,7 @@ const state = defaultState();
 
 const getters = {
     hIndex: (state) => {
-        return utils.getHIndex(state.articles);
+        return getHIndex(state.articles);
     },
 
     publicationCount: (state) => {
@@ -42,7 +42,7 @@ const getters = {
     citationCount: (state) => {
         if (state.articles!==undefined) {
             return state.articles.reduce((accumulator, article) => {
-                return accumulator + article.citationCount; 
+                return accumulator + article.citationCount;
             }, 0);
         }
         return 0;
@@ -57,11 +57,11 @@ const mutations = {
     setSearchResultsFound: (state, searchResultsFound) => {
         state.searchResultsFound = searchResultsFound;
     },
-    
+
     setSearchTerm: (state, searchTerm) => {
         state.searchTerm = searchTerm;
     },
-    
+
     setLastName: (state, lastName) => {
         state.lastName = lastName;
     },
