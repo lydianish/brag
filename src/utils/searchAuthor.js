@@ -25,6 +25,18 @@ export async function searchAuthorPM (searchTerm) {
     }
 }
 
+export async function searchAuthorGS (searchTerm) {
+    const googleScholarUrl = 'https://af32b09f.ngrok.io/author';
+    const searchParams = '?name='+searchTerm.replace(/\s+/g,'+');
+    try {
+        const response = await axios.get(googleScholarUrl + searchParams);
+        return response.data;
+    }
+    catch(error) {
+        throw String(error);
+    }
+}
+
 function getQueryKey(res){
     return res.eSearchResult.QueryKey._text;
 };
@@ -42,16 +54,17 @@ function transformArticle(articleInit) {
     const listeAuthor = article.AuthorList.Author;
     const listeAuthorTransformed = listeAuthor.map(author => transformAuthor(author));
     return {
-        title : article.ArticleTitle._text,
+        title : Array.isArray(article.ArticleTitle._text) ? article.ArticleTitle._text.reduce((accumulator, partialTitle) => {
+            return accumulator + partialTitle; }, '').slice(0, -1) : article.ArticleTitle._text.slice(0, -1),
         journal : {
-            title : article.Journal.Title!==undefined ? article.Journal.Title._text : undefined,
-            volume : article.Journal.JournalIssue.Volume!==undefined ? article.Journal.JournalIssue.Volume._text : undefined,
-            issue : article.Journal.JournalIssue.Issue!==undefined ? article.Journal.JournalIssue.Issue._text : undefined,
-            year : article.Journal.JournalIssue.PubDate.Year!==undefined ? article.Journal.JournalIssue.PubDate.Year._text : undefined,
-            month : article.Journal.JournalIssue.PubDate.Month!==undefined ? article.Journal.JournalIssue.PubDate.Month._text : undefined,
+            title : article.Journal.Title ? article.Journal.Title._text : undefined,
+            volume : article.Journal.JournalIssue.Volume ? article.Journal.JournalIssue.Volume._text : undefined,
+            issue : article.Journal.JournalIssue.Issue ? article.Journal.JournalIssue.Issue._text : undefined,
+            year : article.Journal.JournalIssue.PubDate.Year ? article.Journal.JournalIssue.PubDate.Year._text : undefined,
+            month : article.Journal.JournalIssue.PubDate.Month ? article.Journal.JournalIssue.PubDate.Month._text : undefined,
             impactFactor : undefined
         },
-       pagination : article.Pagination!==undefined ? article.Pagination.MedlinePgn._text : undefined,
+       pagination : article.Pagination ? article.Pagination.MedlinePgn._text : undefined,
        authors : listeAuthorTransformed,
        citationCount: 0
     };
@@ -59,9 +72,9 @@ function transformArticle(articleInit) {
 
 function transformAuthor(author) {
     return {
-        lastName: author.LastName!==undefined ? author.LastName._text : undefined,
-        foreName: author.ForeName!==undefined ? author.ForeName._text : undefined,
-        initials: author.Initials!==undefined ? author.Initials._text : undefined,
+        lastName: author.LastName ? author.LastName._text : undefined,
+        foreName: author.ForeName ? author.ForeName._text : undefined,
+        initials: author.Initials ? author.Initials._text : undefined,
         affiliation: []
     };
 };

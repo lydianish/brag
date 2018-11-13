@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { searchAuthorPM, getHIndex } from '../utils'
+import { searchAuthorPM, searchAuthorGS } from '../utils'
 
 Vue.use(Vuex)
 
@@ -12,6 +12,7 @@ const defaultState = () => {
         lastName: '',
         foreName: '',
         initials: '',
+        hIndex: 0,
         articles: [],
         alert: {
             show: false,
@@ -28,10 +29,6 @@ const defaultState = () => {
 const state = defaultState();
 
 const getters = {
-    hIndex: (state) => {
-        return getHIndex(state.articles);
-    },
-
     publicationCount: (state) => {
         if (state.articles!==undefined) {
             return state.articles.length;
@@ -74,6 +71,10 @@ const mutations = {
         state.initials = initials;
     },
 
+    setHIndex: (state, hIndex) => {
+        state.hIndex = hIndex;
+    },
+
     setArticles: (state, articles) => {
         state.articles = articles;
     },
@@ -98,11 +99,16 @@ const actions = {
         commit('setSearchDone', true);
         commit('setSearchTerm', searchTerm);
         try {
-            const articles = await searchAuthorPM(searchTerm);
+            dispatch('showInfo', 'Fetching results from PubMed');
+            const articlesPM = await searchAuthorPM(searchTerm);
+            commit('setArticles', articlesPM);
             /*commit('setLastName', author.lastName);
             commit('setForeName', author.foreName);
             commit('setInitials', author.initials);*/
-            commit('setArticles', articles);
+            dispatch('showInfo', 'Fetching results from Google Scholar');
+            const gs = await searchAuthorGS(searchTerm);
+            commit('setHIndex', gs.hIndex);
+            dispatch('showSuccess', 'Search finished successfully');
             commit('setSearchResultsFound', true);
         }
         catch (err) {
