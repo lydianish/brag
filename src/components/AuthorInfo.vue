@@ -13,7 +13,7 @@
                 <v-layout row wrap>
                     <v-flex sm4 xs12>
                         <v-card-text class="subheading font-weight-bold"> H-Index : 
-                            <span class="accent--text">{{ $store.getters.hIndex }}</span>
+                            <span class="accent--text">{{ $store.state.hIndex }}</span>
                         </v-card-text>
                     </v-flex>
                     <v-flex sm4 xs12>
