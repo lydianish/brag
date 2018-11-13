@@ -55,7 +55,7 @@ function transformArticle(articleInit) {
     const listeAuthorTransformed = listeAuthor.map(author => transformAuthor(author));
     return {
         title : Array.isArray(article.ArticleTitle._text) ? article.ArticleTitle._text.reduce((accumulator, partialTitle) => {
-            return accumulator + partialTitle; }, '') : article.ArticleTitle._text,
+            return accumulator + partialTitle; }, '').slice(0, -1) : article.ArticleTitle._text.slice(0, -1),
         journal : {
             title : article.Journal.Title ? article.Journal.Title._text : undefined,
             volume : article.Journal.JournalIssue.Volume ? article.Journal.JournalIssue.Volume._text : undefined,
