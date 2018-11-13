@@ -1,4 +1,1 @@
-import getHIndex from './getHIndex'
-
-export { searchAuthorPM } from './searchAuthor'
-export { getHIndex }
+export { searchAuthorPM, searchAuthorGS } from './searchAuthor'
