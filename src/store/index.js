@@ -30,14 +30,14 @@ const state = defaultState();
 
 const getters = {
     publicationCount: (state) => {
-        if (state.articles!==undefined) {
+        if (state.articles) {
             return state.articles.length;
         }
         return 0;
     },
 
     citationCount: (state) => {
-        if (state.articles!==undefined) {
+        if (state.articles) {
             return state.articles.reduce((accumulator, article) => {
                 return accumulator + article.citationCount;
             }, 0);
@@ -112,8 +112,10 @@ const actions = {
             commit('setSearchResultsFound', true);
         }
         catch (err) {
-            if (err === 'no result')
+            if (err === 'no result') {
                 commit('setSearchResultsFound', false);
+                dispatch('showError', 'No results found');
+            }
             else
                 dispatch('showError', String(err));
         }
