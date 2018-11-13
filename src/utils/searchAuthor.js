@@ -14,6 +14,7 @@ export async function searchAuthorPM (searchTerm) {
             webEnv : webEnv }
         const response2 = await axios.get('https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&query_key='+qw.queryKey+'&WebEnv='+qw.webEnv+'&rettype=medline&retmode=xml')
         const resultat2 = convert.xml2js(response2.data, {compact: true, spaces: 4});
+        console.log(resultat2)
         if (resultat2.eFetchResult && resultat2.eFetchResult.ERROR) {
             throw 'no result';
         }
@@ -46,25 +47,32 @@ function getwebEnv(res) {
 };
 
 function transform(listeArticle) {
-    return listeArticle.PubmedArticleSet.PubmedArticle.map(article => transformArticle(article));
+    if (Array.isArray(listeArticle.PubmedArticleSet.PubmedArticle))
+        return listeArticle.PubmedArticleSet.PubmedArticle.map(article => transformArticle(article));
+    else
+        return [transformArticle(listeArticle.PubmedArticleSet.PubmedArticle)];
 };
 
 function transformArticle(articleInit) {
     const article = articleInit.MedlineCitation.Article;
     const listeAuthor = article.AuthorList.Author;
-    const listeAuthorTransformed = listeAuthor.map(author => transformAuthor(author));
+    let listeAuthorTransformed;
+    if (Array.isArray(listeAuthor))
+        listeAuthorTransformed = listeAuthor.map(author => transformAuthor(author));
+    else
+        listeAuthorTransformed = [transformAuthor(listeAuthor)];
     return {
         title : Array.isArray(article.ArticleTitle._text) ? article.ArticleTitle._text.reduce((accumulator, partialTitle) => {
             return accumulator + partialTitle; }, '').slice(0, -1) : article.ArticleTitle._text.slice(0, -1),
         journal : {
-            title : article.Journal.Title ? article.Journal.Title._text : undefined,
-            volume : article.Journal.JournalIssue.Volume ? article.Journal.JournalIssue.Volume._text : undefined,
-            issue : article.Journal.JournalIssue.Issue ? article.Journal.JournalIssue.Issue._text : undefined,
-            year : article.Journal.JournalIssue.PubDate.Year ? article.Journal.JournalIssue.PubDate.Year._text : undefined,
-            month : article.Journal.JournalIssue.PubDate.Month ? article.Journal.JournalIssue.PubDate.Month._text : undefined,
-            impactFactor : undefined
+            title : article.Journal.Title ? article.Journal.Title._text : '',
+            volume : article.Journal.JournalIssue.Volume ? article.Journal.JournalIssue.Volume._text : '',
+            issue : article.Journal.JournalIssue.Issue ? article.Journal.JournalIssue.Issue._text : '',
+            year : article.Journal.JournalIssue.PubDate.Year ? article.Journal.JournalIssue.PubDate.Year._text : '',
+            month : article.Journal.JournalIssue.PubDate.Month ? article.Journal.JournalIssue.PubDate.Month._text : '',
+            impactFactor : ''
         },
-       pagination : article.Pagination ? article.Pagination.MedlinePgn._text : undefined,
+       pagination : article.Pagination ? article.Pagination.MedlinePgn._text : '',
        authors : listeAuthorTransformed,
        citationCount: 0
     };
@@ -72,9 +80,9 @@ function transformArticle(articleInit) {
 
 function transformAuthor(author) {
     return {
-        lastName: author.LastName ? author.LastName._text : undefined,
-        foreName: author.ForeName ? author.ForeName._text : undefined,
-        initials: author.Initials ? author.Initials._text : undefined,
+        lastName: author.LastName ? author.LastName._text : '',
+        foreName: author.ForeName ? author.ForeName._text : '',
+        initials: author.Initials ? author.Initials._text : '',
         affiliation: []
     };
 };

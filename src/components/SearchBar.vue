@@ -22,7 +22,7 @@ export default {
 
     methods: {
         searchAuthor: function (event) {
-        this.searchTerm = this.searchTerm.trim();
+        this.searchTerm = this.searchTerm ? this.searchTerm.trim() : '';
         if (this.searchTerm &&
             ((event instanceof MouseEvent) ||
                 (event instanceof KeyboardEvent && event.code === 'Enter'))
