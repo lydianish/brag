@@ -102,13 +102,13 @@ const actions = {
             dispatch('showInfo', 'Fetching results from PubMed');
             const articlesPM = await searchAuthorPM(searchTerm);
             commit('setArticles', articlesPM);
-            dispatch('showInfo', 'Fetching results from Google Scholar');
-            const gs = await searchAuthorGS(searchTerm);
-            commit('setHIndex', gs.hIndex);
             /*commit('setLastName', author.lastName);
             commit('setForeName', author.foreName);
             commit('setInitials', author.initials);*/
-            dispatch('showSuccess', 'Search finished');
+            dispatch('showInfo', 'Fetching results from Google Scholar');
+            const gs = await searchAuthorGS(searchTerm);
+            commit('setHIndex', gs.hIndex);
+            dispatch('showSuccess', 'Search finished successfully');
             commit('setSearchResultsFound', true);
         }
         catch (err) {

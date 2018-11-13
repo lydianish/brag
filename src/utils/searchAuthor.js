@@ -26,7 +26,7 @@ export async function searchAuthorPM (searchTerm) {
 }
 
 export async function searchAuthorGS (searchTerm) {
-    const googleScholarUrl = 'https://a8f78ad4.ngrok.io/author';
+    const googleScholarUrl = 'https://af32b09f.ngrok.io/author';
     const searchParams = '?name='+searchTerm.replace(/\s+/g,'+');
     try {
         const response = await axios.get(googleScholarUrl + searchParams);
