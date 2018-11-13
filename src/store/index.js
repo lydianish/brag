@@ -22,6 +22,10 @@ const defaultState = () => {
         sortBy: {
             field: '',
             descending: false
+        },
+        progress: {
+            show: false,
+            message: ''
         }
     }
 };
@@ -88,6 +92,10 @@ const mutations = {
             {field: params.field, descending: params.descending});
     },
 
+    setProgress: (state, progress) => {
+        Object.assign(state.progress, progress);
+    },
+
     resetState: (state) => {
         Object.assign(state, defaultState());
     }
@@ -99,25 +107,28 @@ const actions = {
         commit('setSearchDone', true);
         commit('setSearchTerm', searchTerm);
         try {
-            dispatch('showInfo', 'Fetching results from PubMed');
+            dispatch('showProgress', 'Fetching results from PubMed');
             const articlesPM = await searchAuthorPM(searchTerm);
             commit('setArticles', articlesPM);
             /*commit('setLastName', author.lastName);
             commit('setForeName', author.foreName);
             commit('setInitials', author.initials);*/
-            dispatch('showInfo', 'Fetching results from Google Scholar');
+            dispatch('showProgress', 'Fetching results from Google Scholar');
             const gs = await searchAuthorGS(searchTerm);
             commit('setHIndex', gs.hIndex);
             dispatch('showSuccess', 'Search finished successfully');
+            dispatch('hideProgress');
             commit('setSearchResultsFound', true);
         }
         catch (err) {
             if (err === 'no result') {
-                commit('setSearchResultsFound', false);
                 dispatch('showError', 'No results found');
+                commit('setSearchResultsFound', false);
             }
-            else
+            else {
                 dispatch('showError', String(err));
+            }
+            dispatch('hideProgress');
         }
     },
 
@@ -155,6 +166,20 @@ const actions = {
 
     setSortBy ({commit}, params) {
         commit('setSortBy', params);
+    },
+
+    showProgress ({commit}, message) {
+        commit('setProgress', {
+            show: true,
+            message: message
+        });
+    },
+
+    hideProgress ({commit}) {
+        commit('setProgress', {
+            show: false,
+            message: ''
+        });
     }
 };
 
