@@ -27,7 +27,7 @@
             color="primary"
             slot="activator"
             @click="downloading"
-            v-if="$store.state.searchDone">
+            v-if="$store.state.searchResultsFound">
                 <v-icon>cloud_download</v-icon>
             </v-btn>
             <span>Download the author's list of publications</span>

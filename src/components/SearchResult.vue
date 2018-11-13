@@ -1,5 +1,5 @@
 <template>
-    <div v-if="$store.state.searchResultsFound" class="font-italic"> Displaying results for: 
+    <div v-if="$store.state.searchResultsFound && $store.state.searchDone" class="font-italic"> Displaying results for: 
         <span class="font-weight-bold">{{ $store.state.searchTerm }}</span>
     </div>
     <div v-else-if="!$store.state.searchResultsFound && $store.state.searchDone" class="font-italic"> There are no results found for: 
