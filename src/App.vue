@@ -48,7 +48,7 @@
                   </v-flex>
                 </v-layout>
               </v-flex>
-              <v-flex>
+              <v-flex md4 sm6 xs12>
                 <v-layout column>
                   <v-flex>
                     <publicationgraph></publicationgraph> <!--custom-made component-->

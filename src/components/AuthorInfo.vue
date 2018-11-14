@@ -6,7 +6,7 @@
         <v-layout column>  
             <v-flex>
                 <v-card-title class="title">
-                    <div class="accent--text">{{ $store.state.foreName }} {{ $store.state.lastName }}</div>
+                    <div class="accent--text">{{ $store.state.name }}</div>
                 </v-card-title>
             </v-flex>
             <v-flex>
