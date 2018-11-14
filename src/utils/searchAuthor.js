@@ -1,5 +1,6 @@
 const axios = require('axios');
 const convert = require('xml-js');
+import { impactFactor } from '../utils';
 
 export async function searchAuthorPM (searchTerm) {
     const pubMedUrl = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/';
@@ -14,7 +15,6 @@ export async function searchAuthorPM (searchTerm) {
             webEnv : webEnv }
         const response2 = await axios.get('https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&query_key='+qw.queryKey+'&WebEnv='+qw.webEnv+'&rettype=medline&retmode=xml')
         const resultat2 = convert.xml2js(response2.data, {compact: true, spaces: 4});
-        console.log(resultat2)
         if (resultat2.eFetchResult && resultat2.eFetchResult.ERROR) {
             throw 'no result';
         }
@@ -65,24 +65,28 @@ function transformArticle(articleInit) {
         title : Array.isArray(article.ArticleTitle._text) ? article.ArticleTitle._text.reduce((accumulator, partialTitle) => {
             return accumulator + partialTitle; }, '').slice(0, -1) : article.ArticleTitle._text.slice(0, -1),
         journal : {
-            title : article.Journal.Title ? article.Journal.Title._text : '',
-            volume : article.Journal.JournalIssue.Volume ? article.Journal.JournalIssue.Volume._text : '',
-            issue : article.Journal.JournalIssue.Issue ? article.Journal.JournalIssue.Issue._text : '',
-            year : article.Journal.JournalIssue.PubDate.Year ? article.Journal.JournalIssue.PubDate.Year._text : '',
-            month : article.Journal.JournalIssue.PubDate.Month ? article.Journal.JournalIssue.PubDate.Month._text : '',
-            impactFactor : ''
+            title : safe(article.Journal.Title),
+            volume : safe(article.Journal.JournalIssue.Volume),
+            issue : safe(article.Journal.JournalIssue.Issue),
+            year : safe(article.Journal.JournalIssue.PubDate.Year),
+            month : safe(article.Journal.JournalIssue.PubDate.Month),
+            impactFactor : impactFactor(safe(article.Journal.Title))
         },
-       pagination : article.Pagination ? article.Pagination.MedlinePgn._text : '',
+       pagination : safe(article.Pagination),
        authors : listeAuthorTransformed,
-       citationCount: 0
+       citationCount: ''
     };
 };
 
 function transformAuthor(author) {
     return {
-        lastName: author.LastName ? author.LastName._text : '',
-        foreName: author.ForeName ? author.ForeName._text : '',
-        initials: author.Initials ? author.Initials._text : '',
+        lastName: safe(author.LastName),
+        foreName: safe(author.ForeName),
+        initials: safe(author.Initials),
         affiliation: []
     };
+};
+
+function safe (property) {
+    return property ? property._text : '';
 };
