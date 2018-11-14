@@ -15,7 +15,6 @@ export async function searchAuthorPM (searchTerm) {
             webEnv : webEnv }
         const response2 = await axios.get('https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&query_key='+qw.queryKey+'&WebEnv='+qw.webEnv+'&rettype=medline&retmode=xml')
         const resultat2 = convert.xml2js(response2.data, {compact: true, spaces: 4});
-        console.log(resultat2)
         if (resultat2.eFetchResult && resultat2.eFetchResult.ERROR) {
             throw 'no result';
         }
