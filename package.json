@@ -13,6 +13,7 @@
     "@babel/polyfill": "^7.0.0",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
+    "fast-csv": "^2.4.1",
     "google-query": "^1.0.3",
     "google-scholar-extended": "^1.0.1",
     "google-scholar-link": "^1.0.1",

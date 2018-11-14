@@ -115,6 +115,7 @@ const actions = {
             commit('setInitials', author.initials);*/
             dispatch('showProgress', 'Fetching results from Google Scholar');
             const gs = await searchAuthorGS(searchTerm);
+            commit('setLastName', gs.name)
             commit('setHIndex', gs.hIndex);
             dispatch('showSuccess', 'Search finished successfully');
             dispatch('hideProgress');
