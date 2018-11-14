@@ -9,11 +9,10 @@ const defaultState = () => {
         searchDone: false,
         searchResultsFound: false,
         searchTerm: '',
-        lastName: '',
-        foreName: '',
-        initials: '',
+        name: '',
         hIndex: 0,
         articles: [],
+        citationGraph: undefined,
         alert: {
             show: false,
             type: '',
@@ -40,6 +39,26 @@ const getters = {
         return 0;
     },
 
+    publicationGraph: (state) => {
+        let pubsPerYear = {};
+        for (let pub of state.articles) {
+            if (pub.journal.year) {
+                const pubCount = pubsPerYear[pub.journal.year];
+                pubsPerYear[pub.journal.year] = pubCount ? pubCount+1 : 1;
+            }
+        }
+        return {
+            labels: Object.keys(pubsPerYear),
+            datasets: [
+                {
+                    label: 'Number of publications',
+                    backgroundColor: '#BDBDBD',
+                    data: Object.values(pubsPerYear)
+                }
+            ]
+        }
+    },
+
     citationCount: (state) => {
         if (state.articles) {
             return state.articles.reduce((accumulator, article) => {
@@ -63,16 +82,8 @@ const mutations = {
         state.searchTerm = searchTerm;
     },
 
-    setLastName: (state, lastName) => {
-        state.lastName = lastName;
-    },
-
-    setForeName: (state, foreName) => {
-        state.foreName = foreName;
-    },
-
-    setInitials: (state, initials) => {
-        state.initials = initials;
+    setName: (state, name) => {
+        state.name = name;
     },
 
     setHIndex: (state, hIndex) => {
@@ -81,6 +92,21 @@ const mutations = {
 
     setArticles: (state, articles) => {
         state.articles = articles;
+    },
+
+    setCitationGraph: (state, citesPerYear) => {
+        if (citesPerYear) {
+            state.citationGraph = {
+                labels: Object.keys(citesPerYear),
+                datasets: [
+                    {
+                        label: 'Number of citations',
+                        backgroundColor: '#BDBDBD',
+                        data: Object.values(citesPerYear)
+                    }
+                ]
+            }
+        }
     },
 
     setAlert: (state, alert) => {
@@ -110,13 +136,12 @@ const actions = {
             dispatch('showProgress', 'Fetching results from PubMed');
             const articlesPM = await searchAuthorPM(searchTerm);
             commit('setArticles', articlesPM);
-            /*commit('setLastName', author.lastName);
-            commit('setForeName', author.foreName);
-            commit('setInitials', author.initials);*/
+            /*commit('setName', author.name);*/
             dispatch('showProgress', 'Fetching results from Google Scholar');
             const gs = await searchAuthorGS(searchTerm);
-            commit('setLastName', gs.name)
+            commit('setName', gs.name)
             commit('setHIndex', gs.hIndex);
+            commit('setCitationGraph', gs.citesPerYear);
             dispatch('showSuccess', 'Search finished successfully');
             dispatch('hideProgress');
             commit('setSearchResultsFound', true);
