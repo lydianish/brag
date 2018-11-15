@@ -74,6 +74,7 @@ export default {
     methods: {
         sortBy: function (event) {
             this.$store.dispatch('setSortBy', {field: event.sortBy, descending: event.descending});
+            console.log(sortArticles(this.$store.state.articles, this.$store.state.sortBy))
         }
     }
 }

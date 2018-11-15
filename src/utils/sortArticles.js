@@ -45,12 +45,12 @@ function compareCites (a, b) {
 }
 
 function compareNumbers (a, b, field) {
-    return Number(a[field]) - Number(b[field]);
+    return Number(a[field] || 0) - Number(b[field] || 0);
 }
 
 function compareStrings (a, b, field) {
-    const val = a[field];
-    const empty = '';
-    return val ? val.localeCompare(b[field]) : empty.localeCompare(b[field]);
+    const valA = a[field] || '';
+    const valB = b[field] || '';
+    return valA.toLowerCase().localeCompare(valB.toLowerCase());
 }
 
