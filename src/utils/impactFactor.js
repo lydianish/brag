@@ -1,4 +1,4 @@
-import { journals} from '../assets/samplecsv'
+import { journals } from '../assets/samplecsv';
 
 export function impactFactor (journalTitle) {
     if (journalTitle) {
