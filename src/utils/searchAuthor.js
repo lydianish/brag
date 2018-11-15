@@ -27,7 +27,11 @@ export async function searchAuthorPM (searchTerm) {
 }
 
 export async function searchAuthorGS (searchTerm) {
+<<<<<<< HEAD
     const googleScholarUrl = GOOGLE_SCHOLAR_URL;
+=======
+    const googleScholarUrl = 'http://localhost:5002/author';
+>>>>>>> dev
     const searchParams = '?name='+searchTerm.replace(/\s+/g,'+');
     try {
         const response = await axios.get(googleScholarUrl + searchParams);

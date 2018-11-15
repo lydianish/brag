@@ -54,7 +54,12 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import { IMPACT_FACTOR_SOURCE } from '../utils'
+=======
+import { sortArticles } from '../utils'
+
+>>>>>>> dev
 export default {
     name: 'Articles',
     data: () => ({
@@ -72,7 +77,7 @@ export default {
     }),
     methods: {
         sortBy: function (event) {
-            console.log(event.sortBy + ' ' + event.descending)
+            this.$store.dispatch('setSortBy', {field: event.sortBy, descending: event.descending});
         }
     }
 }
