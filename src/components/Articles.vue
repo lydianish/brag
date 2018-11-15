@@ -54,12 +54,8 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-import { IMPACT_FACTOR_SOURCE } from '../utils'
-=======
-import { sortArticles } from '../utils'
+import { IMPACT_FACTOR_SOURCE, sortArticles } from '../utils'
 
->>>>>>> dev
 export default {
     name: 'Articles',
     data: () => ({
