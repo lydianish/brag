@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { searchAuthorPM, searchAuthorGS } from '../utils'
+import { searchAuthorPM, searchAuthorGS, sortArticles } from '../utils'
 
 Vue.use(Vuex)
 
@@ -66,6 +66,10 @@ const getters = {
             }, 0);
         }
         return 0;
+    },
+
+    sort: (state) => {
+        return sortArticles(state.articles, state.sortBy);
     }
 };
 
@@ -134,21 +138,20 @@ const actions = {
         commit('setSearchTerm', searchTerm);
         try {
             dispatch('showProgress', 'Fetching results from PubMed');
-            const articlesPM = await searchAuthorPM(searchTerm);
-            commit('setArticles', articlesPM);
-            /*commit('setName', author.name);*/
+            const pm = await searchAuthorPM(searchTerm);
+            commit('setArticles', pm);
             dispatch('showProgress', 'Fetching results from Google Scholar');
             const gs = await searchAuthorGS(searchTerm);
             commit('setName', gs.name)
             commit('setHIndex', gs.hIndex);
             commit('setCitationGraph', gs.citesPerYear);
-            dispatch('showSuccess', 'Search finished successfully');
+            dispatch('showSuccess', 'Search finished successfully!');
             dispatch('hideProgress');
             commit('setSearchResultsFound', true);
         }
         catch (err) {
             if (err === 'no result') {
-                dispatch('showError', 'No results found');
+                dispatch('showError', 'No results found.');
                 commit('setSearchResultsFound', false);
             }
             else {

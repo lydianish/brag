@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import { sortArticles } from '../utils'
+
 export default {
     name: 'Articles',
     data: () => ({
@@ -55,7 +57,7 @@ export default {
     }),
     methods: {
         sortBy: function (event) {
-            console.log(event.sortBy + ' ' + event.descending)
+            this.$store.dispatch('setSortBy', {field: event.sortBy, descending: event.descending});
         }
     }
 }
