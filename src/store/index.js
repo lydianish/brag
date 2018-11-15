@@ -1,6 +1,6 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import { searchAuthorPM, searchAuthorGS } from '../utils'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import { searchAuthorPM, searchAuthorGS, ERROR_NO_PUBMED_RESULT } from '../utils';
 
 Vue.use(Vuex)
 
@@ -147,7 +147,7 @@ const actions = {
             commit('setSearchResultsFound', true);
         }
         catch (err) {
-            if (err === 'no result') {
+            if (err === ERROR_NO_PUBMED_RESULT) {
                 dispatch('showError', 'No results found');
                 commit('setSearchResultsFound', false);
             }

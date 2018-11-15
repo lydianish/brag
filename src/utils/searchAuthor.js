@@ -1,6 +1,6 @@
-const axios = require('axios');
-const convert = require('xml-js');
-import { impactFactor } from '../utils';
+import * as axios from 'axios';
+import * as convert from 'xml-js';
+import { impactFactor, GOOGLE_SCHOLAR_URL, ERROR_NO_PUBMED_RESULT } from '../utils';
 
 export async function searchAuthorPM (searchTerm) {
     const pubMedUrl = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/';
@@ -16,7 +16,7 @@ export async function searchAuthorPM (searchTerm) {
         const response2 = await axios.get('https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&query_key='+qw.queryKey+'&WebEnv='+qw.webEnv+'&rettype=medline&retmode=xml')
         const resultat2 = convert.xml2js(response2.data, {compact: true, spaces: 4});
         if (resultat2.eFetchResult && resultat2.eFetchResult.ERROR) {
-            throw 'no result';
+            throw ERROR_NO_PUBMED_RESULT;
         }
         const resultat3 = transform(resultat2);
         return resultat3;
@@ -27,7 +27,7 @@ export async function searchAuthorPM (searchTerm) {
 }
 
 export async function searchAuthorGS (searchTerm) {
-    const googleScholarUrl = 'http://localhost:5002/author';
+    const googleScholarUrl = GOOGLE_SCHOLAR_URL;
     const searchParams = '?name='+searchTerm.replace(/\s+/g,'+');
     try {
         const response = await axios.get(googleScholarUrl + searchParams);

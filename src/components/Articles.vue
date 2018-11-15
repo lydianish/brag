@@ -21,6 +21,19 @@
         :pagination.sync="pagination"
         v-on:update:pagination="sortBy"
         >
+        <template slot="headerCell" slot-scope="props">
+            <v-tooltip top>
+                <span slot="activator">
+                {{ props.header.text }}
+                </span>
+                <span v-if="props.header.text==='IF'">
+                Impact Factor ({{ impactFactorSource }})
+                </span>
+                <span v-else>
+                {{ props.header.text }}
+                </span>
+            </v-tooltip>
+        </template>
         <template slot="items" slot-scope="props">
             <td>{{ props.item.title }}</td>
             <td>
@@ -41,19 +54,21 @@
 </template>
 
 <script>
+import { IMPACT_FACTOR_SOURCE } from '../utils'
 export default {
     name: 'Articles',
     data: () => ({
         search: '',
         headers: [
           { text: 'Title', value: 'title'},
-          { text: 'Author', value: 'authors[0].lastName'},
+          { text: 'Authors', value: 'authors[0].lastName'},
           { text: 'Journal', value: 'journal.title' },
           { text: 'IF', value: 'journal.impactFactor' },
           { text: 'Year', value: 'journal.year' },
           { text: 'Cited By', value: 'citationCount' }
         ],
-        pagination: {descending: true, rowsPerPage: 10, sortBy: 'Year'}
+        pagination: {descending: true, rowsPerPage: 10, sortBy: 'Year'},
+        impactFactorSource: IMPACT_FACTOR_SOURCE
     }),
     methods: {
         sortBy: function (event) {
