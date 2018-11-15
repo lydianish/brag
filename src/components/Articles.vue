@@ -18,6 +18,7 @@
         :headers="headers"
         :items="$store.state.articles"
         :search="search"
+        :pagination.sync="pagination"
         v-on:update:pagination="sortBy"
         >
         <template slot="items" slot-scope="props">
@@ -51,7 +52,8 @@ export default {
           { text: 'IF', value: 'journal.impactFactor' },
           { text: 'Year', value: 'journal.year' },
           { text: 'Cited By', value: 'citationCount' }
-        ]
+        ],
+        pagination: {descending: true, rowsPerPage: 10, sortBy: 'Year'}
     }),
     methods: {
         sortBy: function (event) {
