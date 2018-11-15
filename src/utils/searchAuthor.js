@@ -1,6 +1,6 @@
 import * as axios from 'axios';
 import * as convert from 'xml-js';
-import { impactFactor, GOOGLE_SCHOLAR_URL, ERROR_NO_PUBMED_RESULT } from '../utils';
+import { impactFactor, GOOGLE_SCHOLAR_URL, ERROR_NO_PUBMED_RESULT, ERROR_NO_GOOGLE_SCHOLAR_RESULT } from '../utils';
 
 export async function searchAuthorPM (searchTerm) {
     const pubMedUrl = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/';
@@ -27,14 +27,12 @@ export async function searchAuthorPM (searchTerm) {
 }
 
 export async function searchAuthorGS (searchTerm) {
-<<<<<<< HEAD
     const googleScholarUrl = GOOGLE_SCHOLAR_URL;
-=======
-    const googleScholarUrl = 'http://localhost:5002/author';
->>>>>>> dev
     const searchParams = '?name='+searchTerm.replace(/\s+/g,'+');
     try {
         const response = await axios.get(googleScholarUrl + searchParams);
+        if (response.data.error)
+            throw ERROR_NO_GOOGLE_SCHOLAR_RESULT;
         return response.data;
     }
     catch(error) {

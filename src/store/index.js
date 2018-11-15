@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { searchAuthorPM, searchAuthorGS, sortArticles, ERROR_NO_PUBMED_RESULT } from '../utils';
+import { searchAuthorPM, searchAuthorGS, sortArticles, ERROR_NO_PUBMED_RESULT, ERROR_NO_GOOGLE_SCHOLAR_RESULT } from '../utils';
 
 Vue.use(Vuex)
 
@@ -150,12 +150,16 @@ const actions = {
             commit('setSearchResultsFound', true);
         }
         catch (err) {
+            dispatch('showError', String(err));
             if (err === ERROR_NO_PUBMED_RESULT) {
-                dispatch('showError', 'No results found.');
+                commit('setArticles', []);
                 commit('setSearchResultsFound', false);
             }
-            else {
-                dispatch('showError', String(err));
+            else if (err === ERROR_NO_GOOGLE_SCHOLAR_RESULT) {
+                commit('setName', '')
+                commit('setHIndex', 0);
+                commit('setCitationGraph', undefined);
+                commit('setSearchResultsFound', true);
             }
             dispatch('hideProgress');
         }
