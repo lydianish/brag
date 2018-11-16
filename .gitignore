@@ -6,7 +6,7 @@ yarn-error.log
 
 # test files
 src/test
-src/assets/sample.csv
+src/assets/impact-factor
 
 # Editor directories and files
 .idea
