@@ -1,27 +1,30 @@
-function croisementNombreCitation(listeArticlePm,listeArticleGs)
+
+function croisementNombreCitationTitre(listeArticlePm,listeArticleGs)
 {listeArticlePm.map(article => nombreCitationArticle(article,listeArticleGs));
 }
 
 
-var listeArticlePm = [];
-var listeArticleGs =[];
-croisementNombreCitation(listeArticlePm,listeArticleGs);
 
-function nombreCitationArticle(article,listeArticleGs){
+
+
+function nombreCitationArticleTitre(article,listeArticleGs){
 
          var length=listeArticleGs.length;
          var i = 0;
          var correspondance = false;
+
          while ((i<length)&&(!correspondance))
-             {   urlArticleGs = listeArticleGs[i].url;
 
-                if (urlArticlesGs === PUBMED_ARTICLE_URL+article.pmid){
-                    correspondance=true;}
-         i=i+1;
-             }
-         if (i<length+1){article.citationCount = listeArticleGs[i-1].citationCount;}
+             {  urlArticleGs = listeArticleGs[i].url;
+                correspondance = (urlArticlesGs === PUBMED_ARTICLE_URL+article.pmid);
+                i=i+1;  }
 
-         else {article.citationCount = undefined;}
+         if (correspondance){article.citationCount = listeArticleGs[i-1].citationCount;
+                            article.title=listeArticleGs[i-1].title;
+                            }
+
+         else {article.citationCount = '';
+              }
 
 }
 
