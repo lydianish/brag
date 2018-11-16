@@ -76,7 +76,8 @@ function transformArticle(articleInit) {
         },
        pagination : safe(article.Pagination),
        authors : listeAuthorTransformed,
-       citationCount: ''
+       citationCount: '',
+        pmId : articleInit.MedlineCitation.PMID._text
     };
 };
 
