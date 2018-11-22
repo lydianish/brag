@@ -38,7 +38,7 @@ export async function searchAuthorGS (searchTerm) {
     catch(error) {
         throw String(error);
     }
-}
+} 
 
 function getQueryKey(res){
     return res.eSearchResult.QueryKey._text;
