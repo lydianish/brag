@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import {downloadBiblio} from '../utils'
 export default {
     name: 'NavBar',
     data: () => ({
@@ -48,8 +49,10 @@ export default {
     }),
     
     methods: {
+      
       downloading: function () {
         this.$store.dispatch('showInfo', 'Downloading publications in ' + this.cite + ' citation as ' + this.fileFormat + '.');
+        downloadBiblio(this.$store.state.searchTerm + ".txt")
       },
 
       downloaded: function () {

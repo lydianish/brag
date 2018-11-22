@@ -2,17 +2,16 @@
 
 > A tool for biomedical ranking
 
-## Build Setup
+## Avant de commencer :
+
+Cloner le [serveur BRAG](https://github.com/lydianish/brag-gs.git) et le faire tourner localement.
+
+## Pour tester localement :
 
 ``` bash
-# install dependencies
+# installer les dépendances
 npm install
 
-# serve with hot reload at localhost:8080
+# faire tourner l'appli sur localhost:8080
 npm run dev
-
-# build for production with minification
-npm run build
 ```
-
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
