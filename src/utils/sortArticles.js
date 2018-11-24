@@ -21,36 +21,46 @@ export function sortArticles (articles, sortBy) {
 }
 
 function compareTitle (a, b) {
-    return compareStrings(a, b, 'title');
+    const valA = a['title'] || '';
+    const valB = b['title'] || '';
+    return compareStrings(valA, valB);
 }
 
 function compareAuthor (a, b) {
-    return compareStrings(a, b, 'authors[0].lastName');
+    const valA = a['authors'][0]['lastName'] || '';
+    const valB = b['authors'][0]['lastName'] || '';
+    return compareStrings(valA, valB);
 }
 
 function compareJournal (a, b) {
-    return compareStrings(a, b, 'journal.title');
+    const valA = a['journal']['title'] || '';
+    const valB = b['journal']['title'] || '';
+    return compareStrings(valA, valB);
 }
 
 function compareIF (a, b) {
-    return compareNumbers(a, b, 'journal.impactFactor');
+    const valA = Number(a['journal']['impactFactor'] || 0);
+    const valB = Number(b['journal']['impactFactor'] || 0);
+    return compareNumbers(valA, valB);
 }
 
 function compareYear (a, b) {
-    return compareNumbers(a, b, 'journal.year');
+    const valA = Number(a['journal']['year'] || 0);
+    const valB = Number(b['journal']['year'] || 0);
+    return compareNumbers(valA, valB);
 }
 
 function compareCites (a, b) {
-    return compareNumbers(a, b, 'citationCount');
+    const valA = Number(a['citationCount'] || 0);
+    const valB = Number(b['citationCount'] || 0);
+    return compareNumbers(valA, valB);
 }
 
-function compareNumbers (a, b, field) {
-    return Number(a[field] || 0) - Number(b[field] || 0);
+function compareNumbers (valA, valB) {
+    return valA - valB;
 }
 
-function compareStrings (a, b, field) {
-    const valA = a[field] || '';
-    const valB = b[field] || '';
+function compareStrings (valA, valB) {
     return valA.toLowerCase().localeCompare(valB.toLowerCase());
 }
 
