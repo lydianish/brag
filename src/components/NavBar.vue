@@ -52,7 +52,7 @@ export default {
       
       downloading: function () {
         this.$store.dispatch('showInfo', 'Downloading publications in ' + this.cite + ' citation as ' + this.fileFormat + '.');
-        downloadBiblio(this.$store.state.searchTerm + ".txt")
+        downloadBiblio(this.$store.state.searchTerm + ".txt", this.$store.state.articles, this.$store.state.hIndex, this.$store.state.citationGraph)
       },
 
       downloaded: function () {
