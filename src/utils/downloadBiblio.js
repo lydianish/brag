@@ -2,14 +2,13 @@ import * as FileSaver from 'file-saver';
 
 const endOfLine = '\r\n';
 
-export function downloadBiblio (filename,articles,hIndex,citationGraph) {
+export function downloadBiblio (filename,articles,hIndex,citationCount) {
 
     var listeArticles = articles;
-    //date
-    var data = "Articles"+endOfLine+"NB: Impact factors [IF] and citation number as reported on June 5th, 2018 (source Google Scholar)"+endOfLine;
-    data = data+"Total citations = "+citationGraph+" | h-index = "+hIndex+endOfLine+endOfLine;
+    var data = "Articles"+endOfLine+"NB: Impact factors [IF] and citation number as reported on "+date()+" (source Google Scholar)"+endOfLine;
+    data = data+"Total citations = "+citationCount+" | h-index = "+hIndex+endOfLine+endOfLine;
    for (var i = 0; i < listeArticles.length; i++){
-        data = data +i+".  "+writeArticle(listeArticles[i])+endOfLine+endOfLine;
+        data = data +(i+1)+".  "+writeArticle(listeArticles[i])+endOfLine+endOfLine;
     }
 
     downloadFile(data, filename);
@@ -29,24 +28,34 @@ for (var i = 0; i < listAuthors.length; i++)
 
     }
 
-  aAfficher = aAfficher+article.title +". "+article.journal.title +", "+article.journal.year+";";
-    //il manque quelques données que je ne connais pas
+  aAfficher = aAfficher+article.title +". "+article.journal.title +", "+article.journal.year+"; ";
+  aAfficher = aAfficher+article.journal.volume+"("+article.journal.issue+"):" +article.pagination ;
   aAfficher = aAfficher+"(IF="+article.journal.impactFactor+"; "+article.citationCount+" citations).";
 return aAfficher;
 }
 
-function writeArticleBibTex(article){
-   var afficherBibTex = "@article"+endOfLine;
-
-   afficherBibTex=afficherBibTex+ "title={"+article.title+"},"+endOfLine;
-   afficherBibTex=afficherBibTex+ "author={},"+endOfLine;
-   afficherBibTex=afficherBibTex+ "journal={"+article.journal.title+"},"+endOfLine;
-   afficherBibTex=afficherBibTex+ "pages={},"+endOfLine;
-   afficherBibTex=afficherBibTex+ "year={"+article.journal.year+"},"+endOfLine;
-   afficherBibTex=afficherBibTex+ "publisher={},"+endOfLine;
-}
 
 function downloadFile (data, filename) {
     const blob = new Blob([data], {type: "text/plain;charset=utf-8"});
     FileSaver.saveAs(blob, filename);
+}
+
+
+function date()
+
+{
+     // les noms de mois
+     var mois = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+
+     // on recupere la date
+
+     var date = new Date();
+
+     // on construit le message
+
+     var message = mois[date.getMonth()] + " ";   // nom du mois
+     message += date.getDate() + "th, ";   // numero du jour
+     message += date.getFullYear();
+     return message;
+
 }

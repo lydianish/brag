@@ -9,15 +9,7 @@
                 <v-radio :label="option" :value="option" color=light ></v-radio>
             </v-radio-group>
             </v-list-tile>
-            <v-divider dark class="my-3"></v-divider>
-            <v-flex xs6>
-            <v-subheader>FILE FORMAT</v-subheader>
-            </v-flex>
-            <v-list-tile v-for="format in fileFormats" :key="format">
-            <v-radio-group v-model="fileFormat">
-                <v-radio :label="format" :value="format" color=light ></v-radio>
-            </v-radio-group>
-            </v-list-tile>
+            
         </v-list>
         <v-divider dark class="my-3"></v-divider>
         <v-layout justify-center="">
@@ -38,22 +30,41 @@
 
 <script>
 import {downloadBiblio} from '../utils'
+import {downloadBiblioBib} from '../utils'
 export default {
     name: 'NavBar',
     data: () => ({
       drawer: null,
-      citeOptions: ['MLA', 'APA', 'Chicago', 'Harvard', 'Vancouver'],
-      cite: 'MLA',
-      fileFormats: ['txt', 'PDF'],
-      fileFormat: 'txt'
+      citeOptions: ['MLA', 'APA', 'Vancouver','BibTex'],
+      cite: 'MLA'
     }),
     
     methods: {
       
       downloading: function () {
-        this.$store.dispatch('showInfo', 'Downloading publications in ' + this.cite + ' citation as ' + this.fileFormat + '.');
-        downloadBiblio(this.$store.state.searchTerm + ".txt", this.$store.state.articles, this.$store.state.hIndex, this.$store.state.citationGraph)
+        
+        switch (this.cite) {
+           case 'Vancouver':
+               this.$store.dispatch('showInfo', 'Downloading publications in ' + this.cite + ' citation' + '.');
+               downloadBiblio(this.$store.state.searchTerm + ".txt", this.$store.state.articles, this.$store.state.hIndex, this.$store.getters.citationCount)
+               break;
+               
+          case 'BibTex':
+               this.$store.dispatch('showInfo', 'Downloading publications in ' + this.cite + ' citation' + '.');
+               downloadBiblioBib(this.$store.state.searchTerm + ".txt", this.$store.state.articles, this.$store.state.hIndex, this.$store.getters.citationCount)
+               
+           
+               break;
+          
+          
+          
+        
+          default:
+    console.log('error of format');}
+        
       },
+      
+
 
       downloaded: function () {
         this.$store.dispatch('showSuccess', 'Publication list downloaded successfully!');

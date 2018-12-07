@@ -74,7 +74,7 @@ function transformArticle(articleInit) {
             month : safe(article.Journal.JournalIssue.PubDate.Month),
             impactFactor : impactFactor(safe(article.Journal.Title))
         },
-       pagination : safe(article.Pagination),
+       pagination : article.Pagination ? safe(article.Pagination.MedlinePgn) : '',
        authors : listeAuthorTransformed,
        citationCount: '',
         pmId : articleInit.MedlineCitation.PMID._text
