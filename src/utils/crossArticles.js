@@ -9,11 +9,15 @@ function articleCitationCount (article, listeArticleGs){
    var i = 0;
    var correspondance = false;
    while ((i<length)&&(!correspondance)) {
-      /*urlArticleGs = listeArticleGs[i].url;
-      if (urlArticleGs) {
-         correspondance = (urlArticlesGs.toLowerCase() === PUBMED_ARTICLE_URL+article.pmid).toLowerCase();
-      }*/
-      correspondance = listeArticleGs[i].title.toLocaleLowerCase().includes(article.title.toLocaleLowerCase());
+      if (Array.isArray(article.title)) {
+         correspondance = true;
+         for (const titlePart of article.title) {
+            correspondance = correspondance && listeArticleGs[i].title.toLocaleLowerCase().includes(titlePart.toLocaleLowerCase());
+         }
+      }
+      else {
+         correspondance = listeArticleGs[i].title.toLocaleLowerCase().includes(article.title.toLocaleLowerCase());
+      }
       i=i+1;
    }
    if (correspondance) {
@@ -22,6 +26,9 @@ function articleCitationCount (article, listeArticleGs){
    }
    else {
       article.citationCount = '';
+      article.title = article.title.reduce((accumulator, part) => {
+         return accumulator + part + ' ';
+     }, '');
    }
 }
 
