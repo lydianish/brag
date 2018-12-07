@@ -38,7 +38,7 @@ export async function searchAuthorGS (searchTerm) {
     catch(error) {
         throw String(error);
     }
-} 
+}
 
 function getQueryKey(res){
     return res.eSearchResult.QueryKey._text;
@@ -74,10 +74,9 @@ function transformArticle(articleInit) {
             month : safe(article.Journal.JournalIssue.PubDate.Month),
             impactFactor : impactFactor(safe(article.Journal.Title))
         },
-       pagination : article.Pagination ? safe(article.Pagination.MedlinePgn) : '',
+       pagination : safe(article.Pagination),
        authors : listeAuthorTransformed,
-       citationCount: '',
-        pmId : articleInit.MedlineCitation.PMID._text
+       citationCount: ''
     };
 };
 
