@@ -31,6 +31,7 @@
 <script>
 import {downloadBiblio} from '../utils'
 import {downloadBiblioBib} from '../utils'
+import {downloadBiblioMLA} from '../utils'
 export default {
     name: 'NavBar',
     data: () => ({
@@ -51,9 +52,14 @@ export default {
                
           case 'BibTex':
                this.$store.dispatch('showInfo', 'Downloading publications in ' + this.cite + ' citation' + '.');
-               downloadBiblioBib(this.$store.state.searchTerm + ".txt", this.$store.state.articles, this.$store.state.hIndex, this.$store.getters.citationCount)
+               downloadBiblioBib(this.$store.state.searchTerm + ".txt", this.$store.state.articles, this.$store.state.hIndex, this.$store.getters.citationCount,this.$store.getters.name)
                
            
+               break;
+               
+        case 'MLA':
+               this.$store.dispatch('showInfo', 'Downloading publications in ' + this.cite + ' citation' + '.');
+               downloadBiblioMLA(this.$store.state.searchTerm + ".txt", this.$store.state.articles, this.$store.state.hIndex, this.$store.getters.citationCount)
                break;
           
           
