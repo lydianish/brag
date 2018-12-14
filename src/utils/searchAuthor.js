@@ -101,11 +101,11 @@ function getTitle (articleTitle) {
                 if (fieldpart.slice(-1) == '.') {
                     fieldpart = fieldpart.slice(0, -1);
                 }
-                Array.prototype.push.apply(titleParts, fieldpart.split(/[\s-"()]/g));
+                Array.prototype.push.apply(titleParts, fieldpart.split(/[\s-:"()]/g));
             }
         }
         else if (typeof field === 'string') { //the _text field is not split into parts (this is the full title)
-            Array.prototype.push.apply(titleParts, field.slice(0, -1).split(/[\s-"()]/g));
+            Array.prototype.push.apply(titleParts, field.slice(0, -1).split(/[\s-:"()]/g));
         }
         else { //it is an Object, like i or sub elements
             if (Array.isArray(field._text)) {
@@ -113,7 +113,7 @@ function getTitle (articleTitle) {
                         if (fieldpart.slice(-1) == '.') {
                             fieldpart = fieldpart.slice(0, -1);
                         }
-                        Array.prototype.push.apply(titleParts, fieldpart.split(/[\s-_"()]/g));
+                        Array.prototype.push.apply(titleParts, fieldpart.split(/[\s-_:"()]/g));
                     }
                 }
                 else {
@@ -121,7 +121,7 @@ function getTitle (articleTitle) {
                     if (fieldpart.slice(-1) == '.') {
                         fieldpart = field._text.slice(0, -1);
                     }
-                    Array.prototype.push.apply(titleParts, fieldpart.split(/[\s-"()]/g));
+                    Array.prototype.push.apply(titleParts, fieldpart.split(/[\s-:"()]/g));
                 }
             }
     }
