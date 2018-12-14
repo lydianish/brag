@@ -7,10 +7,13 @@
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
-    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "test": "ava tests/*/*.js --verbose",
+    "ava": "ava --verbose"
   },
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
+    "ava": "^0.25.0",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "chart.js": "^2.7.3",
