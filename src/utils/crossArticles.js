@@ -1,30 +1,32 @@
+import { PUBMED_ARTICLE_URL} from '../utils';
 
-function croisementNombreCitationTitre(listeArticlePm,listeArticleGs)
-{listeArticlePm.map(article => nombreCitationArticle(article,listeArticleGs));
+export function crossArticleLists (listeArticlePm, listeArticleGs) {
+   listeArticlePm.map(article => articleCitationCount(article, listeArticleGs));
 }
 
-
-
-
-
-function nombreCitationArticleTitre(article,listeArticleGs){
-
-         var length=listeArticleGs.length;
-         var i = 0;
-         var correspondance = false;
-
-         while ((i<length)&&(!correspondance))
-
-             {  urlArticleGs = listeArticleGs[i].url;
-                correspondance = (urlArticlesGs === PUBMED_ARTICLE_URL+article.pmid);
-                i=i+1;  }
-
-         if (correspondance){article.citationCount = listeArticleGs[i-1].citationCount;
-                            article.title=listeArticleGs[i-1].title;
-                            }
-
-         else {article.citationCount = '';
-              }
-
-}
-
+function articleCitationCount (article, listeArticleGs){
+   var length=listeArticleGs.length;
+   var i = 0;
+   var correspondance = false;
+   while ((i<length)&&(!correspondance)) {
+      if (Array.isArray(article.title)) {
+         correspondance = true;
+         for (const titlePart of article.title) {
+            correspondance = correspondance && listeArticleGs[i].title.toLocaleLowerCase().includes(titlePart.toLocaleLowerCase());
+         }
+      }
+      else {
+         correspondance = listeArticleGs[i].title.toLocaleLowerCase().includes(article.title.toLocaleLowerCase());
+      }
+      i=i+1;
+   }
+   if (correspondance) {
+      article.citationCount = Number(listeArticleGs[i-1].citationCount);
+      article.title=listeArticleGs[i-1].title;
+   }
+   else {
+      article.citationCount = '';
+      article.title = article.title.reduce((accumulator, part) => {
+         return accumulator + part + ' ';
+     }, '');
+   }
