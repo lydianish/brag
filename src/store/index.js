@@ -13,6 +13,7 @@ const defaultState = () => {
         name: '',
         hIndex: 0,
         articles: [],
+        citationCount: 0,
         citationGraph: undefined,
         alert: {
             show: false,
@@ -60,15 +61,6 @@ const getters = {
         }
     },
 
-    citationCount: (state) => {
-        if (state.articles) {
-            return state.articles.reduce((accumulator, article) => {
-                return accumulator + Number(article.citationCount);
-            }, 0);
-        }
-        return 0;
-    },
-
     sort: (state) => {
         return sortArticles(state.articles, state.sortBy);
     }
@@ -97,6 +89,10 @@ const mutations = {
 
     setArticles: (state, articles) => {
         state.articles = articles;
+    },
+
+    setCitationCount: (state, citationCount) => {
+        state.citationCount = citationCount;
     },
 
     setCitationGraph: (state, citesPerYear) => {
@@ -147,6 +143,7 @@ const actions = {
             commit('setArticles', pm);
             commit('setName', gs.name)
             commit('setHIndex', gs.hIndex);
+            commit('setCitationCount', gs.citationCount);
             commit('setCitationGraph', gs.citesPerYear);
             dispatch('showSuccess', 'Search finished successfully!');
             dispatch('hideProgress');

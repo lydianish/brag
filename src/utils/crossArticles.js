@@ -30,7 +30,6 @@ function articleCitationCount (article, listeArticleGs){
      }, '');
      const gsArticle = listeArticleGs.find(function (a) {
          const words = a.title.split(/[\s-_:"().\u2026]/g);
-         console.log(words)
          return words.reduce((accumulator, word) => {
             return accumulator && article.title.toLocaleLowerCase().includes(word.toLocaleLowerCase());
         }, true);
