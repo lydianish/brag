@@ -29,7 +29,7 @@ function articleCitationCount (article, listeArticleGs){
          return accumulator + part + ' ';
      }, '');
      const gsArticle = listeArticleGs.find(function (a) {
-         const words = a.title.split(/[\s-_:"().\u2026]/g);
+         const words = a.title.split(/[\s-_:"().\u2026\u2013]/g);
          return words.reduce((accumulator, word) => {
             return accumulator && article.title.toLocaleLowerCase().includes(word.toLocaleLowerCase());
         }, true);
