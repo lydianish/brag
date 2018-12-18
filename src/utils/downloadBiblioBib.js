@@ -30,8 +30,11 @@ function writeArticleBib(refcode,article){
 
    message =message+"},"+endOfLine;
    message =message+  " journal={"+article.journal.title+"},"+endOfLine;
-   message =message+ " pages={"+article.pagination+"}"+endOfLine;
+   message =message+ " volume={"+article.journal.volume+"},"+endOfLine;
+   message =message+ " number={"+article.journal.issue+"},"+endOfLine;
+   message =message+ " pages={"+article.pagination+"},"+endOfLine;
    message =message+ " year={"+article.journal.year+"},"+endOfLine;
+   message =message+"}"+endOfLine;
     return message;
 }
 
