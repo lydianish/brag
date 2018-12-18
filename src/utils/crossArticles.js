@@ -30,5 +30,3 @@ function articleCitationCount (article, listeArticleGs){
          return accumulator + part + ' ';
      }, '');
    }
-}
-
