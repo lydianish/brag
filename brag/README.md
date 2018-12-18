@@ -14,11 +14,4 @@ npm install
 
 # faire tourner l'appli sur localhost:8080
 npm run dev
-
-# lancer tous les test unitaire
-npm test
-
-# lancer un fichier de tests unitaires
-npm run ava tests/example.js
-
 ```

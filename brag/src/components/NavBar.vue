@@ -9,7 +9,15 @@
                 <v-radio :label="option" :value="option" color=light ></v-radio>
             </v-radio-group>
             </v-list-tile>
-            
+            <v-divider dark class="my-3"></v-divider>
+            <v-flex xs6>
+            <v-subheader>FILE FORMAT</v-subheader>
+            </v-flex>
+            <v-list-tile v-for="format in fileFormats" :key="format">
+            <v-radio-group v-model="fileFormat">
+                <v-radio :label="format" :value="format" color=light ></v-radio>
+            </v-radio-group>
+            </v-list-tile>
         </v-list>
         <v-divider dark class="my-3"></v-divider>
         <v-layout justify-center="">
@@ -29,43 +37,23 @@
 </template>
 
 <script>
-import {downloadBiblioMLA, downloadBiblioVCV, downloadBiblioBib} from '../utils'
+import {downloadBiblio} from '../utils'
 export default {
     name: 'NavBar',
     data: () => ({
       drawer: null,
-      citeOptions: ['MLA', 'Vancouver','BibTex'],
-      cite: 'MLA'
+      citeOptions: ['MLA', 'APA', 'Chicago', 'Harvard', 'Vancouver'],
+      cite: 'MLA',
+      fileFormats: ['txt', 'PDF'],
+      fileFormat: 'txt'
     }),
     
     methods: {
       
       downloading: function () {
-        const filename = this.$store.state.searchTerm + ".txt";
-        const articles = this.$store.getters.sorted;
-        const refcode = this.$store.state.searchTerm.replace(/\s+/g,'');
-        switch (this.cite) {
-           case 'MLA':
-               this.$store.dispatch('showInfo', 'Downloading publications in ' + this.cite + ' citation' + '.');
-               downloadBiblioMLA(filename, articles, this.$store.state.hIndex, this.$store.state.citationCount);
-               break;
-           
-           case 'Vancouver':
-               this.$store.dispatch('showInfo', 'Downloading publications in ' + this.cite + ' citation' + '.');
-               downloadBiblioVCV(filename, articles, this.$store.state.hIndex, this.$store.state.citationCount);
-               break;
-               
-          case 'BibTex':
-               this.$store.dispatch('showInfo', 'Downloading publications in ' + this.cite + ' citation' + '.');
-               downloadBiblioBib(filename, articles, refcode);
-               break;
-
-          default:
-            this.$store.dispatch('showError', 'Undefined format.'); 
-        }
+        this.$store.dispatch('showInfo', 'Downloading publications in ' + this.cite + ' citation as ' + this.fileFormat + '.');
+        downloadBiblio(this.$store.state.searchTerm + ".txt")
       },
-      
-
 
       downloaded: function () {
         this.$store.dispatch('showSuccess', 'Publication list downloaded successfully!');

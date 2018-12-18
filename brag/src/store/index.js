@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { searchAuthorPM, searchAuthorGS, sortArticles, crossArticleLists,
-    ERROR_NO_PUBMED_RESULT, ERROR_NO_GOOGLE_SCHOLAR_RESULT } from '../utils';
+import { searchAuthorPM, searchAuthorGS, sortArticles, ERROR_NO_PUBMED_RESULT, ERROR_NO_GOOGLE_SCHOLAR_RESULT } from '../utils';
 
 Vue.use(Vuex)
 
@@ -13,7 +12,6 @@ const defaultState = () => {
         name: '',
         hIndex: 0,
         articles: [],
-        citationCount: 0,
         citationGraph: undefined,
         alert: {
             show: false,
@@ -61,7 +59,16 @@ const getters = {
         }
     },
 
-    sorted: (state) => {
+    citationCount: (state) => {
+        if (state.articles) {
+            return state.articles.reduce((accumulator, article) => {
+                return accumulator + article.citationCount;
+            }, 0);
+        }
+        return 0;
+    },
+
+    sort: (state) => {
         return sortArticles(state.articles, state.sortBy);
     }
 };
@@ -89,10 +96,6 @@ const mutations = {
 
     setArticles: (state, articles) => {
         state.articles = articles;
-    },
-
-    setCitationCount: (state, citationCount) => {
-        state.citationCount = citationCount;
     },
 
     setCitationGraph: (state, citesPerYear) => {
@@ -133,17 +136,14 @@ const actions = {
         commit('setSearchResultsFound', false);
         commit('setSearchDone', true);
         commit('setSearchTerm', searchTerm);
-        let pm, gs;
         try {
             dispatch('showProgress', 'Fetching results from PubMed');
-            pm = await searchAuthorPM(searchTerm);
-            dispatch('showProgress', 'Fetching results from Google Scholar');
-            gs = await searchAuthorGS(searchTerm);
-            crossArticleLists(pm, gs.articles);
+            const pm = await searchAuthorPM(searchTerm);
             commit('setArticles', pm);
+            dispatch('showProgress', 'Fetching results from Google Scholar');
+            const gs = await searchAuthorGS(searchTerm);
             commit('setName', gs.name)
             commit('setHIndex', gs.hIndex);
-            commit('setCitationCount', gs.citationCount);
             commit('setCitationGraph', gs.citesPerYear);
             dispatch('showSuccess', 'Search finished successfully!');
             dispatch('hideProgress');
@@ -155,8 +155,7 @@ const actions = {
                 commit('setArticles', []);
                 commit('setSearchResultsFound', false);
             }
-            else { //(err === ERROR_NO_GOOGLE_SCHOLAR_RESULT)
-                commit('setArticles', pm);
+            else if (err === ERROR_NO_GOOGLE_SCHOLAR_RESULT) {
                 commit('setName', '')
                 commit('setHIndex', 0);
                 commit('setCitationGraph', undefined);
