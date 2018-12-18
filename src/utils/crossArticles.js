@@ -5,14 +5,14 @@ export function crossArticleLists (listeArticlePm, listeArticleGs) {
 }
 
 function articleCitationCount (article, listeArticleGs){
-   var length=listeArticleGs.length;
-   var i = 0;
-   var correspondance = false;
+   const length = listeArticleGs.length;
+   let i = 0;
+   let correspondance = false;
    while ((i<length)&&(!correspondance)) {
       if (Array.isArray(article.title)) {
          correspondance = true;
-         for (const titlePart of article.title) {
-            correspondance = correspondance && listeArticleGs[i].title.toLocaleLowerCase().includes(titlePart.toLocaleLowerCase());
+         for (const word of article.title) {
+            correspondance = correspondance && listeArticleGs[i].title.toLocaleLowerCase().includes(word.toLocaleLowerCase());
          }
       }
       else {
@@ -25,9 +25,16 @@ function articleCitationCount (article, listeArticleGs){
       article.title=listeArticleGs[i-1].title;
    }
    else {
-      article.citationCount = '';
       article.title = article.title.reduce((accumulator, part) => {
          return accumulator + part + ' ';
      }, '');
+     const gsArticle = listeArticleGs.find(function (a) {
+         const words = a.title.split(/[\s-_:"().\u2026]/g);
+         console.log(words)
+         return words.reduce((accumulator, word) => {
+            return accumulator && article.title.toLocaleLowerCase().includes(word.toLocaleLowerCase());
+        }, true);
+     });
+     article.citationCount = gsArticle ? gsArticle.citationCount : '';
    }
 }
