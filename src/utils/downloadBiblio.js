@@ -2,7 +2,15 @@ import * as FileSaver from 'file-saver';
 
 const endOfLine = '\r\n';
 
-export function downloadBiblio (filename,articles,hIndex,citationCount) {
+export function downloadBiblioMLA (filename,articles,hIndex,citationCount) {
+    downloadBiblio(filename,articles,hIndex,citationCount,writeArticleMLA)
+}
+
+export function downloadBiblioVCV (filename,articles,hIndex,citationCount) {
+    downloadBiblio(filename,articles,hIndex,citationCount,writeArticleVCV)
+}
+
+function downloadBiblio (filename,articles,hIndex,citationCount, writeArticle) {
 
     var listeArticles = articles;
     var data = "Articles"+endOfLine+"NB: Impact factors [IF] and citation number as reported on "+date()+" (source Google Scholar)"+endOfLine;
@@ -10,12 +18,20 @@ export function downloadBiblio (filename,articles,hIndex,citationCount) {
    for (var i = 0; i < listeArticles.length; i++){
         data = data +(i+1)+".  "+writeArticle(listeArticles[i])+endOfLine+endOfLine;
     }
-
     downloadFile(data, filename);
 }
 
 
-function writeArticle (article)
+function writeArticleMLA (article)
+{
+var aAfficher = article.authors[0].lastName + ", " + article.authors[0].foreName + ", et al.";
+  aAfficher = aAfficher+' "'+article.title +'." '+article.journal.title +' ';
+  aAfficher = aAfficher+article.journal.volume+"."+article.journal.issue+" ("+article.journal.year+"): "+article.pagination;
+  aAfficher = aAfficher+"(IF="+article.journal.impactFactor+"; "+article.citationCount+" citations).";
+return aAfficher;
+}
+
+function writeArticleVCV (article)
 {
 var aAfficher = "";
 var listAuthors = article.authors;

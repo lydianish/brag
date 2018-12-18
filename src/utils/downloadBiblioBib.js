@@ -2,18 +2,13 @@ import * as FileSaver from 'file-saver';
 
 const endOfLine = '\r\n';
 
-export function downloadBiblioBib (filename,articles,hIndex,citationCount) {
+export function downloadBiblioBib (filename,articles,refcode) {
 
     var listeArticles = articles;
     var data = "";
 
-
-    /*
-    "Articles"+endOfLine+"NB: Impact factors [IF] and citation number as reported on "+date()+" (source Google Scholar)"+endOfLine;
-    data = data+"Total citations = "+citationCount+" | h-index = "+hIndex+endOfLine+endOfLine;*/
-
     for (var i = 0; i < listeArticles.length; i++){
-        data = data + writeArticleBib(listeArticles[i])+endOfLine+endOfLine;
+        data = data + writeArticleBib(refcode+(i+1),listeArticles[i])+endOfLine+endOfLine;
     }
 
     downloadFileBib(data, filename);
@@ -21,8 +16,8 @@ export function downloadBiblioBib (filename,articles,hIndex,citationCount) {
 
 
 
-function writeArticleBib(article){
-   var message = "@article{,"+endOfLine;
+function writeArticleBib(refcode,article){
+   var message = "@article{"+refcode+","+endOfLine;
 
    message = message +" title={"+article.title+"},"+endOfLine;
    message =message+ " author={";
@@ -37,11 +32,8 @@ function writeArticleBib(article){
    message =message+  " journal={"+article.journal.title+"},"+endOfLine;
    message =message+ " pages={"+article.pagination+"}"+endOfLine;
    message =message+ " year={"+article.journal.year+"},"+endOfLine;
-   message =message+ " publisher={},"+endOfLine+"}";
     return message;
 }
-
-function writeAuthorBib(article){}
 
 function downloadFileBib (data, filename) {
     const blob = new Blob([data], {type: "text/plain;charset=utf-8"});

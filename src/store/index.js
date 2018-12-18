@@ -61,7 +61,7 @@ const getters = {
         }
     },
 
-    sort: (state) => {
+    sorted: (state) => {
         return sortArticles(state.articles, state.sortBy);
     }
 };
