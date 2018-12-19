@@ -15,6 +15,12 @@ npm install
 # faire tourner l'appli sur localhost:8080
 npm run dev
 
+# créer l'application (production)
+npm run build
+
+# faire tourner l'appli sur localhost:8080 (production)
+npm run start
+
 # lancer tous les tests unitaires
 npm test
 
