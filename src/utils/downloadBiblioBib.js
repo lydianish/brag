@@ -2,6 +2,15 @@ import * as FileSaver from 'file-saver';
 
 const endOfLine = '\r\n';
 
+/** la fonction downloadBiblioBib permet le téléchargement du document de format BibTex détaillant la bibliographie de l'auteur
+*@param {string} filename - nom du fichier
+*@param {Object} articles - liste des articles
+*@param {Object} hIndex - h-index
+*@param {Object} citationCount - nombre de citations totales
+*@param {string} name - nom de l'auteur recherché
+*/
+
+
 export function downloadBiblioBib (filename,articles,hIndex,citationCount,name) {
 
     var listeArticles = articles;
@@ -20,7 +29,10 @@ export function downloadBiblioBib (filename,articles,hIndex,citationCount,name) 
 }
 
 
-
+/** la fonction writeArticleBib transforme le contenu d'un objet article pour pouvoir l'écrire dans un document texte.
+*@param {Object} article - object contenant les données sur un article
+*@returns {string} aAficher - chaine de caractères décrivant l'article dans le format BibTex
+*/
 function writeArticleBib(article){
    var message = "";
 
@@ -41,7 +53,7 @@ function writeArticleBib(article){
     return message;
 }
 
-function writeAuthorBib(article){}
+
 
 function downloadFileBib (data, filename) {
     const blob = new Blob([data], {type: "text/plain;charset=utf-8"});

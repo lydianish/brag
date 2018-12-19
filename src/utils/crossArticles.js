@@ -1,9 +1,18 @@
+/** la fonction croisementNombreCitationTitre permet d'ajouer les nombres de publication et les titres aux articles de la liste d'article PubMed
+*@param {Object} listeArticlePm - liste des publications tirées de PubMed
+*@param {Object} listeArticleGs - liste des publications tirées de Google Scholar
+
+*/
 
 function croisementNombreCitationTitre(listeArticlePm,listeArticleGs)
 {listeArticlePm.map(article => nombreCitationArticle(article,listeArticleGs));
 }
 
+/** la fonction  nombreCitationArticleTitre permet d'ajouer le nombre de publication et le titre d'un article PubMed. Ces informations sont issues de Google Scholar
+*@param {Object} listeArticlePm - liste des publications tirées de PubMed
+*@param {Object} listeArticleGs - liste des publications tirées de Google Scholar
 
+*/
 
 
 

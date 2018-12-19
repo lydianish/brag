@@ -1,3 +1,8 @@
+/** la fonction sortArticles trie les articles du paramètre articles en fonction du paramètre sortBy
+*/
+
+
+
 export function sortArticles (articles, sortBy) {
     const f = sortBy.field;
     const d = sortBy.descending;

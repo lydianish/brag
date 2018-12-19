@@ -2,6 +2,13 @@ import * as FileSaver from 'file-saver';
 
 const endOfLine = '\r\n';
 
+/** la fonction downloadBiblio permet le téléchargement du document de format Vancouver détaillant la bibliographie de l'auteur
+*@param {string} filename - nom du fichier
+*@param {Object} articles - liste des articles
+*@param {Object} hIndex - h-index
+*@param {Object} citationCount - nombre de citations totales
+*/
+
 export function downloadBiblio (filename,articles,hIndex,citationCount) {
 
     var listeArticles = articles;
@@ -14,6 +21,10 @@ export function downloadBiblio (filename,articles,hIndex,citationCount) {
     downloadFile(data, filename);
 }
 
+/** la fonction writeArticle transforme le contenu d'un objet article pour pouvoir l'écrire dans un document texte.
+*@param {Object} article - object contenant les données sur un article
+*@returns {string} aAficher - chaine de caractères décrivant l'article dans le format Vancouver
+*/
 
 function writeArticle (article)
 {
@@ -39,6 +50,11 @@ function downloadFile (data, filename) {
     const blob = new Blob([data], {type: "text/plain;charset=utf-8"});
     FileSaver.saveAs(blob, filename);
 }
+
+/** la fonction date donne la date du jour
+
+*@returns {string} date - la date du jour
+*/
 
 
 function date()
