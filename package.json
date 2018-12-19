@@ -10,7 +10,8 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
     "test": "ava tests/*/*.js --verbose",
     "ava": "ava --verbose",
-    "start": "node /dist/build.js"
+    "postinstall": "npm run build",
+    "start": "node server.js"
   },
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
@@ -46,7 +47,9 @@
     "babel-preset-stage-3": "^6.24.1",
     "cross-env": "^5.0.5",
     "css-loader": "^0.28.7",
+    "express": "^4.16.4",
     "file-loader": "^1.1.4",
+    "serve-static": "^1.13.2",
     "vue-loader": "^13.0.5",
     "vue-template-compiler": "^2.4.4",
     "webpack": "^3.6.0",
