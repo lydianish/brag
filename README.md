@@ -15,7 +15,7 @@ npm install
 # faire tourner l'appli sur localhost:8080
 npm run dev
 
-# lancer tous les test unitaire
+# lancer tous les tests unitaires
 npm test
 
 # lancer un fichier de tests unitaires
