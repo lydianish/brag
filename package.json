@@ -1,4 +1,9 @@
 {
+  "ava": {
+      "require": [
+        "esm"
+      ]
+  },
   "name": "brag",
   "description": "A tool for biomedical ranking",
   "version": "1.0.0",
@@ -19,6 +24,7 @@
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "chart.js": "^2.7.3",
+    "esm": "^3.0.84",
     "express": "^4.16.4",
     "fast-csv": "^2.4.1",
     "file-saver": "^2.0.0",
