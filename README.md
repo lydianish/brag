@@ -12,7 +12,7 @@ Cloner le [serveur BRAG](https://github.com/lydianish/brag-gs.git) et le faire t
 # installer les dépendances
 npm install
 
-# faire tourner l'appli sur localhost:8080
+# faire tourner l'appli sur localhost:8080 (développement)
 npm run dev
 
 # créer l'application (production)
