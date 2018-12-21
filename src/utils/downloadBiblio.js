@@ -22,7 +22,7 @@ function downloadBiblio (filename,articles,hIndex,citationCount, writeArticle) {
 }
 
 
-function writeArticleMLA (article)
+export function writeArticleMLA (article)
 {
 var aAfficher = article.authors[0].lastName + ", " + article.authors[0].foreName + ", et al.";
   aAfficher = aAfficher+' "'+article.title +'." '+article.journal.title +' ';
@@ -31,23 +31,19 @@ var aAfficher = article.authors[0].lastName + ", " + article.authors[0].foreName
 return aAfficher;
 }
 
-function writeArticleVCV (article)
+export function writeArticleVCV (article)
 {
-var aAfficher = "";
-var listAuthors = article.authors;
-for (var i = 0; i < listAuthors.length; i++)
-
-    {aAfficher = aAfficher+" "+listAuthors[i].lastName+" "+listAuthors[i].foreName[0];
-
-    if (i!=(listAuthors.length-1)){aAfficher = aAfficher+","; }
-    else {aAfficher = aAfficher+". ";}
-
-    }
-
-  aAfficher = aAfficher+article.title +". "+article.journal.title +", "+article.journal.year+"; ";
-  aAfficher = aAfficher+article.journal.volume+"("+article.journal.issue+"):" +article.pagination ;
-  aAfficher = aAfficher+"(IF="+article.journal.impactFactor+"; "+article.citationCount+" citations).";
-return aAfficher;
+    var aAfficher = "";
+    var listAuthors = article.authors;
+    for (var i = 0; i < listAuthors.length; i++){
+        aAfficher = aAfficher+" "+listAuthors[i].lastName+" "+listAuthors[i].foreName[0];
+        if (i!=(listAuthors.length-1)){aAfficher = aAfficher+","; }
+        else {aAfficher = aAfficher+". ";}
+        }
+    aAfficher = aAfficher+article.title +". "+article.journal.title +", "+article.journal.year+"; ";
+    aAfficher = aAfficher+article.journal.volume+"("+article.journal.issue+"):" +article.pagination ;
+    aAfficher = aAfficher+"(IF="+article.journal.impactFactor+"; "+article.citationCount+" citations).";
+    return aAfficher;
 }
 
 

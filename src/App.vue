@@ -31,6 +31,7 @@
           <!--MAIN APP CONTENT-->
 
     <v-content>
+      <welcome v-if="!$store.state.progress.show && !$store.state.searchResultsFound && !$store.state.searchDone"></welcome>
       <v-container fluid grid-list-md>
         <v-layout column>
           <v-flex>
@@ -81,6 +82,7 @@
   import NavBar from './components/NavBar.vue'
   import SearchBar from './components/SearchBar.vue'
   import SearchResult from './components/SearchResult.vue'
+  import Welcome from './components/Welcome.vue'
   import AuthorInfo from './components/AuthorInfo.vue'
   import Articles from './components/Articles.vue'
   import PublicationGraph from './components/PublicationGraph.vue'
@@ -101,6 +103,7 @@
       navbar: NavBar,
       searchbar: SearchBar,
       searchresult: SearchResult,
+      welcome: Welcome,
       authorinfo: AuthorInfo,
       articles: Articles,
       publicationgraph: PublicationGraph,

@@ -14,9 +14,7 @@ export function downloadBiblioBib (filename,articles,refcode) {
     downloadFileBib(data, filename);
 }
 
-
-
-function writeArticleBib(refcode,article){
+export function writeArticleBib(refcode,article){
    var message = "@article{"+refcode+","+endOfLine;
 
    message = message +" title={"+article.title+"},"+endOfLine;

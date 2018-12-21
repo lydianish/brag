@@ -54,7 +54,7 @@ const getters = {
             datasets: [
                 {
                     label: 'Number of publications',
-                    backgroundColor: '#BDBDBD',
+                    backgroundColor: '#4caf50',
                     data: Object.values(pubsPerYear)
                 }
             ]
@@ -102,7 +102,7 @@ const mutations = {
                 datasets: [
                     {
                         label: 'Number of citations',
-                        backgroundColor: '#BDBDBD',
+                        backgroundColor: '#2196f3',
                         data: Object.values(citesPerYear)
                     }
                 ]
@@ -139,6 +139,7 @@ const actions = {
             pm = await searchAuthorPM(searchTerm);
             dispatch('showProgress', 'Fetching results from Google Scholar');
             gs = await searchAuthorGS(searchTerm);
+            console.log(gs)
             crossArticleLists(pm, gs.articles);
             commit('setArticles', pm);
             commit('setName', gs.name)

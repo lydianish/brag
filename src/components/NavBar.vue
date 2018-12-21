@@ -41,7 +41,7 @@ export default {
     methods: {
       
       downloading: function () {
-        const filename = this.$store.state.searchTerm + ".txt";
+        const filename = this.$store.state.searchTerm + '_' + this.cite + ".txt";
         const articles = this.$store.getters.sorted;
         const refcode = this.$store.state.searchTerm.replace(/\s+/g,'');
         switch (this.cite) {
