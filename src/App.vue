@@ -29,9 +29,10 @@
     </v-toolbar>
   
           <!--MAIN APP CONTENT-->
-
-    <v-content>
-      <welcome v-if="!$store.state.progress.show && !$store.state.searchResultsFound && !$store.state.searchDone"></welcome>
+    <v-content v-if="!$store.state.progress.show && !$store.state.searchResultsFound && !$store.state.searchDone">
+      <welcome></welcome>
+    </v-content>
+    <v-content v-else>
       <v-container fluid grid-list-md>
         <v-layout column>
           <v-flex>
@@ -63,6 +64,16 @@
           </v-flex>
         </v-layout>
       </v-container>
+      <v-footer v-if="!$store.state.progress.show" color="secondary" height="auto">
+          <v-layout column>
+            <v-flex text-xs-center> 
+              <span class="caption"><a :href="pubmedNotice">NCBI's Disclaimer and Copyright Notice</a></span>
+            </v-flex>
+            <v-flex  text-xs-center> 
+              <span class="caption">Created our free logo at <a :href="logoMakr" color="black">LogoMakr.com</a></span>
+            </v-flex>
+          </v-layout>
+    </v-footer>
     </v-content>
 
           <!--ALERTS-->
@@ -74,7 +85,11 @@
         bottom
         >
           {{ $store.state.alert.message }}
-        </v-snackbar>
+      </v-snackbar>
+
+              <!--FOOTER-->
+
+    
   </v-app>
 </template>
 
@@ -92,7 +107,9 @@
     name: 'App',
     data: () => ({
       drawer: null,
-      timeout: 3000
+      timeout: 3000,
+      pubmedNotice: 'https://www.ncbi.nlm.nih.gov/home/about/policies/',
+      logoMakr: 'https://logomakr.com/'
     }),
 
     methods: {
@@ -107,7 +124,7 @@
       authorinfo: AuthorInfo,
       articles: Articles,
       publicationgraph: PublicationGraph,
-      citationgraph: CitationGraph
+      citationgraph: CitationGraph,
     }
   }
 </script>
