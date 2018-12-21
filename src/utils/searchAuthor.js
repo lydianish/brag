@@ -55,7 +55,7 @@ function transform(listeArticle) {
         return [transformArticle(listeArticle.PubmedArticleSet.PubmedArticle)];
 };
 
-function transformArticle(articleInit) {
+export function transformArticle(articleInit) {
     const article = articleInit.MedlineCitation.Article;
     const listeAuthor = article.AuthorList.Author;
     let listeAuthorTransformed;
@@ -80,12 +80,11 @@ function transformArticle(articleInit) {
     };
 };
 
-function transformAuthor(author) {
+export function transformAuthor(author) {
     return {
         lastName: safe(author.LastName),
         foreName: safe(author.ForeName),
-        initials: safe(author.Initials),
-        affiliation: []
+        initials: safe(author.Initials)
     };
 };
 
@@ -93,7 +92,7 @@ function safe (property) {
     return property ? property._text : '';
 };
 
-function getTitle (articleTitle) {
+export function getTitle (articleTitle) {
     let titleParts = [];
     for (let field of Object.values(articleTitle)) {
         if (Array.isArray(field)) { //the _text field is split into parts
@@ -104,7 +103,7 @@ function getTitle (articleTitle) {
                 Array.prototype.push.apply(titleParts, fieldpart.split(/[\s-_:"().\u2026]/g));
             }
         }
-        else if (typeof field === 'string') { //the _text field is not split into parts (this is the full title)
+        else if (typeof field === 'string') { // (this is the full title)
             Array.prototype.push.apply(titleParts, field.slice(0, -1).split(/[\s-_:"().\u2026]/g));
         }
         else { //it is an Object, like i or sub elements

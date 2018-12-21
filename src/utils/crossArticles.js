@@ -1,10 +1,8 @@
-import { PUBMED_ARTICLE_URL} from '../utils';
-
 export function crossArticleLists (listeArticlePm, listeArticleGs) {
    listeArticlePm.map(article => articleCitationCount(article, listeArticleGs));
 }
 
-function articleCitationCount (article, listeArticleGs){
+export function articleCitationCount (article, listeArticleGs){
    const length = listeArticleGs.length;
    let i = 0;
    let correspondance = false;
