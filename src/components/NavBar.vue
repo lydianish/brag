@@ -29,13 +29,7 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-import {downloadBiblio} from '../utils'
-import {downloadBiblioBib} from '../utils'
-import {downloadBiblioMLA} from '../utils'
-=======
 import {downloadBiblioMLA, downloadBiblioVCV, downloadBiblioBib} from '../utils'
->>>>>>> 867640683809336956a494877354a2db0f53933b
 export default {
     name: 'NavBar',
     data: () => ({
@@ -63,25 +57,9 @@ export default {
                
           case 'BibTex':
                this.$store.dispatch('showInfo', 'Downloading publications in ' + this.cite + ' citation' + '.');
-<<<<<<< HEAD
-               downloadBiblioBib(this.$store.state.searchTerm + ".txt", this.$store.state.articles, this.$store.state.hIndex, this.$store.getters.citationCount,this.$store.getters.name)
-               
-           
-               break;
-               
-        case 'MLA':
-               this.$store.dispatch('showInfo', 'Downloading publications in ' + this.cite + ' citation' + '.');
-               downloadBiblioMLA(this.$store.state.searchTerm + ".txt", this.$store.state.articles, this.$store.state.hIndex, this.$store.getters.citationCount)
-               break;
-          
-          
-          
-        
-=======
                downloadBiblioBib(filename, articles, refcode);
                break;
 
->>>>>>> 867640683809336956a494877354a2db0f53933b
           default:
             this.$store.dispatch('showError', 'Undefined format.'); 
         }

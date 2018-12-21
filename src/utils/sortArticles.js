@@ -2,9 +2,6 @@
 @param {Object} articles - liste d'articles
 @param {Object} sortBy
 */
-
-
-
 export function sortArticles (articles, sortBy) {
     const f = sortBy.field;
     const d = sortBy.descending;
