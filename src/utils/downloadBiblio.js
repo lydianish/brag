@@ -2,6 +2,16 @@ import * as FileSaver from 'file-saver';
 
 const endOfLine = '\r\n';
 
+<<<<<<< HEAD
+/** la fonction downloadBiblio permet le téléchargement du document de format Vancouver détaillant la bibliographie de l'auteur
+*@param {string} filename - nom du fichier
+*@param {Object} articles - liste des articles
+*@param {Object} hIndex - h-index
+*@param {Object} citationCount - nombre de citations totales
+*/
+
+export function downloadBiblio (filename,articles,hIndex,citationCount) {
+=======
 export function downloadBiblioMLA (filename,articles,hIndex,citationCount) {
     downloadBiblio(filename,articles,hIndex,citationCount,writeArticleMLA)
 }
@@ -11,6 +21,7 @@ export function downloadBiblioVCV (filename,articles,hIndex,citationCount) {
 }
 
 function downloadBiblio (filename,articles,hIndex,citationCount, writeArticle) {
+>>>>>>> 867640683809336956a494877354a2db0f53933b
 
     var listeArticles = articles;
     var data = "Articles"+endOfLine+"NB: Impact factors [IF] and citation number as reported on "+date()+" (source Google Scholar)"+endOfLine;
@@ -21,6 +32,10 @@ function downloadBiblio (filename,articles,hIndex,citationCount, writeArticle) {
     downloadFile(data, filename);
 }
 
+/** la fonction writeArticle transforme le contenu d'un objet article pour pouvoir l'écrire dans un document texte.
+*@param {Object} article - object contenant les données sur un article
+*@returns {string} aAficher - chaine de caractères décrivant l'article dans le format Vancouver
+*/
 
 export function writeArticleMLA (article)
 {
@@ -51,6 +66,11 @@ function downloadFile (data, filename) {
     const blob = new Blob([data], {type: "text/plain;charset=utf-8"});
     FileSaver.saveAs(blob, filename);
 }
+
+/** la fonction date donne la date du jour
+
+*@returns {string} date - la date du jour
+*/
 
 
 function date()
