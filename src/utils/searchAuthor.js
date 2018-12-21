@@ -48,7 +48,7 @@ export async function searchAuthorGS (searchTerm) {
     catch(error) {
         throw String(error);
     }
-}
+} 
 
 function getQueryKey(res){
     return res.eSearchResult.QueryKey._text;
@@ -72,6 +72,7 @@ function transform(listeArticle) {
         return [transformArticle(listeArticle.PubmedArticleSet.PubmedArticle)];
 };
 
+<<<<<<< HEAD
 /** la fonction transformArticle permet de transformer les données sur un article tirées de la recherche PubMeb en de nouvelles données sur l'article que que l'on exploitera. 
 *@param {Object} articleInit - données sur un article
 *@returns {Object} 
@@ -79,6 +80,9 @@ function transform(listeArticle) {
 
 
 function transformArticle(articleInit) {
+=======
+export function transformArticle(articleInit) {
+>>>>>>> 867640683809336956a494877354a2db0f53933b
     const article = articleInit.MedlineCitation.Article;
     const listeAuthor = article.AuthorList.Author;
     let listeAuthorTransformed;
@@ -87,8 +91,7 @@ function transformArticle(articleInit) {
     else
         listeAuthorTransformed = [transformAuthor(listeAuthor)];
     return {
-        title : Array.isArray(article.ArticleTitle._text) ? article.ArticleTitle._text.reduce((accumulator, partialTitle) => {
-            return accumulator + partialTitle; }, '').slice(0, -1) : article.ArticleTitle._text.slice(0, -1),
+        title : getTitle(article.ArticleTitle),
         journal : {
             title : safe(article.Journal.Title),
             volume : safe(article.Journal.JournalIssue.Volume),
@@ -100,10 +103,11 @@ function transformArticle(articleInit) {
        pagination : article.Pagination ? safe(article.Pagination.MedlinePgn) : '',
        authors : listeAuthorTransformed,
        citationCount: '',
-        pmId : articleInit.MedlineCitation.PMID._text
+       pmid : articleInit.MedlineCitation.PMID._text
     };
 };
 
+<<<<<<< HEAD
 /** la fonction transformAuthor permet de transformer les données sur un auteur tirées de la recherche PubMeb en de nouvelles données sur l'auteur que que l'on exploitera. 
 *@param {Object} author - données sur un auteur
 *@returns {Object} 
@@ -111,14 +115,54 @@ function transformArticle(articleInit) {
 
 
 function transformAuthor(author) {
+=======
+export function transformAuthor(author) {
+>>>>>>> 867640683809336956a494877354a2db0f53933b
     return {
         lastName: safe(author.LastName),
         foreName: safe(author.ForeName),
-        initials: safe(author.Initials),
-        affiliation: []
+        initials: safe(author.Initials)
     };
 };
 
 function safe (property) {
     return property ? property._text : '';
 };
+
+export function getTitle (articleTitle) {
+    let titleParts = [];
+    for (let field of Object.values(articleTitle)) {
+        if (Array.isArray(field)) { //the _text field is split into parts
+            for (let fieldpart of field) {
+                if (fieldpart.slice(-1) == '.') {
+                    fieldpart = fieldpart.slice(0, -1);
+                }
+                Array.prototype.push.apply(titleParts, fieldpart.split(/[\s-_:"().\u2026]/g));
+            }
+        }
+        else if (typeof field === 'string') { // (this is the full title)
+            Array.prototype.push.apply(titleParts, field.slice(0, -1).split(/[\s-_:"().\u2026]/g));
+        }
+        else { //it is an Object, like i or sub elements
+            if (Array.isArray(field._text)) {
+                    for (let fieldpart of field._text) {
+                        if (fieldpart.slice(-1) == '.') {
+                            fieldpart = fieldpart.slice(0, -1);
+                        }
+                        Array.prototype.push.apply(titleParts, fieldpart.split(/[\s-_:"().\u2026]/g));
+                    }
+                }
+                else {
+                    let fieldpart = field._text;
+                    if (fieldpart.slice(-1) == '.') {
+                        fieldpart = field._text.slice(0, -1);
+                    }
+                    Array.prototype.push.apply(titleParts, fieldpart.split(/[\s-_:"().\u2026]/g));
+                }
+            }
+    }
+    if (titleParts.length == 1)  {
+        return titleParts[0];
+    }
+    return titleParts;
+}

@@ -1,4 +1,9 @@
 {
+  "ava": {
+      "require": [
+        "esm"
+      ]
+  },
   "name": "brag",
   "description": "A tool for biomedical ranking",
   "version": "1.0.0",
@@ -7,13 +12,20 @@
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
-    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "test": "ava tests/*/*.js --verbose",
+    "ava": "ava --verbose",
+    "heroku-postbuild": "webpack -p",
+    "start": "node server.js"
   },
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
+    "ava": "^0.25.0",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "chart.js": "^2.7.3",
+    "esm": "^3.0.84",
+    "express": "^4.16.4",
     "fast-csv": "^2.4.1",
     "file-saver": "^2.0.0",
     "google-query": "^1.0.3",
@@ -43,6 +55,7 @@
     "cross-env": "^5.0.5",
     "css-loader": "^0.28.7",
     "file-loader": "^1.1.4",
+    "serve-static": "^1.13.2",
     "vue-loader": "^13.0.5",
     "vue-template-compiler": "^2.4.4",
     "webpack": "^3.6.0",

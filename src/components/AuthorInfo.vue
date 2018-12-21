@@ -23,7 +23,7 @@
                     </v-flex>
                     <v-flex sm4 xs12>
                         <v-card-text class="subheading font-weight-bold"> Citations : 
-                            <span class="accent--text">{{ $store.getters.citationCount }}</span>
+                            <span class="accent--text">{{ $store.state.citationCount }}</span>
                         </v-card-text>
                     </v-flex>
                 </v-layout>

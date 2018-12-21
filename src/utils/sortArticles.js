@@ -68,6 +68,6 @@ function compareNumbers (valA, valB) {
 }
 
 function compareStrings (valA, valB) {
-    return valA.toLowerCase().localeCompare(valB.toLowerCase());
+    return valA.toLocaleLowerCase().localeCompare(valB.toLocaleLowerCase());
 }
 

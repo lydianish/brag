@@ -29,29 +29,41 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import {downloadBiblio} from '../utils'
 import {downloadBiblioBib} from '../utils'
 import {downloadBiblioMLA} from '../utils'
+=======
+import {downloadBiblioMLA, downloadBiblioVCV, downloadBiblioBib} from '../utils'
+>>>>>>> 867640683809336956a494877354a2db0f53933b
 export default {
     name: 'NavBar',
     data: () => ({
       drawer: null,
-      citeOptions: ['MLA', 'APA', 'Vancouver','BibTex'],
+      citeOptions: ['MLA', 'Vancouver','BibTex'],
       cite: 'MLA'
     }),
     
     methods: {
       
       downloading: function () {
-        
+        const filename = this.$store.state.searchTerm + '_' + this.cite + ".txt";
+        const articles = this.$store.getters.sorted;
+        const refcode = this.$store.state.searchTerm.replace(/\s+/g,'');
         switch (this.cite) {
+           case 'MLA':
+               this.$store.dispatch('showInfo', 'Downloading publications in ' + this.cite + ' citation' + '.');
+               downloadBiblioMLA(filename, articles, this.$store.state.hIndex, this.$store.state.citationCount);
+               break;
+           
            case 'Vancouver':
                this.$store.dispatch('showInfo', 'Downloading publications in ' + this.cite + ' citation' + '.');
-               downloadBiblio(this.$store.state.searchTerm + ".txt", this.$store.state.articles, this.$store.state.hIndex, this.$store.getters.citationCount)
+               downloadBiblioVCV(filename, articles, this.$store.state.hIndex, this.$store.state.citationCount);
                break;
                
           case 'BibTex':
                this.$store.dispatch('showInfo', 'Downloading publications in ' + this.cite + ' citation' + '.');
+<<<<<<< HEAD
                downloadBiblioBib(this.$store.state.searchTerm + ".txt", this.$store.state.articles, this.$store.state.hIndex, this.$store.getters.citationCount,this.$store.getters.name)
                
            
@@ -65,9 +77,14 @@ export default {
           
           
         
+=======
+               downloadBiblioBib(filename, articles, refcode);
+               break;
+
+>>>>>>> 867640683809336956a494877354a2db0f53933b
           default:
-    console.log('error of format');}
-        
+            this.$store.dispatch('showError', 'Undefined format.'); 
+        }
       },
       
 
