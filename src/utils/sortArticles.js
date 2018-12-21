@@ -1,4 +1,6 @@
 /** la fonction sortArticles trie les articles du paramètre articles en fonction du paramètre sortBy
+@param {Object} articles - liste d'articles
+@param {Object} sortBy
 */
 
 
