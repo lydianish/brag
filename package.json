@@ -1,8 +1,8 @@
 {
   "ava": {
-      "require": [
-        "esm"
-      ]
+    "require": [
+      "esm"
+    ]
   },
   "name": "brag",
   "description": "A tool for biomedical ranking",
