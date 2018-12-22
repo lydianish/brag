@@ -27,4 +27,7 @@ npm test
 # lancer un fichier de tests unitaires
 npm run ava tests/example.js
 
+# générer la documentation (dans le répertoire jsdoc)
+npm run jsdoc
+
 ```

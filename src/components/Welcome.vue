@@ -11,7 +11,7 @@
             </v-flex>
             <v-flex class="pb-1 pt-3">
                 <v-icon color="grey">library_books</v-icon>
-                <span class="title font-weight-thin">Bibliography of an author in the biomedical field from PubMed and Google Scholar</span>
+                <span class="title font-weight-thin">List of articles published by an author in the biomedical field</span>
             </v-flex>
             <v-flex class="pb-1">
                 <v-icon medium color="grey">star</v-icon>
