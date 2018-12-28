@@ -1,6 +1,6 @@
 import * as axios from 'axios';
 import * as convert from 'xml-js';
-import { impactFactor, GOOGLE_SCHOLAR_URL, ERROR_NO_PUBMED_RESULT, ERROR_NO_GOOGLE_SCHOLAR_RESULT } from '../utils';
+import { impactFactor, GOOGLE_SCHOLAR_URL, ERROR_NO_PUBMED_RESULT, ERROR_NO_GOOGLE_SCHOLAR_RESULT, ERROR_FORBIDDEN_GOOGLE_SCHOLAR_ACCESS } from '../utils';
 
 
 
@@ -41,8 +41,11 @@ export async function searchAuthorGS (searchTerm) {
     const searchParams = '?name='+searchTerm.replace(/\s+/g,'+');
     try {
         const response = await axios.get(googleScholarUrl + searchParams);
-        if (response.data.error)
+        if (response.data.notFoundError) {
             throw ERROR_NO_GOOGLE_SCHOLAR_RESULT;
+        } else if (response.data.forbiddenError) {
+            throw ERROR_FORBIDDEN_GOOGLE_SCHOLAR_ACCESS;
+        }
         return response.data;
     }
     catch(error) {
