@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import { searchAuthorPM, searchAuthorGS, sortArticles, crossArticleLists,
-    ERROR_NO_PUBMED_RESULT, ERROR_NO_GOOGLE_SCHOLAR_RESULT } from '../utils';
+    ERROR_NO_PUBMED_RESULT } from '../utils';
 
 Vue.use(Vuex)
 
@@ -139,7 +139,6 @@ const actions = {
             pm = await searchAuthorPM(searchTerm);
             dispatch('showProgress', 'Fetching results from Google Scholar');
             gs = await searchAuthorGS(searchTerm);
-            console.log(gs)
             crossArticleLists(pm, gs.articles);
             commit('setArticles', pm);
             commit('setName', gs.name)
@@ -156,7 +155,7 @@ const actions = {
                 commit('setArticles', []);
                 commit('setSearchResultsFound', false);
             }
-            else { //(err === ERROR_NO_GOOGLE_SCHOLAR_RESULT)
+            else { //ERROR_NO_GOOGLE_SCHOLAR_RESULT or ERROR_FORBIDDEN_GOOGLE_SCHOLAR_ACCESS
                 commit('setArticles', pm);
                 commit('setName', '')
                 commit('setHIndex', 0);
