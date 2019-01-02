@@ -1,5 +1,5 @@
 import test from 'ava';
-import { articleCitationCount, splitTitle } from '../../src/utils/crossArticles';
+import { articleCitationCount, splitTitle, flattenTitle } from '../../src/utils/crossArticles';
 
 const gsArticles = [
   {
@@ -194,7 +194,7 @@ const article5 = { title:
  citationCount: '',
  pmid: '27190333' };
 
-const title5 = "APOL1-associated glomerular disease among African-American children: a collaboration of the Chronic Kidney Disease in Children (CKiD) and Nephrotic Syndrome Study Network (NEPTUNE) cohorts"
+const article5title = "APOL1-associated glomerular disease among African-American children: a collaboration of the Chronic Kidney Disease in Children (CKiD) and Nephrotic Syndrome Study Network (NEPTUNE) cohorts"
 
 test.before(t => {
     articleCitationCount(article1,gsArticles)
@@ -217,27 +217,27 @@ test('set the title of an article', t => {
     t.is(article2.title, gsArticles[1].title);
     t.is(article3.title, gsArticles[2].title);
     t.is(article4.title, gsArticles[3].title);
-    t.is(article5.title, title5);
+    t.is(article5.title, article5title);
 });
 
+const title1 = { 
+  i: { _text: 'NPHS2' },
+  _text: ' V260E Is a Frequent Cause of Steroid-Resistant Nephrotic Syndrome in Black South African Children.' 
+};
+const title2 = { 
+  _text: '23rd Nantes Actualités Transplantation: "Genomics and Immunogenetics of Kidney and Inflammatory Diseases - Lessons for Transplantation".' 
+};
+const title3 = { 
+  _text: 'Genetic screening of male patients with primary hypogammaglobulinemia can guide diagnosis and clinical management.' 
+};
+const title4 = { 
+  _text: 
+      [ 'Renal and Cardiovascular Morbidities Associated with ',
+      ' Status among African-American and Non-African-American Children with Focal Segmental Glomerulosclerosis.' ],
+ i: { _text: 'APOL1' } 
+};
+
 test('split PubMed article title', t => {
-  const title1 = { 
-      i: { _text: 'NPHS2' },
-      _text: ' V260E Is a Frequent Cause of Steroid-Resistant Nephrotic Syndrome in Black South African Children.' 
-  };
-  const title2 = { 
-      _text: '23rd Nantes Actualités Transplantation: "Genomics and Immunogenetics of Kidney and Inflammatory Diseases - Lessons for Transplantation".' 
-  };
-  const title3 = { 
-      _text: 'Genetic screening of male patients with primary hypogammaglobulinemia can guide diagnosis and clinical management.' 
-  };
-  const title4 = { 
-      _text: 
-          [ 'Renal and Cardiovascular Morbidities Associated with ',
-          ' Status among African-American and Non-African-American Children with Focal Segmental Glomerulosclerosis.' ],
-     i: { _text: 'APOL1' } 
-  };
-  
   t.deepEqual(splitTitle(title1), 
       [ 'NPHS2',
       '',
@@ -321,4 +321,9 @@ test('split PubMed article title', t => {
   );
 });
 
-test.todo('Flatten PubMed article title');
+test('Flatten PubMed article title', t => {
+  t.is(flattenTitle(title1), 'NPHS2 V260E Is a Frequent Cause of Steroid-Resistant Nephrotic Syndrome in Black South African Children');
+  t.is(flattenTitle(title2), '23rd Nantes Actualités Transplantation: "Genomics and Immunogenetics of Kidney and Inflammatory Diseases - Lessons for Transplantation"');
+  t.is(flattenTitle(title3), 'Genetic screening of male patients with primary hypogammaglobulinemia can guide diagnosis and clinical management');
+  t.is(flattenTitle(title4), 'Renal and Cardiovascular Morbidities Associated with APOL1 Status among African-American and Non-African-American Children with Focal Segmental Glomerulosclerosis');
+});
