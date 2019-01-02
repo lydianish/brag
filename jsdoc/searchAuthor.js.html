@@ -113,7 +113,7 @@ export function transformArticle(articleInit) {
     else
         listeAuthorTransformed = [transformAuthor(listeAuthor)];
     return {
-        title : getTitle(article.ArticleTitle),
+        title : splitTitle(article.ArticleTitle),
         journal : {
             title : safe(article.Journal.Title),
             volume : safe(article.Journal.JournalIssue.Volume),
@@ -145,7 +145,7 @@ function safe (property) {
     return property ? property._text : '';
 };
 
-export function getTitle (articleTitle) {
+export function splitTitle (articleTitle) {
     let titleParts = [];
     for (let field of Object.values(articleTitle)) {
         if (Array.isArray(field)) { //the _text field is split into parts

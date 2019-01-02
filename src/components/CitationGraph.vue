@@ -1,6 +1,6 @@
 <template>
     <div 
-    v-if="$store.state.searchResultsFound"
+    v-if="$store.state.searchResultsFound && $store.state.citationGraph"
     class="ma-3">
         <span class="title">Citations</span>
         <graph :data="$store.state.citationGraph"/>

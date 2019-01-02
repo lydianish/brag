@@ -1,5 +1,5 @@
 import test from 'ava';
-import { articleCitationCount, getTitle } from '../../src/utils/crossArticles';
+import { articleCitationCount, splitTitle } from '../../src/utils/crossArticles';
 
 const gsArticles = [
   {
@@ -29,25 +29,9 @@ const gsArticles = [
   }
 ];
 const article1 = { title: 
-  [ 'APOL1',
-    'nephropathy',
-    'risk',
-    'variants',
-    'do',
-    'not',
-    'associate',
-    'with',
-    'subclinical',
-    'atherosclerosis',
-    'or',
-    'left',
-    'ventricular',
-    'mass',
-    'in',
-    'middle',
-    'aged',
-    'black',
-    'adults' ],
+  {
+    "_text": "APOL1 nephropathy risk variants do not associate with subclinical atherosclerosis or left ventricular mass in middle-aged black adults."
+  },
  journal: 
   { title: 'Kidney international',
     volume: '93',
@@ -72,23 +56,9 @@ const article1 = { title:
  citationCount: '',
  pmid: '29042080' };
 const article2 = { title: 
-  [ 'DRAM',
-    'triggers',
-    'lysosomal',
-    'membrane',
-    'permeabilization',
-    'and',
-    'cell',
-    'death',
-    'in',
-    'CD4',
-    '+',
-    '',
-    'T',
-    'cells',
-    'infected',
-    'with',
-    'HIV' ],
+  {
+    "_text": "DRAM triggers lysosomal membrane permeabilization and cell death in CD4(+) T cells infected with HIV."
+  },
  journal: 
   { title: 'PLoS pathogens',
     volume: '9',
@@ -111,24 +81,9 @@ const article2 = { title:
  citationCount: '',
  pmid: '23658518' };
 const article3 = { title: 
-  [ 'Screening',
-    'low',
-    'frequency',
-    'SNPS',
-    'from',
-    'genome',
-    'wide',
-    'association',
-    'study',
-    'reveals',
-    'a',
-    'new',
-    'risk',
-    'allele',
-    'for',
-    'progression',
-    'to',
-    'AIDS' ],
+  {
+    "_text": "Screening low-frequency SNPS from genome-wide association study reveals a new risk allele for progression to AIDS."
+  },
  journal: 
   { title: 'Journal of acquired immune deficiency syndromes (1999)',
     volume: '56',
@@ -168,28 +123,15 @@ const article3 = { title:
  citationCount: '',
  pmid: '21107268' };
 const article4 = { title: 
-  [ 'Renal',
-    'and',
-    'Cardiovascular',
-    'Morbidities',
-    'Associated',
-    'with',
-    '',
-    '',
-    'Status',
-    'among',
-    'African',
-    'American',
-    'and',
-    'Non',
-    'African',
-    'American',
-    'Children',
-    'with',
-    'Focal',
-    'Segmental',
-    'Glomerulosclerosis',
-    'APOL1' ],
+  {
+    "_text": [
+        "Renal and Cardiovascular Morbidities Associated with ",
+        " Status among African-American and Non-African-American Children with Focal Segmental Glomerulosclerosis."
+    ],
+    "i": {
+        "_text": "APOL1"
+    }
+  },
  journal: 
   { title: 'Frontiers in pediatrics',
     volume: '4',
@@ -213,37 +155,10 @@ const article4 = { title:
     { lastName: 'Kaskel', foreName: 'Frederick J', initials: 'FJ' } ],
  citationCount: '',
  pmid: '27900314' };
-const title5 = [ 'APOL1',
-'associated',
-'glomerular',
-'disease',
-'among',
-'African',
-'American',
-'children',
-'',
-'a',
-'collaboration',
-'of',
-'the',
-'Chronic',
-'Kidney',
-'Disease',
-'in',
-'Children',
-'',
-'CKiD',
-'',
-'and',
-'Nephrotic',
-'Syndrome',
-'Study',
-'Network',
-'',
-'NEPTUNE',
-'',
-'cohorts' ];
-const article5 = { title: title5,
+const article5 = { title: 
+  {
+    "_text": "APOL1-associated glomerular disease among African-American children: a collaboration of the Chronic Kidney Disease in Children (CKiD) and Nephrotic Syndrome Study Network (NEPTUNE) cohorts."
+  },
  journal: 
   { title: 'Nephrology, dialysis, transplantation : official publication of the European Dialysis and Transplant Association - European Renal Association',
     volume: '32',
@@ -279,6 +194,8 @@ const article5 = { title: title5,
  citationCount: '',
  pmid: '27190333' };
 
+const title5 = "APOL1-associated glomerular disease among African-American children: a collaboration of the Chronic Kidney Disease in Children (CKiD) and Nephrotic Syndrome Study Network (NEPTUNE) cohorts"
+
 test.before(t => {
     articleCitationCount(article1,gsArticles)
     articleCitationCount(article2,gsArticles)
@@ -300,10 +217,7 @@ test('set the title of an article', t => {
     t.is(article2.title, gsArticles[1].title);
     t.is(article3.title, gsArticles[2].title);
     t.is(article4.title, gsArticles[3].title);
-    t.is(article5.title, title5.reduce((accumulator, part) => {
-            return accumulator + part + ' ';
-        }, '')
-    );
+    t.is(article5.title, title5);
 });
 
 test('split PubMed article title', t => {
@@ -324,7 +238,7 @@ test('split PubMed article title', t => {
      i: { _text: 'APOL1' } 
   };
   
-  t.deepEqual(getTitle(title1), 
+  t.deepEqual(splitTitle(title1), 
       [ 'NPHS2',
       '',
       'V260E',
@@ -343,7 +257,7 @@ test('split PubMed article title', t => {
       'African',
       'Children' ]
   );
-  t.deepEqual(getTitle(title2), 
+  t.deepEqual(splitTitle(title2), 
       [ '23rd',
       'Nantes',
       'Actualités',
@@ -365,7 +279,7 @@ test('split PubMed article title', t => {
       'Transplantation',
       '' ]
   );
-  t.deepEqual(getTitle(title3), 
+  t.deepEqual(splitTitle(title3), 
       [ 'Genetic',
       'screening',
       'of',
@@ -381,7 +295,7 @@ test('split PubMed article title', t => {
       'clinical',
       'management' ]
   );
-  t.deepEqual(getTitle(title4), 
+  t.deepEqual(splitTitle(title4), 
       [ 'Renal',
       'and',
       'Cardiovascular',

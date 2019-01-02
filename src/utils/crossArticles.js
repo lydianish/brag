@@ -15,15 +15,16 @@ export function articleCitationCount (article, listeArticleGs){
    const length = listeArticleGs.length;
    let i = 0;
    let correspondance = false;
+   const titleWords = splitTitle(article.title);
    while ((i<length)&&(!correspondance)) {
-      if (Array.isArray(article.title)) {
+      if (Array.isArray(titleWords)) {
          correspondance = true;
-         for (const word of article.title) {
+         for (const word of titleWords) {
             correspondance = correspondance && listeArticleGs[i].title.toLocaleLowerCase().includes(word.toLocaleLowerCase());
          }
       }
       else {
-         correspondance = listeArticleGs[i].title.toLocaleLowerCase().includes(article.title.toLocaleLowerCase());
+         correspondance = listeArticleGs[i].title.toLocaleLowerCase().includes(titleWords.toLocaleLowerCase());
       }
       i=i+1;
    }
@@ -32,12 +33,10 @@ export function articleCitationCount (article, listeArticleGs){
       article.title=listeArticleGs[i-1].title;
    }
    else {
-      article.title = article.title.reduce((accumulator, part) => {
-         return accumulator + part + ' ';
-     }, '');
-     const gsArticle = listeArticleGs.find(function (a) {
-         const words = a.title.split(/[\s-_:"().\u2026\u2013]/g);
-         return words.reduce((accumulator, word) => {
+    article.title = flattenTitle(article.title);
+    const gsArticle = listeArticleGs.find(function (a) {
+        const words = a.title.split(/[\s-_:"().\u2026\u2013]/g);
+        return words.reduce((accumulator, word) => {
             return accumulator && article.title.toLocaleLowerCase().includes(word.toLocaleLowerCase());
         }, true);
      });
@@ -45,7 +44,11 @@ export function articleCitationCount (article, listeArticleGs){
    }
 }
 
-export function getTitle (articleTitle) {
+export function flattenPMArticles (listeArticlePm) {
+    listeArticlePm.map(article => article.title = flattenTitle(article.title));
+}
+
+export function splitTitle (articleTitle) {
    let titleParts = [];
    for (let field of Object.values(articleTitle)) {
        if (Array.isArray(field)) { //the _text field is split into parts
@@ -57,7 +60,10 @@ export function getTitle (articleTitle) {
            }
        }
        else if (typeof field === 'string') { // (this is the full title)
-           Array.prototype.push.apply(titleParts, field.slice(0, -1).split(/[\s-_:"().\u2026]/g));
+        if (field.slice(-1) == '.') {  
+            field = field.slice(0, -1);
+        }
+        Array.prototype.push.apply(titleParts, field.split(/[\s-_:"().\u2026]/g));
        }
        else { //it is an Object, like i or sub elements
            if (Array.isArray(field._text)) {
@@ -81,4 +87,44 @@ export function getTitle (articleTitle) {
        return titleParts[0];
    }
    return titleParts;
+}
+
+export function flattenTitle (articleTitle) {
+    let titleParts = [];
+   for (let field of Object.values(articleTitle)) {
+       if (Array.isArray(field)) { //the _text field is split into parts
+           for (let fieldpart of field) {
+               if (fieldpart.slice(-1) == '.') {
+                   fieldpart = fieldpart.slice(0, -1);
+               }
+               titleParts.push(fieldpart);
+           }
+       }
+       else if (typeof field === 'string') { // (this is the full title)
+        if (field.slice(-1) == '.') {  
+            field = field.slice(0, -1);
+        }   
+        titleParts.push(field);
+       }
+       else { //it is an Object, like i or sub elements
+           if (Array.isArray(field._text)) {
+                   for (let fieldpart of field._text) {
+                       if (fieldpart.slice(-1) == '.') {
+                           fieldpart = fieldpart.slice(0, -1);
+                       }
+                       titleParts.push(fieldpart);
+                   }
+               }
+               else {
+                   let fieldpart = field._text;
+                   if (fieldpart.slice(-1) == '.') {
+                       fieldpart = field._text.slice(0, -1);
+                   }
+                   titleParts.push(fieldpart);
+               }
+           }
+   }
+   return titleParts.reduce((accumulator, part) => {
+        return accumulator + part;
+    }, ''); 
 }

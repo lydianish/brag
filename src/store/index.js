@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { searchAuthorPM, searchAuthorGS, sortArticles, crossArticleLists,
+import { searchAuthorPM, searchAuthorGS, sortArticles, crossArticleLists, flattenPMArticles,
     ERROR_NO_PUBMED_RESULT } from '../utils';
 
 Vue.use(Vuex)
@@ -155,10 +155,12 @@ const actions = {
                 commit('setArticles', []);
                 commit('setSearchResultsFound', false);
             }
-            else { //ERROR_NO_GOOGLE_SCHOLAR_RESULT or ERROR_FORBIDDEN_GOOGLE_SCHOLAR_ACCESS
+            else { //ERROR_NO_GOOGLE_SCHOLAR_RESULT or ERROR_FORBIDDEN_GOOGLE_SCHOLAR_ACCESS or NETWORK ERROR 
+                flattenPMArticles(pm);
                 commit('setArticles', pm);
-                commit('setName', '')
-                commit('setHIndex', 0);
+                commit('setName', 'No Google Scholar results...');
+                commit('setHIndex', '-');
+                commit('setCitationCount', '-');
                 commit('setCitationGraph', undefined);
                 commit('setSearchResultsFound', true);
             }
