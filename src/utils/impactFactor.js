@@ -1,12 +1,15 @@
 import { journals } from '../assets/journals';
 
-/** la fonction impactFactor donne l'impact factor du journal en argument
-*@param {string} journalTitle - nom du journal
-*@returns {string} impact factor
+
+/**
+ * @fileOverview Définition de la méthode utilisée pour déterminer l'impact factor d'un journal.
 */
 
-
-
+/** 
+ * donne l'impact factor d'un journal en cherchant son nom dans la liste prédéfinie.
+ * @param {string} journalTitle nom du journal
+ * @returns {number} l'impact factor du journal
+*/
 export function impactFactor (journalTitle) {
     if (journalTitle) {
         let res = journals.find( function (j) {

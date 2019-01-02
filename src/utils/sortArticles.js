@@ -1,6 +1,14 @@
-/** la fonction sortArticles trie les articles du paramètre articles en fonction du paramètre sortBy
-@param {Object} articles - liste d'articles
-@param {Object} sortBy
+
+/**
+ * @fileOverview Définition des méthodes utilisées pour trier la liste d'articles.
+*/
+
+/**
+ * trie les articles du paramètre articles en fonction du paramètre sortBy
+ * @param {Array} articles la liste d'articles
+ * @param {Object} sortBy objet décrivant l'attribut et l'ordre selon lequel trier
+ * @returns {Array} la liste triée
+ * @example const sortedArticles = sortArticles (articles, {field: 'title', descending: 'true'});
 */
 export function sortArticles (articles, sortBy) {
     const f = sortBy.field;
@@ -60,10 +68,22 @@ function compareCites (a, b) {
     return compareNumbers(valA, valB);
 }
 
+/**
+ * compare deux nombres
+ * @param {number} valA le premier nombre
+ * @param {number} valB le deuxieme nombre
+ * @returns {number} 0 si valA = valB, un nombre négatif si valA < valB, un nombre positif si valA > valB
+ */
 function compareNumbers (valA, valB) {
     return valA - valB;
 }
 
+/**
+ * compare deux chaines de caractères selon l'ordre lexicographique en ignorant la casse.
+ * @param {string} valA la première chaine de caractères
+ * @param {string} valB la deuxième chaine de caractères
+ * @returns {number} 0 si valA = valB, un nombre négatif si valA < valB, un nombre positif si valA > valB
+ */
 function compareStrings (valA, valB) {
     return valA.toLocaleLowerCase().localeCompare(valB.toLocaleLowerCase());
 }

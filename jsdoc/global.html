@@ -112,7 +112,7 @@
 
 
 <div class="description">
-    la fonction  articleCitationCount permet d'ajouer le nombre de publication et le titre d'un article PubMed.Ces informations sont issues de Google Scholar
+    ajoute le nombre de citations et le titre à un article PubMed.Ces informations sont issues de Google Scholar.
 </div>
 
 
@@ -228,7 +228,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="crossArticles.js.html">crossArticles.js</a>, <a href="crossArticles.js.html#line14">line 14</a>
+        <a href="crossArticles.js.html">crossArticles.js</a>, <a href="crossArticles.js.html#line20">line 20</a>
     </li></ul></dd>
     
 
@@ -262,6 +262,366 @@
     
 
     
+    <h4 class="name" id="compareNumbers"><span class="type-signature"></span>compareNumbers<span class="signature">(valA, valB)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    compare deux nombres
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>valA</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">le premier nombre</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>valB</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">le deuxieme nombre</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="sortArticles.js.html">sortArticles.js</a>, <a href="sortArticles.js.html#line77">line 77</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    0 si valA = valB, un nombre négatif si valA < valB, un nombre positif si valA > valB
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="compareStrings"><span class="type-signature"></span>compareStrings<span class="signature">(valA, valB)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    compare deux chaines de caractères selon l'ordre lexicographique en ignorant la casse.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>valA</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">la première chaine de caractères</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>valB</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">la deuxième chaine de caractères</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="sortArticles.js.html">sortArticles.js</a>, <a href="sortArticles.js.html#line87">line 87</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    0 si valA = valB, un nombre négatif si valA < valB, un nombre positif si valA > valB
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="crossArticleLists"><span class="type-signature"></span>crossArticleLists<span class="signature">(listeArticlePm, listeArticleGs)</span><span class="type-signature"></span></h4>
     
 
@@ -270,7 +630,7 @@
 
 
 <div class="description">
-    la fonction crossArticleLists permet d'ajouter les nombres de citation et les titres aux articles de la liste d'article PubMed
+    ajoute le nombre de citations et les titres aux articles de la liste d'articles PubMed.
 </div>
 
 
@@ -386,7 +746,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="crossArticles.js.html">crossArticles.js</a>, <a href="crossArticles.js.html#line5">line 5</a>
+        <a href="crossArticles.js.html">crossArticles.js</a>, <a href="crossArticles.js.html#line10">line 10</a>
     </li></ul></dd>
     
 
@@ -428,7 +788,7 @@
 
 
 <div class="description">
-    la fonction date donne la date du jour
+    donne la date du jour
 </div>
 
 
@@ -472,7 +832,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="downloadBiblio.js.html">downloadBiblio.js</a>, <a href="downloadBiblio.js.html#line77">line 77</a>
+        <a href="downloadBiblio.js.html">downloadBiblio.js</a>, <a href="downloadBiblio.js.html#line87">line 87</a>
     </li></ul></dd>
     
 
@@ -499,7 +859,7 @@
 
         
 <div class="param-desc">
-    date - la date du jour
+    la date du jour
 </div>
 
 
@@ -521,6 +881,238 @@
 
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>December 21st, 2018</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="downloadBiblio"><span class="type-signature"></span>downloadBiblio<span class="signature">(filename, articles, hIndex, citationCount, writeArticle)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    télécharge le document texte citant les articles de l'auteur au format donné.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>filename</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">nom du fichier</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>articles</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">liste des articles</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>hIndex</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">h-index</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>citationCount</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">nombre de citations totales</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>writeArticle</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">fonction qui écrit un article selon un convention de citation</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="downloadBiblio.js.html">downloadBiblio.js</a>, <a href="downloadBiblio.js.html#line37">line 37</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         
             
@@ -536,7 +1128,7 @@
 
 
 <div class="description">
-    la fonction downloadBiblioBib permet le téléchargement du document de format BibTex détaillant la bibliographie de l'auteur
+    télécharge le document texte citant les articles de l'auteur au format BibTex.
 </div>
 
 
@@ -675,7 +1267,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="downloadBiblioBib.js.html">downloadBiblioBib.js</a>, <a href="downloadBiblioBib.js.html#line10">line 10</a>
+        <a href="downloadBiblioBib.js.html">downloadBiblioBib.js</a>, <a href="downloadBiblioBib.js.html#line13">line 13</a>
     </li></ul></dd>
     
 
@@ -717,7 +1309,7 @@
 
 
 <div class="description">
-    la fonction downloadBiblioMLA permet le téléchargement du document de format MLA détaillant la bibliographie de l'auteur
+    télécharge le document texte citant les articles de l'auteu format MLA.
 </div>
 
 
@@ -782,7 +1374,7 @@
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">Array</span>
 
 
             
@@ -805,7 +1397,7 @@
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">number</span>
 
 
             
@@ -828,7 +1420,7 @@
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">number</span>
 
 
             
@@ -879,7 +1471,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="downloadBiblio.js.html">downloadBiblio.js</a>, <a href="downloadBiblio.js.html#line11">line 11</a>
+        <a href="downloadBiblio.js.html">downloadBiblio.js</a>, <a href="downloadBiblio.js.html#line14">line 14</a>
     </li></ul></dd>
     
 
@@ -921,7 +1513,7 @@
 
 
 <div class="description">
-    la fonction downloadBiblioVCV permet le téléchargement du document de format Vancouver détaillant la bibliographie de l'auteur
+    télécharge le document texte citant les articles de l'auteur au format Vancouver.
 </div>
 
 
@@ -986,7 +1578,7 @@
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">Array</span>
 
 
             
@@ -1009,7 +1601,7 @@
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">number</span>
 
 
             
@@ -1032,7 +1624,7 @@
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">number</span>
 
 
             
@@ -1083,7 +1675,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="downloadBiblio.js.html">downloadBiblio.js</a>, <a href="downloadBiblio.js.html#line21">line 21</a>
+        <a href="downloadBiblio.js.html">downloadBiblio.js</a>, <a href="downloadBiblio.js.html#line25">line 25</a>
     </li></ul></dd>
     
 
@@ -1117,7 +1709,7 @@
     
 
     
-    <h4 class="name" id="impactFactor"><span class="type-signature"></span>impactFactor<span class="signature">(journalTitle)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id="downloadFile"><span class="type-signature"></span>downloadFile<span class="signature">(data, filename)</span><span class="type-signature"></span></h4>
     
 
     
@@ -1125,7 +1717,322 @@
 
 
 <div class="description">
-    la fonction impactFactor donne l'impact factor du journal en argument
+    écrit et télécharge un fichier texte.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">le contenu du fichier</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>filename</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">le nom du fichier</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="downloadFile.js.html">downloadFile.js</a>, <a href="downloadFile.js.html#line12">line 12</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="flattenTitle"><span class="type-signature"></span>flattenTitle<span class="signature">(articleTitle)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    regroupe les parties d'un titre PubMed en une seule chaine de caractères.Attention : l'ordre des parties dans l'objet ne donne pas forcément le vrai titre !
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>articleTitle</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">le titre issu de PubMed</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="crossArticles.js.html">crossArticles.js</a>, <a href="crossArticles.js.html#line97">line 97</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    le titre résultant de la concaténation des parties
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="impactFactor"><span class="type-signature"></span>impactFactor<span class="signature">(journalTitle)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    donne l'impact factor d'un journal en cherchant son nom dans la liste prédéfinie.
 </div>
 
 
@@ -1218,7 +2125,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="impactFactor.js.html">impactFactor.js</a>, <a href="impactFactor.js.html#line10">line 10</a>
+        <a href="impactFactor.js.html">impactFactor.js</a>, <a href="impactFactor.js.html#line13">line 13</a>
     </li></ul></dd>
     
 
@@ -1245,7 +2152,7 @@
 
         
 <div class="param-desc">
-    impact factor
+    l'impact factor du journal
 </div>
 
 
@@ -1256,7 +2163,7 @@
     </dt>
     <dd>
         
-<span class="param-type">string</span>
+<span class="param-type">number</span>
 
 
     </dd>
@@ -1282,7 +2189,7 @@
 
 
 <div class="description">
-    la fonction searchAuthorGS permet de récupérer les informations interessantes relatives à la recherche de searchTerm dans Google Scholar.
+    récupère les informations interessantes relatives à la recherche de searchTerm dans Google Scholar.
 </div>
 
 
@@ -1375,7 +2282,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="searchAuthor.js.html">searchAuthor.js</a>, <a href="searchAuthor.js.html#line39">line 39</a>
+        <a href="searchAuthor.js.html">searchAuthor.js</a>, <a href="searchAuthor.js.html#line44">line 44</a>
     </li></ul></dd>
     
 
@@ -1402,7 +2309,7 @@
 
         
 <div class="param-desc">
-    reponse - un objet contenant le résultat de la recherche sur Google Scholar
+    un objet contenant le résultat de la recherche sur Google Scholar
 </div>
 
 
@@ -1431,7 +2338,7 @@
     
 
     
-    <h4 class="name" id="searchAuthorPM"><span class="type-signature"></span>searchAuthorPM<span class="signature">(searchTerm)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id="searchAuthorPM"><span class="type-signature"></span>searchAuthorPM<span class="signature">(searchTerm)</span><span class="type-signature"> &rarr; {Array}</span></h4>
     
 
     
@@ -1439,7 +2346,7 @@
 
 
 <div class="description">
-    la fonction searchAuthorPM permet de récupérer les informations interessantes relatives à la recherche de searchTerm dans PubMed.
+    récupère les informations interessantes relatives à la recherche de searchTerm dans PubMed.
 </div>
 
 
@@ -1532,7 +2439,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="searchAuthor.js.html">searchAuthor.js</a>, <a href="searchAuthor.js.html#line11">line 11</a>
+        <a href="searchAuthor.js.html">searchAuthor.js</a>, <a href="searchAuthor.js.html#line15">line 15</a>
     </li></ul></dd>
     
 
@@ -1559,7 +2466,7 @@
 
         
 <div class="param-desc">
-    resultat3 - un objet contenant le résultat de la recherche sur pubMed
+    la liste contenant les articles résultant de la recherche sur pubMed
 </div>
 
 
@@ -1570,7 +2477,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Object</span>
+<span class="param-type">Array</span>
 
 
     </dd>
@@ -1588,7 +2495,7 @@
     
 
     
-    <h4 class="name" id="sortArticles"><span class="type-signature"></span>sortArticles<span class="signature">(articles, sortBy)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="sortArticles"><span class="type-signature"></span>sortArticles<span class="signature">(articles, sortBy)</span><span class="type-signature"> &rarr; {Array}</span></h4>
     
 
     
@@ -1596,7 +2503,7 @@
 
 
 <div class="description">
-    la fonction sortArticles trie les articles du paramètre articles en fonction du paramètre sortBy
+    trie les articles du paramètre articles en fonction du paramètre sortBy
 </div>
 
 
@@ -1638,7 +2545,7 @@
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">Array</span>
 
 
             
@@ -1648,7 +2555,7 @@
 
             
 
-            <td class="description last">liste d'articles</td>
+            <td class="description last">la liste d'articles</td>
         </tr>
 
     
@@ -1671,7 +2578,7 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">objet décrivant l'attribut et l'ordre selon lequel trier</td>
         </tr>
 
     
@@ -1712,7 +2619,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="sortArticles.js.html">sortArticles.js</a>, <a href="sortArticles.js.html#line5">line 5</a>
+        <a href="sortArticles.js.html">sortArticles.js</a>, <a href="sortArticles.js.html#line13">line 13</a>
     </li></ul></dd>
     
 
@@ -1735,6 +2642,190 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    la liste triée
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const sortedArticles = sortArticles (articles, {field: 'title', descending: 'true'});</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="splitTitle"><span class="type-signature"></span>splitTitle<span class="signature">(articleTitle)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    découpe le titre d'un article PubMed en mots.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>articleTitle</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">le titre issu de PubMed</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="crossArticles.js.html">crossArticles.js</a>, <a href="crossArticles.js.html#line53">line 53</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    la liste des mots qui composent le titre
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -1746,7 +2837,7 @@
     
 
     
-    <h4 class="name" id="transform"><span class="type-signature"></span>transform<span class="signature">(listeArticle)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id="transform"><span class="type-signature"></span>transform<span class="signature">(listeArticle)</span><span class="type-signature"> &rarr; {Array}</span></h4>
     
 
     
@@ -1754,7 +2845,7 @@
 
 
 <div class="description">
-    la fonction transform permet de transformer la liste d'articles tirée de la recherche PubMeb en une nouvelle liste d'articles que que l'on exploitera. La nouvelle liste ne comprend plus les informations inutiles
+    transforme la liste d'articles tirée de la recherche PubMeb en une nouvelle liste d'articles que l'on exploitera.La nouvelle liste ne comprend plus les informations inutiles.
 </div>
 
 
@@ -1796,7 +2887,7 @@
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">Array</span>
 
 
             
@@ -1806,7 +2897,7 @@
 
             
 
-            <td class="description last">liste d'article tirée de PubMed</td>
+            <td class="description last">liste d'articles tirée de PubMed</td>
         </tr>
 
     
@@ -1847,7 +2938,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="searchAuthor.js.html">searchAuthor.js</a>, <a href="searchAuthor.js.html#line68">line 68</a>
+        <a href="searchAuthor.js.html">searchAuthor.js</a>, <a href="searchAuthor.js.html#line76">line 76</a>
     </li></ul></dd>
     
 
@@ -1874,7 +2965,7 @@
 
         
 <div class="param-desc">
-    listeArticleTransformée
+    la liste d'articles transformés
 </div>
 
 
@@ -1885,7 +2976,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Object</span>
+<span class="param-type">Array</span>
 
 
     </dd>
@@ -1911,7 +3002,7 @@
 
 
 <div class="description">
-    la fonction transformArticle permet de transformer les données sur un article tirées de la recherche PubMeb en de nouvelles données sur l'article que que l'on exploitera.
+    transforme les données sur un article tirées de la recherche PubMeb en de nouvelles données sur l'article que l'on exploitera.
 </div>
 
 
@@ -2004,7 +3095,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="searchAuthor.js.html">searchAuthor.js</a>, <a href="searchAuthor.js.html#line79">line 79</a>
+        <a href="searchAuthor.js.html">searchAuthor.js</a>, <a href="searchAuthor.js.html#line88">line 88</a>
     </li></ul></dd>
     
 
@@ -2030,6 +3121,10 @@
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    l'article transformé
+</div>
+
 
 
 <dl>
@@ -2064,7 +3159,7 @@
 
 
 <div class="description">
-    la fonction transformAuthor permet de transformer les données sur un auteur tirées de la recherche PubMeb en de nouvelles données sur l'auteur que que l'on exploitera.
+    transforme les données sur un auteur tirées de la recherche PubMeb en de nouvelles données sur l'auteur que l'on exploitera.
 </div>
 
 
@@ -2157,7 +3252,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="searchAuthor.js.html">searchAuthor.js</a>, <a href="searchAuthor.js.html#line108">line 108</a>
+        <a href="searchAuthor.js.html">searchAuthor.js</a>, <a href="searchAuthor.js.html#line118">line 118</a>
     </li></ul></dd>
     
 
@@ -2183,6 +3278,10 @@
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    l'objet auteur transformé
+</div>
+
 
 
 <dl>
@@ -2217,7 +3316,7 @@
 
 
 <div class="description">
-    la fonction writeArticleBib transforme le contenu d'un objet article pour pouvoir l'écrire dans un document texte.
+    transforme le contenu d'un objet article pour pouvoir l'écrire dans un document texte.
 </div>
 
 
@@ -2333,7 +3432,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="downloadBiblioBib.js.html">downloadBiblioBib.js</a>, <a href="downloadBiblioBib.js.html#line27">line 27</a>
+        <a href="downloadBiblioBib.js.html">downloadBiblioBib.js</a>, <a href="downloadBiblioBib.js.html#line31">line 31</a>
     </li></ul></dd>
     
 
@@ -2360,7 +3459,7 @@
 
         
 <div class="param-desc">
-    aAficher - chaine de caractères décrivant l'article dans le format BibTex
+    chaine de caractères décrivant l'article dans le format BibTex
 </div>
 
 
@@ -2397,164 +3496,7 @@
 
 
 <div class="description">
-    la fonction writeArticleMLA transforme le contenu d'un objet article en citation MLA pour pouvoir l'écrire dans un document texte.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>article</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">object contenant les données sur un article</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="downloadBiblio.js.html">downloadBiblio.js</a>, <a href="downloadBiblio.js.html#line40">line 40</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    aAficher - chaine de caractères décrivant l'article dans le format MLA
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">string</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="writeArticleVCV"><span class="type-signature"></span>writeArticleVCV<span class="signature">(article)</span><span class="type-signature"> &rarr; {string}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    la fonction writeArticleVCV transforme le contenu d'un objet article en citation Vancouver pour pouvoir l'écrire dans un document texte.
+    transforme le contenu d'un objet article en citation MLA pour pouvoir l'écrire dans un document texte.
 </div>
 
 
@@ -2674,7 +3616,164 @@
 
         
 <div class="param-desc">
-    aAficher - chaine de caractères décrivant l'article dans le format Vancouver
+    chaine de caractères décrivant l'article dans le format MLA
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="writeArticleVCV"><span class="type-signature"></span>writeArticleVCV<span class="signature">(article)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    transforme le contenu d'un objet article en citation Vancouver pour pouvoir l'écrire dans un document texte.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>article</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">object contenant les données sur un article</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="downloadBiblio.js.html">downloadBiblio.js</a>, <a href="downloadBiblio.js.html#line67">line 67</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    chaine de caractères décrivant l'article dans le format Vancouver
 </div>
 
 
@@ -2713,13 +3812,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#articleCitationCount">articleCitationCount</a></li><li><a href="global.html#crossArticleLists">crossArticleLists</a></li><li><a href="global.html#date">date</a></li><li><a href="global.html#downloadBiblioBib">downloadBiblioBib</a></li><li><a href="global.html#downloadBiblioMLA">downloadBiblioMLA</a></li><li><a href="global.html#downloadBiblioVCV">downloadBiblioVCV</a></li><li><a href="global.html#impactFactor">impactFactor</a></li><li><a href="global.html#searchAuthorGS">searchAuthorGS</a></li><li><a href="global.html#searchAuthorPM">searchAuthorPM</a></li><li><a href="global.html#sortArticles">sortArticles</a></li><li><a href="global.html#transform">transform</a></li><li><a href="global.html#transformArticle">transformArticle</a></li><li><a href="global.html#transformAuthor">transformAuthor</a></li><li><a href="global.html#writeArticleBib">writeArticleBib</a></li><li><a href="global.html#writeArticleMLA">writeArticleMLA</a></li><li><a href="global.html#writeArticleVCV">writeArticleVCV</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#articleCitationCount">articleCitationCount</a></li><li><a href="global.html#compareNumbers">compareNumbers</a></li><li><a href="global.html#compareStrings">compareStrings</a></li><li><a href="global.html#crossArticleLists">crossArticleLists</a></li><li><a href="global.html#date">date</a></li><li><a href="global.html#downloadBiblio">downloadBiblio</a></li><li><a href="global.html#downloadBiblioBib">downloadBiblioBib</a></li><li><a href="global.html#downloadBiblioMLA">downloadBiblioMLA</a></li><li><a href="global.html#downloadBiblioVCV">downloadBiblioVCV</a></li><li><a href="global.html#downloadFile">downloadFile</a></li><li><a href="global.html#flattenTitle">flattenTitle</a></li><li><a href="global.html#impactFactor">impactFactor</a></li><li><a href="global.html#searchAuthorGS">searchAuthorGS</a></li><li><a href="global.html#searchAuthorPM">searchAuthorPM</a></li><li><a href="global.html#sortArticles">sortArticles</a></li><li><a href="global.html#splitTitle">splitTitle</a></li><li><a href="global.html#transform">transform</a></li><li><a href="global.html#transformArticle">transformArticle</a></li><li><a href="global.html#transformAuthor">transformAuthor</a></li><li><a href="global.html#writeArticleBib">writeArticleBib</a></li><li><a href="global.html#writeArticleMLA">writeArticleMLA</a></li><li><a href="global.html#writeArticleVCV">writeArticleVCV</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Dec 22 2018 11:02:02 GMT+0100 (Paris, Madrid)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Jan 02 2019 18:53:00 GMT+0100 (Paris, Madrid)
 </footer>
 
 <script> prettyPrint(); </script>

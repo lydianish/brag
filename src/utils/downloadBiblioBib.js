@@ -1,11 +1,14 @@
-import * as FileSaver from 'file-saver';
+import { downloadFile, endOfLine } from '../utils';
 
-const endOfLine = '\r\n';
+/**
+ * @fileOverview Définition des méthodes utilisées pour télécharger la liste d'articles en citation BibTex.
+*/
 
-/** la fonction downloadBiblioBib permet le téléchargement du document de format BibTex détaillant la bibliographie de l'auteur
-*@param {string} filename - nom du fichier
-*@param {Object} articles - liste des articles
-*@param {string} refcode - code de référence des citation BibTex, il sera suffixé de la position de l'article dans la liste
+/** 
+ * télécharge le document texte citant les articles de l'auteur au format BibTex.
+ * @param {string} filename nom du fichier
+ * @param {Object} articles liste des articles
+ * @param {string} refcode code de référence des citation BibTex, il sera suffixé de la position de l'article dans la liste
 */
 export function downloadBiblioBib (filename,articles,refcode) {
 
@@ -16,13 +19,14 @@ export function downloadBiblioBib (filename,articles,refcode) {
         data = data + writeArticleBib(refcode+(i+1),listeArticles[i])+endOfLine+endOfLine;
     }
 
-    downloadFileBib(data, filename);
+    downloadFile(data, filename);
 }
 
-/** la fonction writeArticleBib transforme le contenu d'un objet article pour pouvoir l'écrire dans un document texte.
-*@param {string} refcode - code de référence de la citation BibTex, il sera suffixé de la position de l'article dans la liste
-*@param {Object} article - object contenant les données sur un article
-*@returns {string} aAficher - chaine de caractères décrivant l'article dans le format BibTex
+/**
+ * transforme le contenu d'un objet article pour pouvoir l'écrire dans un document texte.
+ * @param {string} refcode code de référence de la citation BibTex, il sera suffixé de la position de l'article dans la liste
+ * @param {Object} article object contenant les données sur un article
+ * @returns {string} chaine de caractères décrivant l'article dans le format BibTex
 */
 export function writeArticleBib(refcode,article){
    var message = "@article{"+refcode+","+endOfLine;
@@ -46,7 +50,3 @@ export function writeArticleBib(refcode,article){
     return message;
 }
 
-function downloadFileBib (data, filename) {
-    const blob = new Blob([data], {type: "text/plain;charset=utf-8"});
-    FileSaver.saveAs(blob, filename);
-}

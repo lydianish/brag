@@ -1,15 +1,21 @@
-/** la fonction crossArticleLists permet d'ajouter les nombres de citation et les titres aux articles de la liste d'article PubMed
-*@param {Object} listeArticlePm - liste des publications tirées de PubMed
-*@param {Object} listeArticleGs - liste des publications tirées de Google Scholar
+/**
+ * @fileOverview Définiton des méthodes utilisées pour croiser les listes d'articles PubMed et Google Scholar.
+*/
+
+/** 
+ * ajoute le nombre de citations et les titres aux articles de la liste d'articles PubMed.
+ * @param {Object} listeArticlePm - liste des publications tirées de PubMed
+ * @param {Object} listeArticleGs - liste des publications tirées de Google Scholar
 */             
 export function crossArticleLists (listeArticlePm, listeArticleGs) {
    listeArticlePm.map(article => articleCitationCount(article, listeArticleGs));
 }
 
-/** la fonction  articleCitationCount permet d'ajouer le nombre de publication et le titre d'un article PubMed.
- * Ces informations sont issues de Google Scholar
-*@param {Object} article - liste des publications tirées de PubMed
-*@param {Object} listeArticleGs - liste des publications tirées de Google Scholar
+/** 
+ * ajoute le nombre de citations et le titre à un article PubMed.
+ * Ces informations sont issues de Google Scholar.
+ * @param {Object} article - liste des publications tirées de PubMed
+ * @param {Object} listeArticleGs - liste des publications tirées de Google Scholar
 */
 export function articleCitationCount (article, listeArticleGs){
    const length = listeArticleGs.length;
@@ -17,16 +23,11 @@ export function articleCitationCount (article, listeArticleGs){
    let correspondance = false;
    const titleWords = splitTitle(article.title);
    while ((i<length)&&(!correspondance)) {
-      if (Array.isArray(titleWords)) {
-         correspondance = true;
-         for (const word of titleWords) {
+        correspondance = true;
+        for (const word of titleWords) {
             correspondance = correspondance && listeArticleGs[i].title.toLocaleLowerCase().includes(word.toLocaleLowerCase());
-         }
-      }
-      else {
-         correspondance = listeArticleGs[i].title.toLocaleLowerCase().includes(titleWords.toLocaleLowerCase());
-      }
-      i=i+1;
+        }
+        i=i+1;
    }
    if (correspondance) {
       article.citationCount = Number(listeArticleGs[i-1].citationCount);
@@ -44,6 +45,11 @@ export function articleCitationCount (article, listeArticleGs){
    }
 }
 
+/**
+ * découpe le titre d'un article PubMed en mots.
+ * @param {Object} articleTitle le titre issu de PubMed
+ * @returns {Array} la liste des mots qui composent le titre
+ */
 export function splitTitle (articleTitle) {
    let titleParts = [];
    for (let field of Object.values(articleTitle)) {
@@ -79,12 +85,15 @@ export function splitTitle (articleTitle) {
                }
            }
    }
-   if (titleParts.length == 1)  {
-       return titleParts[0];
-   }
    return titleParts;
 }
 
+/**
+ * regroupe les parties d'un titre PubMed en une seule chaine de caractères.
+ * Attention : l'ordre des parties dans l'objet ne donne pas forcément le vrai titre !
+ * @param {Object} articleTitle  le titre issu de PubMed
+ * @returns {string} le titre résultant de la concaténation des parties
+ */
 export function flattenTitle (articleTitle) {
     let titleParts = [];
    for (let field of Object.values(articleTitle)) {

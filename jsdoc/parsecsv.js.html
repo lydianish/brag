@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: downloadBiblioBib.js</title>
+    <title>JSDoc: Source: parsecsv.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: downloadBiblioBib.js</h1>
+    <h1 class="page-title">Source: parsecsv.js</h1>
 
     
 
@@ -26,58 +26,23 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { downloadFile, endOfLine } from '../utils';
-
-/**
- * @fileOverview Définition des méthodes utilisées pour télécharger la liste d'articles en citation BibTex.
+            <pre class="prettyprint source linenums"><code>/**
+ * @fileOverview Script pour extraire une liste JavaScript de journaux (Title and Impact Factor uniquement) à partir d'un tableau de journaux au format CSV.
+ * @example node parsecsv.js > journals.js // écrit le résultat dans le fichier journals.js
 */
+const csv = require('fast-csv');
+const IMPACT_FACTOR_CSV_FILE_PATH = '../assets/impact-factor/sampleTR.csv';
 
-/** 
- * télécharge le document texte citant les articles de l'auteur au format BibTex.
- * @param {string} filename nom du fichier
- * @param {Object} articles liste des articles
- * @param {string} refcode code de référence des citation BibTex, il sera suffixé de la position de l'article dans la liste
-*/
-export function downloadBiblioBib (filename,articles,refcode) {
-
-    var listeArticles = articles;
-    var data = "";
-
-    for (var i = 0; i &lt; listeArticles.length; i++){
-        data = data + writeArticleBib(refcode+(i+1),listeArticles[i])+endOfLine+endOfLine;
-    }
-
-    downloadFile(data, filename);
-}
-
-/**
- * transforme le contenu d'un objet article pour pouvoir l'écrire dans un document texte.
- * @param {string} refcode code de référence de la citation BibTex, il sera suffixé de la position de l'article dans la liste
- * @param {Object} article object contenant les données sur un article
- * @returns {string} chaine de caractères décrivant l'article dans le format BibTex
-*/
-export function writeArticleBib(refcode,article){
-   var message = "@article{"+refcode+","+endOfLine;
-
-   message = message +" title={"+article.title+"},"+endOfLine;
-   message =message+ " author={";
-
-  var listAuthors = article.authors;
-  for (var i = 0; i &lt; listAuthors.length; i++){
-      message =message+listAuthors[i].lastName+", "+listAuthors[i].foreName;
-      if (i!=(listAuthors.length-1)){message =message+" and "; }
-  }
-
-   message =message+"},"+endOfLine;
-   message =message+  " journal={"+article.journal.title+"},"+endOfLine;
-   message =message+ " volume={"+article.journal.volume+"},"+endOfLine;
-   message =message+ " number={"+article.journal.issue+"},"+endOfLine;
-   message =message+ " pages={"+article.pagination+"},"+endOfLine;
-   message =message+ " year={"+article.journal.year+"},"+endOfLine;
-   message =message+"}"+endOfLine;
-    return message;
-}
-
+console.log("export const journals = [");
+csv
+ .fromPath(IMPACT_FACTOR_CSV_FILE_PATH, {headers : [ ,"Title", ,"ImpactFactor", ,], delimiter: ';'})
+ .on("data", function(data){
+    console.log(" ",data);
+    console.log("  ,");
+ })
+ .on("end", function(){
+     console.log("]");
+ });
 </code></pre>
         </article>
     </section>

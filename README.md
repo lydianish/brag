@@ -28,6 +28,7 @@ npm test
 npm run ava tests/example.js
 
 # générer la documentation (dans le répertoire jsdoc)
+# ouvrir le fichier index.html dans un navigateur pour la visualiser
 npm run jsdoc
 
 ```

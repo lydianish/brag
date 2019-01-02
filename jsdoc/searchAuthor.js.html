@@ -28,14 +28,18 @@
         <article>
             <pre class="prettyprint source linenums"><code>import * as axios from 'axios';
 import * as convert from 'xml-js';
-import { impactFactor, GOOGLE_SCHOLAR_URL, ERROR_NO_PUBMED_RESULT, ERROR_NO_GOOGLE_SCHOLAR_RESULT } from '../utils';
+import { impactFactor, GOOGLE_SCHOLAR_URL, ERROR_NO_PUBMED_RESULT, ERROR_NO_GOOGLE_SCHOLAR_RESULT, ERROR_FORBIDDEN_GOOGLE_SCHOLAR_ACCESS } from '../utils';
 
 
+/**
+ * @fileOverview Définition des méthodes utilisées pour rechercher un autheur sur PubMed et Google Scholar.
+*/
 
-/** la fonction searchAuthorPM permet de récupérer les informations interessantes relatives à la recherche de searchTerm dans PubMed. 
-* @param {string} searchTerm - la chaine de caractères tapé par l'utilisateur.
-*  @returns {Object} resultat3 - un objet contenant le résultat de la recherche sur pubMed*/
-
+/**
+ * récupère les informations interessantes relatives à la recherche de searchTerm dans PubMed. 
+ * @param {string} searchTerm la chaine de caractères tapé par l'utilisateur.
+ * @returns {Array} la liste contenant les articles résultant de la recherche sur pubMed
+*/
 export async function searchAuthorPM (searchTerm) {
     const pubMedUrl = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/';
     const pubMedSearchParams = 'esearch.fcgi?db=pubmed&amp;term='+searchTerm.replace(/\s+/g,'+')+'[author]&amp;usehistory=y&amp;retmax=0';
@@ -60,17 +64,21 @@ export async function searchAuthorPM (searchTerm) {
     }
 }
 
-/** la fonction searchAuthorGS permet de récupérer les informations interessantes relatives à la recherche de searchTerm dans Google Scholar. 
-* @param {string} searchTerm - la chaine de caractères tapé par l'utilisateur.
-*  @returns {Object} reponse - un objet contenant le résultat de la recherche sur Google Scholar*/
-
+/**
+ * récupère les informations interessantes relatives à la recherche de searchTerm dans Google Scholar. 
+ * @param {string} searchTerm la chaine de caractères tapé par l'utilisateur.
+ * @returns {Object} un objet contenant le résultat de la recherche sur Google Scholar
+*/
 export async function searchAuthorGS (searchTerm) {
     const googleScholarUrl = GOOGLE_SCHOLAR_URL;
     const searchParams = '?name='+searchTerm.replace(/\s+/g,'+');
     try {
         const response = await axios.get(googleScholarUrl + searchParams);
-        if (response.data.error)
+        if (response.data.notFoundError) {
             throw ERROR_NO_GOOGLE_SCHOLAR_RESULT;
+        } else if (response.data.forbiddenError) {
+            throw ERROR_FORBIDDEN_GOOGLE_SCHOLAR_ACCESS;
+        }
         return response.data;
     }
     catch(error) {
@@ -87,12 +95,12 @@ function getwebEnv(res) {
 };
 
 
-/** la fonction transform permet de transformer la liste d'articles tirée de la recherche PubMeb en une nouvelle liste d'articles que que l'on exploitera. La nouvelle liste ne comprend plus les informations inutiles 
-*@param {Object} listeArticle - liste d'article tirée de PubMed
-*@returns {Object} listeArticleTransformée
+/** 
+ * transforme la liste d'articles tirée de la recherche PubMeb en une nouvelle liste d'articles que l'on exploitera.
+ * La nouvelle liste ne comprend plus les informations inutiles.
+ * @param {Array} listeArticle - liste d'articles tirée de PubMed
+ * @returns {Array} la liste d'articles transformés
 */
-
-
 function transform(listeArticle) {
     if (Array.isArray(listeArticle.PubmedArticleSet.PubmedArticle))
         return listeArticle.PubmedArticleSet.PubmedArticle.map(article => transformArticle(article));
@@ -100,9 +108,10 @@ function transform(listeArticle) {
         return [transformArticle(listeArticle.PubmedArticleSet.PubmedArticle)];
 };
 
-/** la fonction transformArticle permet de transformer les données sur un article tirées de la recherche PubMeb en de nouvelles données sur l'article que que l'on exploitera. 
-*@param {Object} articleInit - données sur un article
-*@returns {Object} 
+/**
+ * transforme les données sur un article tirées de la recherche PubMeb en de nouvelles données sur l'article que l'on exploitera. 
+ * @param {Object} articleInit - données sur un article
+ * @returns {Object} l'article transformé
 */
 export function transformArticle(articleInit) {
     const article = articleInit.MedlineCitation.Article;
@@ -113,7 +122,7 @@ export function transformArticle(articleInit) {
     else
         listeAuthorTransformed = [transformAuthor(listeAuthor)];
     return {
-        title : splitTitle(article.ArticleTitle),
+        title : article.ArticleTitle,
         journal : {
             title : safe(article.Journal.Title),
             volume : safe(article.Journal.JournalIssue.Volume),
@@ -129,9 +138,10 @@ export function transformArticle(articleInit) {
     };
 };
 
-/** la fonction transformAuthor permet de transformer les données sur un auteur tirées de la recherche PubMeb en de nouvelles données sur l'auteur que que l'on exploitera. 
-*@param {Object} author - données sur un auteur
-*@returns {Object} 
+/**
+ * transforme les données sur un auteur tirées de la recherche PubMeb en de nouvelles données sur l'auteur que l'on exploitera. 
+ * @param {Object} author - données sur un auteur
+ * @returns {Object} l'objet auteur transformé
 */
 export function transformAuthor(author) {
     return {
@@ -143,46 +153,7 @@ export function transformAuthor(author) {
 
 function safe (property) {
     return property ? property._text : '';
-};
-
-export function splitTitle (articleTitle) {
-    let titleParts = [];
-    for (let field of Object.values(articleTitle)) {
-        if (Array.isArray(field)) { //the _text field is split into parts
-            for (let fieldpart of field) {
-                if (fieldpart.slice(-1) == '.') {
-                    fieldpart = fieldpart.slice(0, -1);
-                }
-                Array.prototype.push.apply(titleParts, fieldpart.split(/[\s-_:"().\u2026]/g));
-            }
-        }
-        else if (typeof field === 'string') { // (this is the full title)
-            Array.prototype.push.apply(titleParts, field.slice(0, -1).split(/[\s-_:"().\u2026]/g));
-        }
-        else { //it is an Object, like i or sub elements
-            if (Array.isArray(field._text)) {
-                    for (let fieldpart of field._text) {
-                        if (fieldpart.slice(-1) == '.') {
-                            fieldpart = fieldpart.slice(0, -1);
-                        }
-                        Array.prototype.push.apply(titleParts, fieldpart.split(/[\s-_:"().\u2026]/g));
-                    }
-                }
-                else {
-                    let fieldpart = field._text;
-                    if (fieldpart.slice(-1) == '.') {
-                        fieldpart = field._text.slice(0, -1);
-                    }
-                    Array.prototype.push.apply(titleParts, fieldpart.split(/[\s-_:"().\u2026]/g));
-                }
-            }
-    }
-    if (titleParts.length == 1)  {
-        return titleParts[0];
-    }
-    return titleParts;
-}
-</code></pre>
+};</code></pre>
         </article>
     </section>
 
@@ -192,13 +163,13 @@ export function splitTitle (articleTitle) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#articleCitationCount">articleCitationCount</a></li><li><a href="global.html#crossArticleLists">crossArticleLists</a></li><li><a href="global.html#date">date</a></li><li><a href="global.html#downloadBiblioBib">downloadBiblioBib</a></li><li><a href="global.html#downloadBiblioMLA">downloadBiblioMLA</a></li><li><a href="global.html#downloadBiblioVCV">downloadBiblioVCV</a></li><li><a href="global.html#impactFactor">impactFactor</a></li><li><a href="global.html#searchAuthorGS">searchAuthorGS</a></li><li><a href="global.html#searchAuthorPM">searchAuthorPM</a></li><li><a href="global.html#sortArticles">sortArticles</a></li><li><a href="global.html#transform">transform</a></li><li><a href="global.html#transformArticle">transformArticle</a></li><li><a href="global.html#transformAuthor">transformAuthor</a></li><li><a href="global.html#writeArticleBib">writeArticleBib</a></li><li><a href="global.html#writeArticleMLA">writeArticleMLA</a></li><li><a href="global.html#writeArticleVCV">writeArticleVCV</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#articleCitationCount">articleCitationCount</a></li><li><a href="global.html#compareNumbers">compareNumbers</a></li><li><a href="global.html#compareStrings">compareStrings</a></li><li><a href="global.html#crossArticleLists">crossArticleLists</a></li><li><a href="global.html#date">date</a></li><li><a href="global.html#downloadBiblio">downloadBiblio</a></li><li><a href="global.html#downloadBiblioBib">downloadBiblioBib</a></li><li><a href="global.html#downloadBiblioMLA">downloadBiblioMLA</a></li><li><a href="global.html#downloadBiblioVCV">downloadBiblioVCV</a></li><li><a href="global.html#downloadFile">downloadFile</a></li><li><a href="global.html#flattenTitle">flattenTitle</a></li><li><a href="global.html#impactFactor">impactFactor</a></li><li><a href="global.html#searchAuthorGS">searchAuthorGS</a></li><li><a href="global.html#searchAuthorPM">searchAuthorPM</a></li><li><a href="global.html#sortArticles">sortArticles</a></li><li><a href="global.html#splitTitle">splitTitle</a></li><li><a href="global.html#transform">transform</a></li><li><a href="global.html#transformArticle">transformArticle</a></li><li><a href="global.html#transformAuthor">transformAuthor</a></li><li><a href="global.html#writeArticleBib">writeArticleBib</a></li><li><a href="global.html#writeArticleMLA">writeArticleMLA</a></li><li><a href="global.html#writeArticleVCV">writeArticleVCV</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Dec 22 2018 11:02:02 GMT+0100 (Paris, Madrid)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Jan 02 2019 18:53:00 GMT+0100 (Paris, Madrid)
 </footer>
 
 <script> prettyPrint(); </script>
