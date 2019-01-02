@@ -44,10 +44,6 @@ export function articleCitationCount (article, listeArticleGs){
    }
 }
 
-export function flattenPMArticles (listeArticlePm) {
-    listeArticlePm.map(article => article.title = flattenTitle(article.title));
-}
-
 export function splitTitle (articleTitle) {
    let titleParts = [];
    for (let field of Object.values(articleTitle)) {

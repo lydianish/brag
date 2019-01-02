@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { searchAuthorPM, searchAuthorGS, sortArticles, crossArticleLists, flattenPMArticles,
+import { searchAuthorPM, searchAuthorGS, sortArticles, crossArticleLists,
     ERROR_NO_PUBMED_RESULT } from '../utils';
 
 Vue.use(Vuex)
