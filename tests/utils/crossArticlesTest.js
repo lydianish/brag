@@ -1,5 +1,5 @@
 import test from 'ava';
-import { articleCitationCount } from '../../src/utils/crossArticles';
+import { articleCitationCount, splitTitle, flattenTitle } from '../../src/utils/crossArticles';
 
 const gsArticles = [
   {
@@ -29,25 +29,9 @@ const gsArticles = [
   }
 ];
 const article1 = { title: 
-  [ 'APOL1',
-    'nephropathy',
-    'risk',
-    'variants',
-    'do',
-    'not',
-    'associate',
-    'with',
-    'subclinical',
-    'atherosclerosis',
-    'or',
-    'left',
-    'ventricular',
-    'mass',
-    'in',
-    'middle',
-    'aged',
-    'black',
-    'adults' ],
+  {
+    "_text": "APOL1 nephropathy risk variants do not associate with subclinical atherosclerosis or left ventricular mass in middle-aged black adults."
+  },
  journal: 
   { title: 'Kidney international',
     volume: '93',
@@ -72,23 +56,9 @@ const article1 = { title:
  citationCount: '',
  pmid: '29042080' };
 const article2 = { title: 
-  [ 'DRAM',
-    'triggers',
-    'lysosomal',
-    'membrane',
-    'permeabilization',
-    'and',
-    'cell',
-    'death',
-    'in',
-    'CD4',
-    '+',
-    '',
-    'T',
-    'cells',
-    'infected',
-    'with',
-    'HIV' ],
+  {
+    "_text": "DRAM triggers lysosomal membrane permeabilization and cell death in CD4(+) T cells infected with HIV."
+  },
  journal: 
   { title: 'PLoS pathogens',
     volume: '9',
@@ -111,24 +81,9 @@ const article2 = { title:
  citationCount: '',
  pmid: '23658518' };
 const article3 = { title: 
-  [ 'Screening',
-    'low',
-    'frequency',
-    'SNPS',
-    'from',
-    'genome',
-    'wide',
-    'association',
-    'study',
-    'reveals',
-    'a',
-    'new',
-    'risk',
-    'allele',
-    'for',
-    'progression',
-    'to',
-    'AIDS' ],
+  {
+    "_text": "Screening low-frequency SNPS from genome-wide association study reveals a new risk allele for progression to AIDS."
+  },
  journal: 
   { title: 'Journal of acquired immune deficiency syndromes (1999)',
     volume: '56',
@@ -168,28 +123,15 @@ const article3 = { title:
  citationCount: '',
  pmid: '21107268' };
 const article4 = { title: 
-  [ 'Renal',
-    'and',
-    'Cardiovascular',
-    'Morbidities',
-    'Associated',
-    'with',
-    '',
-    '',
-    'Status',
-    'among',
-    'African',
-    'American',
-    'and',
-    'Non',
-    'African',
-    'American',
-    'Children',
-    'with',
-    'Focal',
-    'Segmental',
-    'Glomerulosclerosis',
-    'APOL1' ],
+  {
+    "_text": [
+        "Renal and Cardiovascular Morbidities Associated with ",
+        " Status among African-American and Non-African-American Children with Focal Segmental Glomerulosclerosis."
+    ],
+    "i": {
+        "_text": "APOL1"
+    }
+  },
  journal: 
   { title: 'Frontiers in pediatrics',
     volume: '4',
@@ -213,37 +155,10 @@ const article4 = { title:
     { lastName: 'Kaskel', foreName: 'Frederick J', initials: 'FJ' } ],
  citationCount: '',
  pmid: '27900314' };
-const title5 = [ 'APOL1',
-'associated',
-'glomerular',
-'disease',
-'among',
-'African',
-'American',
-'children',
-'',
-'a',
-'collaboration',
-'of',
-'the',
-'Chronic',
-'Kidney',
-'Disease',
-'in',
-'Children',
-'',
-'CKiD',
-'',
-'and',
-'Nephrotic',
-'Syndrome',
-'Study',
-'Network',
-'',
-'NEPTUNE',
-'',
-'cohorts' ];
-const article5 = { title: title5,
+const article5 = { title: 
+  {
+    "_text": "APOL1-associated glomerular disease among African-American children: a collaboration of the Chronic Kidney Disease in Children (CKiD) and Nephrotic Syndrome Study Network (NEPTUNE) cohorts."
+  },
  journal: 
   { title: 'Nephrology, dialysis, transplantation : official publication of the European Dialysis and Transplant Association - European Renal Association',
     volume: '32',
@@ -279,6 +194,8 @@ const article5 = { title: title5,
  citationCount: '',
  pmid: '27190333' };
 
+const article5title = "APOL1-associated glomerular disease among African-American children: a collaboration of the Chronic Kidney Disease in Children (CKiD) and Nephrotic Syndrome Study Network (NEPTUNE) cohorts"
+
 test.before(t => {
     articleCitationCount(article1,gsArticles)
     articleCitationCount(article2,gsArticles)
@@ -300,8 +217,114 @@ test('set the title of an article', t => {
     t.is(article2.title, gsArticles[1].title);
     t.is(article3.title, gsArticles[2].title);
     t.is(article4.title, gsArticles[3].title);
-    t.is(article5.title, title5.reduce((accumulator, part) => {
-            return accumulator + part + ' ';
-        }, '')
-    );
+    t.is(article5.title, article5title);
+});
+
+const title1 = { 
+  i: { _text: 'NPHS2' },
+  _text: ' V260E Is a Frequent Cause of Steroid-Resistant Nephrotic Syndrome in Black South African Children.' 
+};
+const title2 = { 
+  _text: '23rd Nantes Actualités Transplantation: "Genomics and Immunogenetics of Kidney and Inflammatory Diseases - Lessons for Transplantation".' 
+};
+const title3 = { 
+  _text: 'Genetic screening of male patients with primary hypogammaglobulinemia can guide diagnosis and clinical management.' 
+};
+const title4 = { 
+  _text: 
+      [ 'Renal and Cardiovascular Morbidities Associated with ',
+      ' Status among African-American and Non-African-American Children with Focal Segmental Glomerulosclerosis.' ],
+ i: { _text: 'APOL1' } 
+};
+
+test('split PubMed article title', t => {
+  t.deepEqual(splitTitle(title1), 
+      [ 'NPHS2',
+      '',
+      'V260E',
+      'Is',
+      'a',
+      'Frequent',
+      'Cause',
+      'of',
+      'Steroid',
+      'Resistant',
+      'Nephrotic',
+      'Syndrome',
+      'in',
+      'Black',
+      'South',
+      'African',
+      'Children' ]
+  );
+  t.deepEqual(splitTitle(title2), 
+      [ '23rd',
+      'Nantes',
+      'Actualités',
+      'Transplantation',
+      '',
+      '',
+      'Genomics',
+      'and',
+      'Immunogenetics',
+      'of',
+      'Kidney',
+      'and',
+      'Inflammatory',
+      'Diseases',
+      '',
+      '',
+      'Lessons',
+      'for',
+      'Transplantation',
+      '' ]
+  );
+  t.deepEqual(splitTitle(title3), 
+      [ 'Genetic',
+      'screening',
+      'of',
+      'male',
+      'patients',
+      'with',
+      'primary',
+      'hypogammaglobulinemia',
+      'can',
+      'guide',
+      'diagnosis',
+      'and',
+      'clinical',
+      'management' ]
+  );
+  t.deepEqual(splitTitle(title4), 
+      [ 'Renal',
+      'and',
+      'Cardiovascular',
+      'Morbidities',
+      'Associated',
+      'with',
+      '',
+      '',
+      'Status',
+      'among',
+      'African',
+      'American',
+      'and',
+      'Non',
+      'African',
+      'American',
+      'Children',
+      'with',
+      'Focal',
+      'Segmental',
+      'Glomerulosclerosis',
+      'APOL1' ]
+  );
+});
+
+test('Flatten PubMed article title', t => {
+  t.is(flattenTitle(title1), 'NPHS2 V260E Is a Frequent Cause of Steroid-Resistant Nephrotic Syndrome in Black South African Children');
+  t.is(flattenTitle(title2), '23rd Nantes Actualités Transplantation: "Genomics and Immunogenetics of Kidney and Inflammatory Diseases - Lessons for Transplantation"');
+  t.is(flattenTitle(title3), 'Genetic screening of male patients with primary hypogammaglobulinemia can guide diagnosis and clinical management');
+  // doesn't work here:
+  t.not(flattenTitle(title4), 'Renal and Cardiovascular Morbidities Associated with APOL1 Status among African-American and Non-African-American Children with Focal Segmental Glomerulosclerosis');
 });

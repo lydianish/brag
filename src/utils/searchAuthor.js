@@ -1,7 +1,17 @@
 import * as axios from 'axios';
 import * as convert from 'xml-js';
-import { impactFactor, GOOGLE_SCHOLAR_URL, ERROR_NO_PUBMED_RESULT, ERROR_NO_GOOGLE_SCHOLAR_RESULT } from '../utils';
+import { impactFactor, GOOGLE_SCHOLAR_URL, ERROR_NO_PUBMED_RESULT, ERROR_NO_GOOGLE_SCHOLAR_RESULT, ERROR_FORBIDDEN_GOOGLE_SCHOLAR_ACCESS } from '../utils';
 
+
+/**
+ * @fileOverview Définition des méthodes utilisées pour rechercher un autheur sur PubMed et Google Scholar.
+*/
+
+/**
+ * récupère les informations interessantes relatives à la recherche de searchTerm dans PubMed. 
+ * @param {string} searchTerm la chaine de caractères tapé par l'utilisateur.
+ * @returns {Array} la liste contenant les articles résultant de la recherche sur pubMed
+*/
 export async function searchAuthorPM (searchTerm) {
     const pubMedUrl = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/';
     const pubMedSearchParams = 'esearch.fcgi?db=pubmed&term='+searchTerm.replace(/\s+/g,'+')+'[author]&usehistory=y&retmax=0';
@@ -26,13 +36,21 @@ export async function searchAuthorPM (searchTerm) {
     }
 }
 
+/**
+ * récupère les informations interessantes relatives à la recherche de searchTerm dans Google Scholar. 
+ * @param {string} searchTerm la chaine de caractères tapé par l'utilisateur.
+ * @returns {Object} un objet contenant le résultat de la recherche sur Google Scholar
+*/
 export async function searchAuthorGS (searchTerm) {
     const googleScholarUrl = GOOGLE_SCHOLAR_URL;
     const searchParams = '?name='+searchTerm.replace(/\s+/g,'+');
     try {
         const response = await axios.get(googleScholarUrl + searchParams);
-        if (response.data.error)
+        if (response.data.notFoundError) {
             throw ERROR_NO_GOOGLE_SCHOLAR_RESULT;
+        } else if (response.data.forbiddenError) {
+            throw ERROR_FORBIDDEN_GOOGLE_SCHOLAR_ACCESS;
+        }
         return response.data;
     }
     catch(error) {
@@ -48,6 +66,13 @@ function getwebEnv(res) {
     return res.eSearchResult.WebEnv._text;
 };
 
+
+/** 
+ * transforme la liste d'articles tirée de la recherche PubMeb en une nouvelle liste d'articles que l'on exploitera.
+ * La nouvelle liste ne comprend plus les informations inutiles.
+ * @param {Array} listeArticle - liste d'articles tirée de PubMed
+ * @returns {Array} la liste d'articles transformés
+*/
 function transform(listeArticle) {
     if (Array.isArray(listeArticle.PubmedArticleSet.PubmedArticle))
         return listeArticle.PubmedArticleSet.PubmedArticle.map(article => transformArticle(article));
@@ -55,6 +80,11 @@ function transform(listeArticle) {
         return [transformArticle(listeArticle.PubmedArticleSet.PubmedArticle)];
 };
 
+/**
+ * transforme les données sur un article tirées de la recherche PubMeb en de nouvelles données sur l'article que l'on exploitera. 
+ * @param {Object} articleInit - données sur un article
+ * @returns {Object} l'article transformé
+*/
 export function transformArticle(articleInit) {
     const article = articleInit.MedlineCitation.Article;
     const listeAuthor = article.AuthorList.Author;
@@ -64,7 +94,7 @@ export function transformArticle(articleInit) {
     else
         listeAuthorTransformed = [transformAuthor(listeAuthor)];
     return {
-        title : getTitle(article.ArticleTitle),
+        title : article.ArticleTitle,
         journal : {
             title : safe(article.Journal.Title),
             volume : safe(article.Journal.JournalIssue.Volume),
@@ -80,6 +110,11 @@ export function transformArticle(articleInit) {
     };
 };
 
+/**
+ * transforme les données sur un auteur tirées de la recherche PubMeb en de nouvelles données sur l'auteur que l'on exploitera. 
+ * @param {Object} author - données sur un auteur
+ * @returns {Object} l'objet auteur transformé
+*/
 export function transformAuthor(author) {
     return {
         lastName: safe(author.LastName),
@@ -91,41 +126,3 @@ export function transformAuthor(author) {
 function safe (property) {
     return property ? property._text : '';
 };
-
-export function getTitle (articleTitle) {
-    let titleParts = [];
-    for (let field of Object.values(articleTitle)) {
-        if (Array.isArray(field)) { //the _text field is split into parts
-            for (let fieldpart of field) {
-                if (fieldpart.slice(-1) == '.') {
-                    fieldpart = fieldpart.slice(0, -1);
-                }
-                Array.prototype.push.apply(titleParts, fieldpart.split(/[\s-_:"().\u2026]/g));
-            }
-        }
-        else if (typeof field === 'string') { // (this is the full title)
-            Array.prototype.push.apply(titleParts, field.slice(0, -1).split(/[\s-_:"().\u2026]/g));
-        }
-        else { //it is an Object, like i or sub elements
-            if (Array.isArray(field._text)) {
-                    for (let fieldpart of field._text) {
-                        if (fieldpart.slice(-1) == '.') {
-                            fieldpart = fieldpart.slice(0, -1);
-                        }
-                        Array.prototype.push.apply(titleParts, fieldpart.split(/[\s-_:"().\u2026]/g));
-                    }
-                }
-                else {
-                    let fieldpart = field._text;
-                    if (fieldpart.slice(-1) == '.') {
-                        fieldpart = field._text.slice(0, -1);
-                    }
-                    Array.prototype.push.apply(titleParts, fieldpart.split(/[\s-_:"().\u2026]/g));
-                }
-            }
-    }
-    if (titleParts.length == 1)  {
-        return titleParts[0];
-    }
-    return titleParts;
-}

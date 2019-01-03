@@ -1,106 +1,5 @@
 import test from 'ava';
-import { getTitle, transformAuthor, transformArticle } from '../../src/utils/searchAuthor';
-
-test('split PubMed article title', t => {
-    const title1 = { 
-        i: { _text: 'NPHS2' },
-        _text: ' V260E Is a Frequent Cause of Steroid-Resistant Nephrotic Syndrome in Black South African Children.' 
-    };
-    const title2 = { 
-        _text: '23rd Nantes Actualités Transplantation: "Genomics and Immunogenetics of Kidney and Inflammatory Diseases - Lessons for Transplantation".' 
-    };
-    const title3 = { 
-        _text: 'Genetic screening of male patients with primary hypogammaglobulinemia can guide diagnosis and clinical management.' 
-    };
-    const title4 = { 
-        _text: 
-            [ 'Renal and Cardiovascular Morbidities Associated with ',
-            ' Status among African-American and Non-African-American Children with Focal Segmental Glomerulosclerosis.' ],
-       i: { _text: 'APOL1' } 
-    };
-    
-    t.deepEqual(getTitle(title1), 
-        [ 'NPHS2',
-        '',
-        'V260E',
-        'Is',
-        'a',
-        'Frequent',
-        'Cause',
-        'of',
-        'Steroid',
-        'Resistant',
-        'Nephrotic',
-        'Syndrome',
-        'in',
-        'Black',
-        'South',
-        'African',
-        'Children' ]
-    );
-    t.deepEqual(getTitle(title2), 
-        [ '23rd',
-        'Nantes',
-        'Actualités',
-        'Transplantation',
-        '',
-        '',
-        'Genomics',
-        'and',
-        'Immunogenetics',
-        'of',
-        'Kidney',
-        'and',
-        'Inflammatory',
-        'Diseases',
-        '',
-        '',
-        'Lessons',
-        'for',
-        'Transplantation',
-        '' ]
-    );
-    t.deepEqual(getTitle(title3), 
-        [ 'Genetic',
-        'screening',
-        'of',
-        'male',
-        'patients',
-        'with',
-        'primary',
-        'hypogammaglobulinemia',
-        'can',
-        'guide',
-        'diagnosis',
-        'and',
-        'clinical',
-        'management' ]
-    );
-    t.deepEqual(getTitle(title4), 
-        [ 'Renal',
-        'and',
-        'Cardiovascular',
-        'Morbidities',
-        'Associated',
-        'with',
-        '',
-        '',
-        'Status',
-        'among',
-        'African',
-        'American',
-        'and',
-        'Non',
-        'African',
-        'American',
-        'Children',
-        'with',
-        'Focal',
-        'Segmental',
-        'Glomerulosclerosis',
-        'APOL1' ]
-    );
-});
+import { transformAuthor, transformArticle } from '../../src/utils/searchAuthor';
 
 test('transform PubMed author object', t => {
     const author1 = { _attributes: { ValidYN: 'Y' },
@@ -425,20 +324,7 @@ test('transform PubMed article object', t => {
                 _text: '10.1016/j.humimm.2018.04.014' } ] } } 
     };
     t.deepEqual(transformArticle(article), { title: 
-        [ 'Genetic',
-          'screening',
-          'of',
-          'male',
-          'patients',
-          'with',
-          'primary',
-          'hypogammaglobulinemia',
-          'can',
-          'guide',
-          'diagnosis',
-          'and',
-          'clinical',
-          'management' ],
+        { _text: 'Genetic screening of male patients with primary hypogammaglobulinemia can guide diagnosis and clinical management.' },
        journal: 
         { title: 'Human immunology',
           volume: '79',

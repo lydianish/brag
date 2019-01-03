@@ -1,41 +1,74 @@
-import * as FileSaver from 'file-saver';
+/**
+ * @fileOverview Définition des méthodes utilisées pour télécharger la liste d'articles en citation MLA et Vancouver.
+*/
 
-const endOfLine = '\r\n';
+import { downloadFile, endOfLine } from '../utils';
 
+/**
+ * télécharge le document texte citant les articles de l'auteu format MLA.
+ * @param {string} filename nom du fichier
+ * @param {Array} articles liste des articles
+ * @param {number} hIndex h-index
+ * @param {number} citationCount nombre de citations totales
+*/
 export function downloadBiblioMLA (filename,articles,hIndex,citationCount) {
     downloadBiblio(filename,articles,hIndex,citationCount,writeArticleMLA)
 }
 
+/** 
+ * télécharge le document texte citant les articles de l'auteur au format Vancouver.
+ * @param {string} filename nom du fichier
+ * @param {Array} articles liste des articles
+ * @param {number} hIndex h-index
+ * @param {number} citationCount nombre de citations totales
+*/
 export function downloadBiblioVCV (filename,articles,hIndex,citationCount) {
     downloadBiblio(filename,articles,hIndex,citationCount,writeArticleVCV)
 }
 
+/**
+ * télécharge le document texte citant les articles de l'auteur au format donné.
+ * @param {string} filename nom du fichier
+ * @param {Array} articles liste des articles
+ * @param {number} hIndex h-index
+ * @param {number} citationCount nombre de citations totales
+ * @param {Function} writeArticle fonction qui écrit un article selon un convention de citation
+ */
 function downloadBiblio (filename,articles,hIndex,citationCount, writeArticle) {
 
-    var listeArticles = articles;
-    var data = "Articles"+endOfLine+"NB: Impact factors [IF] and citation number as reported on "+date()+" (source Google Scholar)"+endOfLine;
+    const listeArticles = articles;
+    let data = "Articles"+endOfLine+"NB: Impact factors [IF] and citation number as reported on "+date()+" (source Google Scholar)"+endOfLine;
     data = data+"Total citations = "+citationCount+" | h-index = "+hIndex+endOfLine+endOfLine;
-   for (var i = 0; i < listeArticles.length; i++){
+   for (let i = 0; i < listeArticles.length; i++){
         data = data +(i+1)+".  "+writeArticle(listeArticles[i])+endOfLine+endOfLine;
     }
     downloadFile(data, filename);
 }
 
-
+/** 
+ * transforme le contenu d'un objet article en citation MLA pour pouvoir l'écrire dans un document texte.
+ * @param {Object} article object contenant les données sur un article
+ * @returns {string} chaine de caractères décrivant l'article dans le format MLA
+*/
 export function writeArticleMLA (article)
 {
-var aAfficher = article.authors[0].lastName + ", " + article.authors[0].foreName + ", et al.";
+let aAfficher = article.authors[0].lastName + ", " + article.authors[0].foreName + ", et al.";
   aAfficher = aAfficher+' "'+article.title +'." '+article.journal.title +' ';
   aAfficher = aAfficher+article.journal.volume+"."+article.journal.issue+" ("+article.journal.year+"): "+article.pagination;
   aAfficher = aAfficher+"(IF="+article.journal.impactFactor+"; "+article.citationCount+" citations).";
 return aAfficher;
 }
 
+/**
+ * transforme le contenu d'un objet article en citation Vancouver pour pouvoir l'écrire dans un document texte.
+ * @param {Object} article object contenant les données sur un article
+ * @returns {string} chaine de caractères décrivant l'article dans le format Vancouver
+*/
 export function writeArticleVCV (article)
 {
-    var aAfficher = "";
-    var listAuthors = article.authors;
-    for (var i = 0; i < listAuthors.length; i++){
+    let aAfficher = "";
+    const listAuthors = article.authors;
+    for (let i = 0; i < listAuthors.length; i++){
         aAfficher = aAfficher+" "+listAuthors[i].lastName+" "+listAuthors[i].foreName[0];
         if (i!=(listAuthors.length-1)){aAfficher = aAfficher+","; }
         else {aAfficher = aAfficher+". ";}
@@ -46,28 +79,34 @@ export function writeArticleVCV (article)
     return aAfficher;
 }
 
-
-function downloadFile (data, filename) {
-    const blob = new Blob([data], {type: "text/plain;charset=utf-8"});
-    FileSaver.saveAs(blob, filename);
-}
-
-
+/**
+ * donne la date du jour
+ * @returns {string} la date du jour
+ * @example December 21st, 2018
+*/
 function date()
-
 {
      // les noms de mois
-     var mois = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+     const mois = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
 
-     // on recupere la date
+     // on recupere la date du jour
 
-     var date = new Date();
-
+    const date = new Date();
+    const jour = date.getDate();
+    const annee = date.getFullYear();
      // on construit le message
 
-     var message = mois[date.getMonth()] + " ";   // nom du mois
-     message += date.getDate() + "th, ";   // numero du jour
-     message += date.getFullYear();
+     let message = mois[date.getMonth()] + ' ';   // nom du mois
+     let suffixe = 'th';
+     if (jour % 10 == 1) {
+         suffixe = 'st';
+     } else if (jour % 10 == 2) {
+         suffixe = 'nd';
+     } else if (jour % 10 == 3) {
+        suffixe = 'rd';
+    }
+     message += jour + suffixe + ', ';
+     message += annee;
      return message;
 
 }
