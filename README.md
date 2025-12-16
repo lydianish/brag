@@ -1,6 +1,6 @@
-# brag
+# BRAG: Biomedical RAkinG
 
-> A tool for biomedical ranking
+A cross-platform tool that aggregates bibliographic data from sources like PubMed and Google Scholar to summarise researchers’ scientific output, including publications, citations, h-index, and optional graphical representations.
 
 ## Avant de commencer :
 
